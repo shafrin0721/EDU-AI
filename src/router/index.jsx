@@ -16,14 +16,14 @@ const Achievements = lazy(() => import("@/components/pages/Achievements"));
 const Recommendations = lazy(() => import("@/components/pages/Recommendations"));
 const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"));
 
-// Missing components that are referenced in routes
+// Role-based dashboard components
+const CourseDetail = lazy(() => import("@/components/pages/CourseDetail"));
 const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"));
 const Students = lazy(() => import("@/components/pages/Students"));
 const Users = lazy(() => import("@/components/pages/Users"));
 const Settings = lazy(() => import("@/components/pages/Settings"));
 const Billing = lazy(() => import("@/components/pages/Billing"));
 const Profile = lazy(() => import("@/components/pages/Profile"));
-
 // Loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -78,7 +78,15 @@ const mainRoutes = [
     )
 },
 {
-path: "modules/:moduleId",
+    path: "courses/:courseId", 
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <CourseDetail />
+      </Suspense>
+    )
+  },
+  {
+    path: "modules/:moduleId",
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <ModuleDetail />
