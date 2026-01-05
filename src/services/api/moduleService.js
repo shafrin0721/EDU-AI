@@ -3,13 +3,17 @@ import modulesData from "../mockData/modules.json"
 class ModuleService {
   constructor() {
     // Enhanced module data with YouTube videos and proper attribution
-    this.data = [...modulesData].map(module => ({
+this.data = [...modulesData].map(module => ({
       ...module,
       content: {
         ...module.content,
         videoUrl: this.getYouTubeVideoForModule(module.Id),
         videoAttribution: this.getVideoAttribution(module.Id),
         type: module.content?.type || 'video'
+      },
+      theoreticalContent: module.theoreticalContent || {
+        learningTheories: [],
+        foundations: []
       }
     }))
   }
@@ -52,11 +56,14 @@ class ModuleService {
     return [...this.data]
   }
 
-  async getById(id) {
+async getById(id) {
     await this.delay()
     const numId = parseInt(id)
     const module = this.data.find(item => item.Id === numId)
-    return module ? { ...module } : null
+    return module ? { 
+      ...module,
+      theoreticalContent: module.theoreticalContent || { learningTheories: [], foundations: [] }
+    } : null
   }
 
   async getByCourse(courseId) {
@@ -67,7 +74,7 @@ class ModuleService {
       .map(module => ({ ...module }))
   }
 
-  async create(module) {
+async create(module) {
     await this.delay()
     const maxId = Math.max(...this.data.map(item => item.Id), 0)
     const newModule = {
@@ -78,6 +85,10 @@ class ModuleService {
         videoUrl: this.getYouTubeVideoForModule(maxId + 1),
         videoAttribution: this.getVideoAttribution(maxId + 1),
         type: module.content?.type || 'video'
+      },
+      theoreticalContent: module.theoreticalContent || {
+        learningTheories: [],
+        foundations: []
       }
     }
     this.data.push(newModule)
@@ -141,8 +152,7 @@ class ModuleService {
       .sort((a, b) => a.sequence - b.sequence)
       .map(module => ({ ...module }))
   }
-
-  async updateModuleContent(moduleId, contentData) {
+async updateModuleContent(moduleId, contentData) {
     await this.delay()
     const numId = parseInt(moduleId)
     const index = this.data.findIndex(item => item.Id === numId)
@@ -154,6 +164,14 @@ class ModuleService {
       videoUrl: contentData.videoUrl || this.data[index].content.videoUrl,
       videoAttribution: contentData.videoAttribution || this.data[index].content.videoAttribution
     }
+    
+    if (contentData.theoreticalContent) {
+      this.data[index].theoreticalContent = {
+        ...this.data[index].theoreticalContent,
+        ...contentData.theoreticalContent
+      }
+    }
+    
     this.data[index].updatedAt = new Date().toISOString()
     return { ...this.data[index] }
   }

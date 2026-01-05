@@ -32,7 +32,7 @@ const ModuleDetail = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
         
 // Mock module data with YouTube video integration
-        const mockModule = {
+const mockModule = {
           id: moduleId,
           title: 'Introduction to Machine Learning',
           description: 'Learn the fundamentals of machine learning including algorithms, data preprocessing, and model evaluation.',
@@ -51,6 +51,39 @@ const ModuleDetail = () => {
               title: 'Machine Learning Explained',
               originalUrl: 'https://www.youtube.com/watch?v=ukzFI9rgwfU'
             }
+          },
+          theoreticalContent: {
+            learningTheories: [
+              {
+                name: 'Constructivism',
+                description: 'Learning is an active process where learners construct their own understanding through experience and reflection.',
+                application: 'In ML education, students build understanding by experimenting with algorithms and observing outcomes.',
+                keyPrinciples: ['Active learning', 'Prior knowledge integration', 'Social interaction', 'Authentic contexts']
+              },
+              {
+                name: 'Cognitive Load Theory',
+                description: 'Learning is optimized when cognitive load is managed effectively, focusing on intrinsic, extraneous, and germane load.',
+                application: 'ML concepts are presented progressively, starting with simple algorithms before moving to complex neural networks.',
+                keyPrinciples: ['Progressive complexity', 'Worked examples', 'Problem-solving schemas', 'Chunking information']
+              }
+            ],
+            foundations: [
+              {
+                category: 'Mathematical Foundations',
+                concepts: [
+                  {
+                    name: 'Linear Algebra',
+                    description: 'Vector spaces, matrices, and linear transformations form the mathematical backbone of machine learning.',
+                    importance: 'Essential for understanding neural networks, PCA, and most optimization algorithms.'
+                  },
+                  {
+                    name: 'Statistics & Probability',
+                    description: 'Statistical inference and probability distributions are fundamental to understanding ML model behavior.',
+                    importance: 'Critical for model evaluation, uncertainty quantification, and Bayesian methods.'
+                  }
+                ]
+              }
+            ]
           },
           lessons: [
             { id: 1, title: 'What is Machine Learning?', duration: '15 min', completed: true },
@@ -277,6 +310,99 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
                           This video is used for educational purposes with full attribution to the original creator.
                         </div>
                       </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+)}
+
+          {/* Theoretical Foundations */}
+          {module.theoreticalContent && (
+            <Card className="p-6">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-gray-900">Theoretical Foundations</h2>
+                  <Badge variant="outline" className="text-purple-600 border-purple-200 bg-purple-50">
+                    Academic Context
+                  </Badge>
+                </div>
+
+                {/* Learning Theories */}
+                {module.theoreticalContent.learningTheories && module.theoreticalContent.learningTheories.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium text-gray-800 border-b border-gray-200 pb-2">
+                      Learning Theories
+                    </h3>
+                    <div className="grid gap-4">
+                      {module.theoreticalContent.learningTheories.map((theory, index) => (
+                        <div key={index} className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
+                          <div className="space-y-3">
+                            <div className="flex items-start justify-between">
+                              <h4 className="font-medium text-blue-900">{theory.name}</h4>
+                              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                                <BookOpen className="h-3 w-3 text-blue-600" />
+                              </div>
+                            </div>
+                            <p className="text-sm text-blue-800">{theory.description}</p>
+                            <div className="bg-white bg-opacity-70 rounded p-3 space-y-2">
+                              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">
+                                Application in ML Education
+                              </div>
+                              <p className="text-sm text-blue-900">{theory.application}</p>
+                            </div>
+                            {theory.keyPrinciples && (
+                              <div className="flex flex-wrap gap-1">
+                                {theory.keyPrinciples.map((principle, idx) => (
+                                  <span
+                                    key={idx}
+                                    className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800"
+                                  >
+                                    {principle}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Foundation Concepts */}
+                {module.theoreticalContent.foundations && module.theoreticalContent.foundations.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium text-gray-800 border-b border-gray-200 pb-2">
+                      Foundation Concepts
+                    </h3>
+                    <div className="grid gap-4">
+                      {module.theoreticalContent.foundations.map((foundation, index) => (
+                        <div key={index} className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+                                <Star className="h-3 w-3 text-purple-600" />
+                              </div>
+                              <h4 className="font-medium text-purple-900">{foundation.category}</h4>
+                            </div>
+                            <div className="grid gap-3">
+                              {foundation.concepts.map((concept, idx) => (
+                                <div key={idx} className="bg-white bg-opacity-70 rounded p-3 space-y-2">
+                                  <h5 className="font-medium text-purple-800">{concept.name}</h5>
+                                  <p className="text-sm text-purple-700">{concept.description}</p>
+                                  <div className="bg-purple-50 rounded p-2">
+                                    <div className="text-xs font-medium text-purple-600 uppercase tracking-wide mb-1">
+                                      Why It Matters
+                                    </div>
+                                    <p className="text-sm text-purple-800">{concept.importance}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}

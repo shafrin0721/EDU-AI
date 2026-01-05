@@ -1,5 +1,5 @@
 [
-  {
+{
     "Id": 1,
     "courseId": "1",
     "title": "What is Machine Learning?",
@@ -14,17 +14,66 @@
         }
       ]
     },
+    "theoreticalContent": {
+      "learningTheories": [
+        {
+          "name": "Constructivism",
+          "description": "Learning is an active process where learners construct their own understanding through experience and reflection.",
+          "application": "In ML education, students build understanding by experimenting with algorithms and observing outcomes.",
+          "keyPrinciples": ["Active learning", "Prior knowledge integration", "Social interaction", "Authentic contexts"]
+        },
+        {
+          "name": "Cognitive Load Theory",
+          "description": "Learning is optimized when cognitive load is managed effectively, focusing on intrinsic, extraneous, and germane load.",
+          "application": "ML concepts are presented progressively, starting with simple algorithms before moving to complex neural networks.",
+          "keyPrinciples": ["Progressive complexity", "Worked examples", "Problem-solving schemas", "Chunking information"]
+        }
+      ],
+      "foundations": [
+        {
+          "category": "Mathematical Foundations",
+          "concepts": [
+            {
+              "name": "Linear Algebra",
+              "description": "Vector spaces, matrices, and linear transformations form the mathematical backbone of machine learning.",
+              "importance": "Essential for understanding neural networks, PCA, and most optimization algorithms."
+            },
+            {
+              "name": "Statistics & Probability",
+              "description": "Statistical inference and probability distributions are fundamental to understanding ML model behavior.",
+              "importance": "Critical for model evaluation, uncertainty quantification, and Bayesian methods."
+            }
+          ]
+        },
+        {
+          "category": "Educational Psychology",
+          "concepts": [
+            {
+              "name": "Bloom's Taxonomy",
+              "description": "A framework for categorizing learning objectives from basic recall to creative application.",
+              "importance": "Helps structure ML curriculum from memorizing algorithms to creating novel solutions."
+            },
+            {
+              "name": "Zone of Proximal Development",
+              "description": "The difference between what a learner can do independently and with guidance.",
+              "importance": "Guides the design of scaffolded learning experiences in complex ML topics."
+            }
+          ]
+        }
+      ]
+    },
     "contentType": "video",
     "difficulty": 3,
     "estimatedTime": 45,
     "prerequisites": [],
     "learningObjectives": [
       "Define machine learning",
-      "Identify ML applications"
+      "Identify ML applications",
+      "Understand learning theories in ML context"
     ],
     "sequence": 1
   },
-  {
+{
     "Id": 2,
     "courseId": "1",
     "title": "Types of Machine Learning",
@@ -43,17 +92,51 @@
         }
       ]
     },
+    "theoreticalContent": {
+      "learningTheories": [
+        {
+          "name": "Behaviorism",
+          "description": "Learning occurs through conditioning, reinforcement, and observable behavior changes.",
+          "application": "Supervised learning mirrors behaviorist principles with feedback-driven learning from labeled examples.",
+          "keyPrinciples": ["Reinforcement learning", "Stimulus-response", "Measurable outcomes", "Repetition and practice"]
+        },
+        {
+          "name": "Social Learning Theory",
+          "description": "Learning occurs through observation, imitation, and modeling of others' behaviors.",
+          "application": "Transfer learning in ML mimics how humans learn new tasks by building on previous knowledge.",
+          "keyPrinciples": ["Observational learning", "Modeling", "Self-efficacy", "Attention and retention"]
+        }
+      ],
+      "foundations": [
+        {
+          "category": "Pattern Recognition Theory",
+          "concepts": [
+            {
+              "name": "Feature Learning",
+              "description": "The process of automatically discovering representations needed for classification or detection.",
+              "importance": "Core to understanding how neural networks learn hierarchical features."
+            },
+            {
+              "name": "Bias-Variance Tradeoff",
+              "description": "The fundamental tension between model complexity and generalization ability.",
+              "importance": "Essential for understanding overfitting and model selection."
+            }
+          ]
+        }
+      ]
+    },
     "contentType": "exercise",
     "difficulty": 4,
     "estimatedTime": 60,
     "prerequisites": [1],
     "learningObjectives": [
       "Distinguish ML types",
-      "Choose appropriate ML approach"
+      "Choose appropriate ML approach",
+      "Apply learning theories to ML paradigms"
     ],
     "sequence": 2
   },
-  {
+{
     "Id": 3,
     "courseId": "1",
     "title": "Linear Regression Basics",
@@ -70,13 +153,57 @@
         }
       ]
     },
+    "theoreticalContent": {
+      "learningTheories": [
+        {
+          "name": "Cognitive Apprenticeship",
+          "description": "Learning through expert modeling, scaffolding, and gradual release of responsibility.",
+          "application": "Teaching linear regression through worked examples, guided practice, then independent implementation.",
+          "keyPrinciples": ["Modeling", "Coaching", "Scaffolding", "Fading support"]
+        },
+        {
+          "name": "Experiential Learning",
+          "description": "Learning through direct experience, reflection, abstract conceptualization, and active experimentation.",
+          "application": "Students implement linear regression, observe results, reflect on performance, then modify approaches.",
+          "keyPrinciples": ["Concrete experience", "Reflective observation", "Abstract conceptualization", "Active experimentation"]
+        }
+      ],
+      "foundations": [
+        {
+          "category": "Optimization Theory",
+          "concepts": [
+            {
+              "name": "Gradient Descent",
+              "description": "An iterative optimization algorithm for finding minimum of a function.",
+              "importance": "Fundamental algorithm behind training most machine learning models."
+            },
+            {
+              "name": "Loss Functions",
+              "description": "Mathematical functions that quantify the difference between predicted and actual values.",
+              "importance": "Essential for understanding how models learn and improve performance."
+            }
+          ]
+        },
+        {
+          "category": "Statistical Learning",
+          "concepts": [
+            {
+              "name": "Ordinary Least Squares",
+              "description": "Method for estimating unknown parameters in linear regression by minimizing sum of squared residuals.",
+              "importance": "Provides analytical solution for linear regression and foundation for understanding optimization."
+            }
+          ]
+        }
+      ]
+    },
     "contentType": "text",
     "difficulty": 5,
     "estimatedTime": 75,
     "prerequisites": [1, 2],
     "learningObjectives": [
       "Understand linear regression",
-      "Implement basic regression"
+      "Implement basic regression",
+      "Apply cognitive apprenticeship in learning"
     ],
     "sequence": 3
   },
