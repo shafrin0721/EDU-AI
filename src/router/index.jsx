@@ -78,7 +78,7 @@ const mainRoutes = [
       </Suspense>
     )
 },
-  {
+{
     path: "courses/:courseId",
     element: (
       <Suspense fallback={<LoadingFallback />}>

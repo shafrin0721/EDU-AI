@@ -1,20 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Play, CheckCircle, Clock, BookOpen, Star, Users } from 'lucide-react';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import ProgressBar from '@/components/atoms/ProgressBar';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
-import ErrorView from '@/components/ui/ErrorView';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, BookOpen, CheckCircle, Clock, Play, Star, Users } from "lucide-react";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import ProgressBar from "@/components/atoms/ProgressBar";
+import Badge from "@/components/atoms/Badge";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlice";
+import learningSessionService from "@/services/api/learningSessionService";
+import enrollmentService from "@/services/api/enrollmentService";
 
 const ModuleDetail = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(0);
+  const [activeSession, setActiveSession] = useState(null);
+  const [learningStarted, setLearningStarted] = useState(false);
 
   useEffect(() => {
     const fetchModule = async () => {
@@ -46,7 +54,12 @@ const ModuleDetail = () => {
         };
         
         setModule(mockModule);
-        setCurrentLesson(mockModule.lessons.findIndex(lesson => lesson.current));
+        const currentLessonIndex = mockModule.lessons.findIndex(lesson => lesson.current);
+        setCurrentLesson(currentLessonIndex);
+        
+        // Set current module in Redux
+        dispatch(setCurrentModule(mockModule));
+        dispatch(setCurrentLesson(currentLessonIndex));
       } catch (err) {
         setError('Failed to load module details');
       } finally {
@@ -55,7 +68,90 @@ const ModuleDetail = () => {
     };
 
     fetchModule();
-  }, [moduleId]);
+  }, [moduleId, dispatch]);
+
+  const startLearningSession = async () => {
+    try {
+      const session = await learningSessionService.create({
+        studentId: 1, // Mock student ID
+        moduleId: parseInt(moduleId),
+        lessonId: module.lessons[currentLesson].id,
+        engagementMetrics: {},
+        performanceData: {}
+      });
+      
+      setActiveSession(session);
+      setLearningStarted(true);
+      toast.success('Learning session started!');
+    } catch (error) {
+      toast.error('Failed to start learning session');
+    }
+  };
+
+  const completeLesson = async () => {
+    if (!activeSession) return;
+    
+    try {
+      // Mark current lesson as completed
+      const updatedLessons = [...module.lessons];
+      updatedLessons[currentLesson].completed = true;
+      
+      // Calculate progress percentage
+      const completedLessons = updatedLessons.filter(lesson => lesson.completed).length;
+      const progressPercent = Math.round((completedLessons / updatedLessons.length) * 100);
+      
+      // Update module state
+      const updatedModule = { ...module, lessons: updatedLessons, progress: progressPercent };
+      setModule(updatedModule);
+      
+      // End learning session with performance data
+      await learningSessionService.endSession(activeSession.Id, {
+        attentionScore: 0.85,
+        interactionCount: 12,
+        timeSpent: 1800
+      }, {
+        comprehensionQuizScore: 0.88,
+        practiceExercisesCompleted: 5
+      });
+      
+      // Update enrollment progress
+      await enrollmentService.updateProgress(1, moduleId, progressPercent);
+      
+      setActiveSession(null);
+      toast.success('Lesson completed successfully!');
+      
+      // Auto-advance to next lesson if available
+      if (currentLesson < module.lessons.length - 1) {
+        const nextLessonIndex = currentLesson + 1;
+        updatedLessons[nextLessonIndex].current = true;
+        updatedLessons[currentLesson].current = false;
+        setCurrentLesson(nextLessonIndex);
+        dispatch(setCurrentLesson(nextLessonIndex));
+        setLearningStarted(false);
+      } else {
+        toast.success('Module completed! 🎉');
+        setLearningStarted(false);
+      }
+      
+    } catch (error) {
+      toast.error('Failed to complete lesson');
+    }
+  };
+
+  const navigateToLesson = (lessonIndex) => {
+    if (lessonIndex >= 0 && lessonIndex < module.lessons.length) {
+      // Update current lesson markers
+      const updatedLessons = [...module.lessons];
+      updatedLessons.forEach(lesson => lesson.current = false);
+      updatedLessons[lessonIndex].current = true;
+      
+      setModule({ ...module, lessons: updatedLessons });
+      setCurrentLesson(lessonIndex);
+      dispatch(setCurrentLesson(lessonIndex));
+      setLearningStarted(false);
+      setActiveSession(null);
+    }
+  };
 
   if (loading) return <Loading />;
   if (error) return <ErrorView message={error} />;
@@ -132,16 +228,53 @@ const ModuleDetail = () => {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-medium text-gray-900 mb-2">
                     {module.lessons[currentLesson]?.title}
-                  </h3>
+</h3>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-sm text-gray-500">
                       <Clock className="h-4 w-4" />
                       {module.lessons[currentLesson]?.duration}
                     </div>
-                    <Button size="sm" className="flex items-center gap-2">
-                      <Play className="h-4 w-4" />
-                      Continue Learning
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      {!learningStarted ? (
+                        <Button 
+                          size="sm" 
+                          className="flex items-center gap-2"
+                          onClick={startLearningSession}
+                        >
+                          <Play className="h-4 w-4" />
+                          Continue Learning
+                        </Button>
+                      ) : (
+                        <Button 
+                          size="sm" 
+                          className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                          onClick={completeLesson}
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                          Complete Lesson
+                        </Button>
+                      )}
+                      
+                      {currentLesson > 0 && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+onClick={() => navigateToLesson(currentLesson - 1)}
+                        >
+                          Previous
+                        </Button>
+                      )}
+                      
+                      {currentLesson < module.lessons.length - 1 && (
+                        <Button 
+                          size="sm" 
+variant="outline"
+                          onClick={() => navigateToLesson(currentLesson + 1)}
+                        >
+                          Next
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

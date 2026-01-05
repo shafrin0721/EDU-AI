@@ -20,10 +20,15 @@ class EnrollmentService {
     const enrollment = this.data.find(item => item.Id === numId)
     return enrollment ? { ...enrollment } : null
   }
-
-  async getByStudent(studentId) {
+async getByStudent(studentId) {
     await this.delay()
     return this.data.filter(enrollment => enrollment.studentId === studentId).map(enrollment => ({ ...enrollment }))
+  }
+
+  async getCurrentProgress(studentId, courseId) {
+    await this.delay()
+    const enrollment = this.data.find(e => e.studentId === studentId && e.courseId === courseId)
+    return enrollment ? enrollment.progress : 0
   }
 
   async getByCourse(courseId) {
