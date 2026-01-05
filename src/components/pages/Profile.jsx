@@ -155,11 +155,12 @@ const [saving, setSaving] = useState(false);
                 <Globe className="h-4 w-4 text-gray-400" />
                 <a href={profile.website} className="text-primary-600 hover:text-primary-700">
                   {profile.website}
+{profile.website}
                 </a>
               </div>
-</div>
+            </div>
+          </div>
         </div>
-        
         {isEditing && (
         <div className="border-t pt-6 mt-6">
           <h3 className="font-medium text-gray-900 mb-4">Edit Profile</h3>
