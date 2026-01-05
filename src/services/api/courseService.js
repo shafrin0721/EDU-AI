@@ -81,4 +81,7 @@ class CourseService {
   }
 }
 
-export default new CourseService()
+const courseServiceInstance = new CourseService()
+
+export default courseServiceInstance
+export { courseServiceInstance as courseService }
