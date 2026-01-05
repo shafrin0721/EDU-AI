@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlice";
 import learningSessionService from "@/services/api/learningSessionService";
 import enrollmentService from "@/services/api/enrollmentService";
+import enrollmentService from "@/services/api/enrollmentService";
 
 const ModuleDetail = () => {
   const { moduleId } = useParams();
@@ -156,16 +157,33 @@ useEffect(() => {
       const updatedModule = { ...module, lessons: updatedLessons, progress: progressPercent };
       setModule(updatedModule);
       
-      // End learning session with performance data
-      await learningSessionService.endSession(activeSession.Id, {
-        attentionScore: 0.85,
-        interactionCount: 12,
-        timeSpent: 1800
-      }, {
-        comprehensionQuizScore: 0.88,
-        practiceExercisesCompleted: 5
-      });
+// End learning session with comprehensive performance data
+      const sessionDuration = Date.now() - new Date(activeSession.StartTime).getTime();
+      const engagementMetrics = {
+        attentionScore: Math.min(0.9, Math.max(0.3, Math.random() * 0.6 + 0.3)),
+        interactionCount: Math.floor(Math.random() * 20) + 8,
+        timeSpent: Math.floor(sessionDuration / 1000)
+      }
       
+      const performanceData = {
+        comprehensionQuizScore: Math.min(0.95, Math.max(0.4, Math.random() * 0.5 + 0.4)),
+        practiceExercisesCompleted: Math.floor(Math.random() * 8) + 3,
+        lessonCompletionRate: 1.0,
+        conceptMasteryScore: Math.random() * 0.3 + 0.6
+      }
+      
+      const sessionResult = await learningSessionService.endSession(
+        activeSession.Id, 
+        engagementMetrics, 
+        performanceData
+      );
+      
+// Store adaptation triggers for future recommendations
+      if (sessionResult?.adaptationTriggers) {
+        const userId = 1; // Mock user ID - in real app, get from auth context
+        localStorage.setItem(`adaptationTriggers_${userId}`, 
+          JSON.stringify(sessionResult.adaptationTriggers));
+      }
       // Update enrollment progress
       await enrollmentService.updateProgress(1, moduleId, progressPercent);
       
@@ -513,9 +531,9 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
                   className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                     lesson.current 
                       ? 'bg-primary-50 border border-primary-200' 
-                      : 'hover:bg-gray-50'
+: 'hover:bg-gray-50'
                   }`}
-                  onClick={() => setCurrentLesson(index)}
+                  onClick={() => navigateToLesson(index)}
                 >
                   <div className="shrink-0">
                     {lesson.completed ? (

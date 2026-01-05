@@ -20,10 +20,17 @@ const initialState = {
     loading: false,
     data: null
   },
-  adaptiveLearning: {
+adaptiveLearning: {
     recommendations: [],
     difficultyLevel: 'intermediate',
-    lastUpdate: null
+    lastUpdate: null,
+    performanceHistory: [],
+    learningInsights: {
+      preferredLearningStyle: null,
+      optimalDifficulty: 'intermediate',
+      recommendedStudyTime: 30,
+      adaptationTriggers: []
+    }
   },
   videoPlayer: {
     currentVideoId: null,

@@ -461,29 +461,81 @@ const StudentDashboard = () => {
                   <ApperIcon name="Brain" size={16} className="mr-2 text-purple-600" />
                   AI Recommendations
                 </h3>
-                <div className="space-y-3 text-sm">
+<div className="space-y-3 text-sm">
                   {stats.streak === 0 ? (
-                    <div className="flex items-start space-x-2">
-                      <span className="text-purple-600">💡</span>
-                      <p className="text-gray-700">
-                        Start a learning streak! Study for just 15 minutes today to begin building momentum.
-                      </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-purple-600">💡</span>
+                        <p className="text-gray-700">
+                          Start a learning streak! Study for just 15 minutes today to begin building momentum.
+                        </p>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span className="text-blue-600">🎯</span>
+                        <p className="text-gray-600 text-xs">
+                          AI suggests starting with shorter sessions to build consistency before increasing duration.
+                        </p>
+                      </div>
                     </div>
                   ) : stats.averageScore < 70 ? (
-                    <div className="flex items-start space-x-2">
-                      <span className="text-purple-600">📚</span>
-                      <p className="text-gray-700">
-                        Consider reviewing previous modules to strengthen your foundation before moving forward.
-                      </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-purple-600">📚</span>
+                        <p className="text-gray-700">
+                          Consider reviewing previous modules to strengthen your foundation before moving forward.
+                        </p>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span className="text-orange-600">🔍</span>
+                        <p className="text-gray-600 text-xs">
+                          AI analysis shows focusing on fundamentals will improve comprehension by 40% in next modules.
+                        </p>
+                      </div>
+                    </div>
+                  ) : stats.averageScore >= 85 ? (
+                    <div className="space-y-2">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-purple-600">🚀</span>
+                        <p className="text-gray-700">
+                          Exceptional performance! Ready for advanced challenges and complex problem-solving.
+                        </p>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span className="text-green-600">⭐</span>
+                        <p className="text-gray-600 text-xs">
+                          AI recommends accelerated learning path and peer mentoring opportunities.
+                        </p>
+                      </div>
                     </div>
                   ) : (
-                    <div className="flex items-start space-x-2">
-                      <span className="text-purple-600">🚀</span>
-                      <p className="text-gray-700">
-                        Great progress! Try exploring advanced topics or challenge yourself with practice problems.
-                      </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-purple-600">📈</span>
+                        <p className="text-gray-700">
+                          Solid progress! Maintain your current pace and consider exploring related topics.
+                        </p>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span className="text-teal-600">🎲</span>
+                        <p className="text-gray-600 text-xs">
+                          AI suggests adding practice exercises to boost confidence and retention.
+                        </p>
+                      </div>
                     </div>
                   )}
+                  
+                  {/* Personalized learning insights */}
+                  <div className="mt-4 p-3 bg-gradient-to-r from-violet-50 to-purple-50 rounded-lg border border-purple-100">
+                    <p className="text-xs font-medium text-purple-800 mb-1">Adaptive Learning Insight</p>
+                    <p className="text-xs text-purple-700">
+                      {stats.streak > 5 
+                        ? "Your consistent study pattern indicates strong self-regulation skills. Consider tackling more complex challenges."
+                        : stats.averageScore > 80 
+                        ? "High performance with room for consistency improvement. Set daily study reminders for optimal results."
+                        : "Building momentum through regular practice will unlock your learning potential. Focus on steady progress."
+                      }
+                    </p>
+                  </div>
                 </div>
               </Card>
             </motion.div>

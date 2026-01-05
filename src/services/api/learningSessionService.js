@@ -63,23 +63,51 @@ class LearningSessionService {
     return { ...this.data[index] }
   }
 
-  generateAdaptationTriggers(performanceData) {
+generateAdaptationTriggers(performanceData) {
     const triggers = []
     
+    // Performance-based difficulty adjustment
     if (performanceData.comprehensionQuizScore >= 0.9) {
       triggers.push({
         type: "difficulty_increase",
         reason: "high_performance",
-        confidence: 0.85
+        confidence: 0.85,
+        recommendation: "Ready for advanced concepts",
+        suggestedAction: "Unlock next difficulty level"
       })
     } else if (performanceData.comprehensionQuizScore <= 0.6) {
       triggers.push({
         type: "additional_practice",
-        reason: "struggling_concept",
-        confidence: 0.78
+        reason: "struggling_concept", 
+        confidence: 0.78,
+        recommendation: "Reinforce foundational concepts",
+        suggestedAction: "Review previous modules"
       })
     }
-    
+
+    // Engagement-based triggers
+    if (performanceData.practiceExercisesCompleted < 3) {
+      triggers.push({
+        type: "increase_engagement",
+        reason: "low_practice_completion",
+        confidence: 0.72,
+        recommendation: "More hands-on practice needed",
+        suggestedAction: "Complete additional exercises"
+      })
+    }
+
+    // Learning pace optimization
+    const idealTimeRange = [900, 2700] // 15-45 minutes
+    if (performanceData.timeSpent && performanceData.timeSpent < idealTimeRange[0]) {
+      triggers.push({
+        type: "slow_down_pace",
+        reason: "rushed_learning",
+        confidence: 0.65,
+        recommendation: "Take more time to absorb concepts",
+        suggestedAction: "Extend study sessions"
+      })
+    }
+
     return triggers
   }
 

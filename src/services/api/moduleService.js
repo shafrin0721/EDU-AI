@@ -141,16 +141,113 @@ async create(module) {
       .map(module => ({ ...module }))
   }
 
-  async getModulesForAdaptivePath(studentId) {
+async getModulesForAdaptivePath(studentId, performanceData = null) {
     await this.delay()
-    // Mock adaptive learning logic
-    const studentLevel = Math.random() < 0.3 ? 'beginner' : Math.random() < 0.7 ? 'intermediate' : 'advanced'
-    return this.data
-      .filter(module => module.difficulty === studentLevel || 
-        (studentLevel === 'intermediate' && module.difficulty === 'beginner') ||
-        (studentLevel === 'advanced' && ['beginner', 'intermediate'].includes(module.difficulty)))
-      .sort((a, b) => a.sequence - b.sequence)
-      .map(module => ({ ...module }))
+    
+    // Determine student performance level from historical data
+    const studentLevel = this.determineStudentLevel(studentId, performanceData)
+    
+    // Filter modules based on adaptive difficulty progression
+    const adaptiveModules = this.data.filter(module => {
+      // Always include prerequisite modules
+      if (module.difficulty === 'beginner') return true
+      
+      // Include intermediate if student is ready
+      if (module.difficulty === 'intermediate' && 
+          ['intermediate', 'advanced'].includes(studentLevel)) return true
+      
+      // Include advanced only for high performers
+      if (module.difficulty === 'advanced' && studentLevel === 'advanced') return true
+      
+      return false
+    })
+    
+    // Sort by adaptive sequence considering performance
+    return adaptiveModules
+      .sort((a, b) => this.calculateAdaptiveSequence(a, b, studentLevel))
+      .map(module => ({ 
+        ...module,
+        adaptiveMetadata: {
+          recommendedForStudent: this.isRecommendedForStudent(module, studentLevel),
+          difficultyAlignment: this.assessDifficultyAlignment(module, studentLevel),
+          estimatedCompletionTime: this.estimateCompletionTime(module, studentLevel)
+        }
+      }))
+  }
+
+  determineStudentLevel(studentId, performanceData) {
+    // If performance data provided, use it for assessment
+    if (performanceData && performanceData.averageScore) {
+      if (performanceData.averageScore >= 85) return 'advanced'
+      if (performanceData.averageScore >= 70) return 'intermediate'
+      return 'beginner'
+    }
+    
+    // Mock intelligent level assessment based on student patterns
+    const performancePattern = Math.random()
+    if (performancePattern < 0.25) return 'beginner'
+    if (performancePattern < 0.65) return 'intermediate'
+    return 'advanced'
+  }
+
+  calculateAdaptiveSequence(moduleA, moduleB, studentLevel) {
+    // Primary sort by sequence
+    const sequenceDiff = moduleA.sequence - moduleB.sequence
+    if (sequenceDiff !== 0) return sequenceDiff
+    
+    // Secondary sort by difficulty alignment with student level
+    const alignmentA = this.getDifficultyScore(moduleA.difficulty, studentLevel)
+    const alignmentB = this.getDifficultyScore(moduleB.difficulty, studentLevel)
+    
+    return alignmentB - alignmentA // Higher alignment first
+  }
+
+  getDifficultyScore(moduleDifficulty, studentLevel) {
+    const difficultyMap = { beginner: 1, intermediate: 2, advanced: 3 }
+    const moduleDiff = difficultyMap[moduleDifficulty]
+    const studentDiff = difficultyMap[studentLevel]
+    
+    // Perfect match gets highest score
+    if (moduleDiff === studentDiff) return 3
+    // One level difference gets medium score
+    if (Math.abs(moduleDiff - studentDiff) === 1) return 2
+    // Greater difference gets lower score
+    return 1
+  }
+
+  isRecommendedForStudent(module, studentLevel) {
+    const difficultyMap = { beginner: 1, intermediate: 2, advanced: 3 }
+    const moduleDiff = difficultyMap[module.difficulty]
+    const studentDiff = difficultyMap[studentLevel]
+    
+    // Recommend modules at or slightly above student level
+    return moduleDiff <= studentDiff + 1
+  }
+
+  assessDifficultyAlignment(module, studentLevel) {
+    const difficultyMap = { beginner: 1, intermediate: 2, advanced: 3 }
+    const moduleDiff = difficultyMap[module.difficulty]
+    const studentDiff = difficultyMap[studentLevel]
+    
+    if (moduleDiff === studentDiff) return 'perfect'
+    if (moduleDiff === studentDiff + 1) return 'challenging'
+    if (moduleDiff === studentDiff - 1) return 'review'
+    if (moduleDiff > studentDiff + 1) return 'too_advanced'
+    return 'too_easy'
+  }
+
+  estimateCompletionTime(module, studentLevel) {
+    const baseDuration = module.estimatedDuration || 30 // minutes
+    const difficultyMap = { beginner: 1, intermediate: 2, advanced: 3 }
+    const moduleDiff = difficultyMap[module.difficulty]
+    const studentDiff = difficultyMap[studentLevel]
+    
+    // Adjust time based on difficulty gap
+    const difficultyMultiplier = moduleDiff > studentDiff 
+      ? 1 + (moduleDiff - studentDiff) * 0.3
+      : Math.max(0.6, 1 - (studentDiff - moduleDiff) * 0.2)
+    
+    return Math.round(baseDuration * difficultyMultiplier)
   }
 async updateModuleContent(moduleId, contentData) {
     await this.delay()
