@@ -1,29 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { CreditCard, Download, Calendar, DollarSign, TrendingUp } from 'lucide-react';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
+import React, { useEffect, useState } from "react";
+import { Calendar, CreditCard, DollarSign, Download, TrendingUp } from "lucide-react";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Loading from "@/components/ui/Loading";
 
 const Billing = () => {
   const [billingData, setBillingData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const handleDownloadInvoice = (invoice) => {
+    // Create a simple PDF-like content
+    const pdfContent = `
+      Invoice: ${invoice.id}
+      Date: ${invoice.date}
+      Amount: $${invoice.amount}
+      Status: ${invoice.status}
+      
+      Thank you for your business!
+    `;
+    
+    const blob = new Blob([pdfContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `invoice-${invoice.id}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    console.log(`Invoice ${invoice.id} downloaded successfully`);
+  };
+
   useEffect(() => {
     const fetchBillingData = async () => {
       try {
         setLoading(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Mock billing data
+        // Mock API call - replace with actual service call
         const mockData = {
           currentPlan: {
             name: 'Professional',
             price: 49.99,
-            billingCycle: 'monthly',
+            billingCycle: 'month',
             nextBilling: '2024-02-15',
-            features: ['Unlimited students', 'Advanced analytics', 'Priority support']
+            features: [
+              'Unlimited courses',
+              'Up to 500 students', 
+              'Advanced analytics',
+              'Priority support',
+              'Custom branding'
+            ]
           },
           paymentMethod: {
             type: 'credit_card',
@@ -165,7 +193,7 @@ const Billing = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {billingData.invoices.map((invoice) => (
+{billingData.invoices.map((invoice) => (
                 <tr key={invoice.id} className="hover:bg-gray-50">
                   <td className="py-3 text-sm font-medium text-gray-900">{invoice.id}</td>
                   <td className="py-3 text-sm text-gray-600">{invoice.date}</td>
@@ -179,7 +207,12 @@ const Billing = () => {
                     </Badge>
                   </td>
                   <td className="py-3 text-right">
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleDownloadInvoice(invoice)}
+                      title="Download Invoice"
+                    >
                       <Download className="h-4 w-4" />
                     </Button>
                   </td>

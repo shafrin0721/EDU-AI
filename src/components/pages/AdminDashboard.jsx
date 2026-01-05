@@ -500,10 +500,10 @@ const AdminDashboard = () => {
                   <Button
                     variant="outline"
                     className="w-full justify-start"
-                    onClick={() => navigate('/admin/analytics')}
+onClick={() => navigate('/analytics')}
                     icon="BarChart"
                   >
-                    Advanced Analytics
+                    System Analytics
                   </Button>
                   
                   <Button

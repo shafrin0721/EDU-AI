@@ -1,31 +1,45 @@
-import React, { useState } from 'react';
-import { Camera, Save, Lock, Bell, Globe } from 'lucide-react';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Input from '@/components/atoms/Input';
-import Badge from '@/components/atoms/Badge';
+import React, { useState } from "react";
+import { Bell, Camera, Globe, Lock, Save, Mail, Phone } from "lucide-react";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
+import Badge from "@/components/atoms/Badge";
+import Settings from "@/components/pages/Settings";
 
 const Profile = () => {
-  const [profile, setProfile] = useState({
+const [profile, setProfile] = useState({
     firstName: 'John',
     lastName: 'Doe',
     email: 'john.doe@example.com',
     phone: '+1 (555) 123-4567',
-    bio: 'Passionate educator with 10+ years of experience in online learning.',
+    bio: 'Passionate educator with 10+ years of experience in online learning and educational technology.',
     role: 'Teacher',
     department: 'Computer Science',
-    joinDate: 'January 2023'
+    joinDate: 'January 2023',
+    location: 'San Francisco, CA',
+    website: 'https://johndoe.edu',
+    expertise: ['Machine Learning', 'Web Development', 'Data Science'],
+    experience: '10+ years',
+    education: 'PhD in Computer Science'
   });
 
   const [preferences, setPreferences] = useState({
     language: 'en',
-    timezone: 'UTC-5',
+    timezone: 'UTC-8',
     emailNotifications: true,
     pushNotifications: false,
-    weeklyDigest: true
+    weeklyDigest: true,
+    theme: 'light',
+    privacy: 'public'
   });
 
-  const [saving, setSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+const handleSaveProfile = () => {
+  setIsEditing(false);
+  // toast.success('Profile updated successfully');
+};
+const [saving, setSaving] = useState(false);
 
   const handleProfileChange = (field, value) => {
     setProfile(prev => ({
@@ -73,31 +87,84 @@ const Profile = () => {
       </div>
 
       {/* Profile Info */}
-      <Card className="p-6">
-        <div className="flex items-center gap-6 mb-6">
-          <div className="relative">
-            <div className="w-24 h-24 bg-primary-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-              {profile.firstName[0]}{profile.lastName[0]}
+<Card className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-6">
+            <div className="relative">
+              <div className="w-24 h-24 bg-primary-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                {profile.firstName[0]}{profile.lastName[0]}
+              </div>
+              <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50">
+                <Camera className="h-4 w-4 text-gray-600" />
+              </button>
             </div>
-            <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50">
-              <Camera className="h-4 w-4 text-gray-600" />
-            </button>
+            
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                {profile.firstName} {profile.lastName}
+              </h2>
+              <div className="flex items-center gap-2 mt-1">
+                <Badge variant="primary">{profile.role}</Badge>
+                <span className="text-gray-500">•</span>
+                <span className="text-gray-600">{profile.department}</span>
+              </div>
+              <p className="text-gray-500 text-sm mt-1">
+                {profile.experience} • {profile.location}
+              </p>
+              <p className="text-gray-500 text-sm">Member since {profile.joinDate}</p>
+            </div>
           </div>
           
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              {profile.firstName} {profile.lastName}
-            </h2>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant="primary">{profile.role}</Badge>
-              <span className="text-gray-500">•</span>
-              <span className="text-gray-600">{profile.department}</span>
-            </div>
-            <p className="text-gray-500 text-sm mt-1">Member since {profile.joinDate}</p>
-          </div>
+          <Button 
+            variant={isEditing ? "primary" : "outline"}
+            onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
+          >
+            {isEditing ? "Save Changes" : "Edit Profile"}
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="font-medium text-gray-900 mb-2">About</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">{profile.bio}</p>
+            
+            <div className="mt-4">
+              <h4 className="font-medium text-gray-900 mb-2">Expertise</h4>
+              <div className="flex flex-wrap gap-2">
+                {profile.expertise.map((skill) => (
+                  <Badge key={skill} variant="secondary" size="sm">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="font-medium text-gray-900 mb-2">Contact Information</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-600">{profile.email}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-600">{profile.phone}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-gray-400" />
+                <a href={profile.website} className="text-primary-600 hover:text-primary-700">
+                  {profile.website}
+                </a>
+              </div>
+</div>
+        </div>
+        
+        {isEditing && (
+        <div className="border-t pt-6 mt-6">
+          <h3 className="font-medium text-gray-900 mb-4">Edit Profile</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               First Name
@@ -148,11 +215,12 @@ const Profile = () => {
               onChange={(e) => handleProfileChange('bio', e.target.value)}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-            />
+/>
           </div>
         </div>
+        </div>
+        )}
       </Card>
-
       {/* Preferences */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-4">

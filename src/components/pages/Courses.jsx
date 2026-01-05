@@ -97,7 +97,7 @@ const Courses = () => {
     filterCourses(searchTerm, filter)
   }
 
-  const handleEnroll = async (courseId) => {
+const handleEnroll = async (courseId) => {
     try {
       await enrollmentService.create({
         studentId: user.Id.toString(),
@@ -108,6 +108,15 @@ const Courses = () => {
     } catch (err) {
       toast.error("Failed to enroll in course")
     }
+  }
+
+  const handleEditCourse = (courseId) => {
+    navigate(`/courses/${courseId}/edit`)
+    toast.info("Opening course editor...")
+  }
+
+  const handleCourseMenu = (courseId) => {
+    toast.info("Course options menu")
   }
 
   const getEnrollmentForCourse = (courseId) => {
@@ -339,7 +348,7 @@ const Courses = () => {
         placeholder="Search courses..."
         onSearch={handleSearch}
         showFilter={true}
-        filters={filters.slice(0, 4)} // Remove student-specific filters
+filters={filters}
         className="max-w-2xl"
       />
 
@@ -407,12 +416,21 @@ const Courses = () => {
                     </div>
                   </div>
                   
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="flex-1">
+<div className="flex space-x-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleEditCourse(course.Id)}
+                    >
                       <ApperIcon name="Edit" size={14} className="mr-1" />
                       Edit
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleCourseMenu(course.Id)}
+                    >
                       <ApperIcon name="MoreVertical" size={16} />
                     </Button>
                   </div>

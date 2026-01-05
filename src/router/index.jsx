@@ -159,12 +159,27 @@ element: (
       </Suspense>
     )
   },
-  // Shared Routes
+// Shared Routes
   {
     path: "profile",
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <Profile />
+      </Suspense>
+    )
+  },
+  {
+    path: "analytics",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-6">System Analytics</h1>
+          <div className="bg-white p-8 rounded-lg shadow-sm border text-center">
+            <div className="text-6xl mb-4">📊</div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Advanced Analytics Dashboard</h2>
+            <p className="text-gray-600">Comprehensive system analytics and reporting tools.</p>
+          </div>
+        </div>
       </Suspense>
     )
   },

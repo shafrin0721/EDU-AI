@@ -1,17 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, UserPlus, MoreVertical, Shield, Users as UsersIcon, Crown } from 'lucide-react';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Input from '@/components/atoms/Input';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
+import React, { useEffect, useState } from "react";
+import { Crown, Filter, MoreVertical, Search, Shield, UserPlus, UsersIcon } from "lucide-react";
+import { toast } from "react-hot-toast";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
+import Badge from "@/components/atoms/Badge";
+import Loading from "@/components/ui/Loading";
+import Login from "@/components/pages/Login";
+import Students from "@/components/pages/Students";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState('all');
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [showFilters, setShowFilters] = useState(false);
+  const [actionMenuOpen, setActionMenuOpen] = useState(null);
 
+  const applyFilters = () => {
+    // Filter logic implementation
+    setShowFilters(false);
+    // Toast notification
+    toast.success('Filters applied successfully');
+  };
+
+  const clearFilters = () => {
+    setSelectedDepartment('all');
+    setSelectedStatus('all');
+    setShowFilters(false);
+    toast.info('Filters cleared');
+  };
+
+  const handleViewProfile = (user) => {
+    setActionMenuOpen(null);
+    toast.info(`Viewing profile for ${user.firstName} ${user.lastName}`);
+  };
+
+  const handleEditUser = (user) => {
+    setActionMenuOpen(null);
+    toast.info(`Editing user: ${user.firstName} ${user.lastName}`);
+  };
+
+  const handleDeleteUser = (user) => {
+    setActionMenuOpen(null);
+    if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+      toast.success('User deleted successfully');
+    }
+  };
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -177,7 +214,7 @@ const Users = () => {
       </div>
 
       {/* Filters */}
-      <Card className="p-4">
+<Card className="p-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <Input
@@ -198,10 +235,53 @@ const Users = () => {
             <option value="teacher">Teachers</option>
             <option value="student">Students</option>
           </select>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Filter className="h-4 w-4" />
-            More Filters
-          </Button>
+          <div className="relative">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="h-4 w-4" />
+              More Filters
+            </Button>
+            {showFilters && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-50 p-4">
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                    <select
+                      value={selectedDepartment}
+                      onChange={(e) => setSelectedDepartment(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    >
+                      <option value="all">All Departments</option>
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="Mathematics">Mathematics</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Business">Business</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select
+                      value={selectedStatus}
+                      onChange={(e) => setSelectedStatus(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    >
+                      <option value="all">All Status</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button size="sm" onClick={() => applyFilters()}>Apply</Button>
+                    <Button variant="outline" size="sm" onClick={() => clearFilters()}>Clear</Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </Card>
 
@@ -262,10 +342,43 @@ const Users = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {user.createdAt}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
+<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div className="relative">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => setActionMenuOpen(actionMenuOpen === user.id ? null : user.id)}
+                      >
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                      {actionMenuOpen === user.id && (
+                        <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                          <div className="p-1">
+                            <button 
+                              onClick={() => handleViewProfile(user)}
+                              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-gray-100 rounded-md"
+                            >
+                              <Shield className="h-4 w-4" />
+                              View Profile
+                            </button>
+                            <button 
+                              onClick={() => handleEditUser(user)}
+                              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-gray-100 rounded-md"
+                            >
+                              <UsersIcon className="h-4 w-4" />
+                              Edit User
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteUser(user)}
+                              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-red-50 text-red-600 rounded-md"
+                            >
+                              <Crown className="h-4 w-4" />
+                              Delete User
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

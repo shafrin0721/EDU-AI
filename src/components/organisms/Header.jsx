@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
 import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 import { toggleSidebar } from "@/store/slices/dashboardSlice";
@@ -19,30 +20,46 @@ const Header = ({ title, className }) => {
 
   const unreadCount = notifications.filter(n => !n.read).length
 
+const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+    toast.success(`Switched to ${!isDarkMode ? 'dark' : 'light'} mode`);
+  };
+
   return (
-    <header className={cn("bg-white border-b border-gray-200 px-6 py-4", className)}>
+    <header className={cn("bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4", className)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
             onClick={() => dispatch(toggleSidebar())}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             <ApperIcon name="Menu" size={20} />
           </button>
           
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
               {title}
             </h1>
             {organization && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {organization.name}
               </p>
             )}
           </div>
         </div>
-
-        <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            title={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+          >
+            <ApperIcon name={isDarkMode ? "Sun" : "Moon"} size={20} className="text-gray-600 dark:text-gray-300" />
+          </button>
+          
           {/* Notifications */}
           <div className="relative">
             <button
