@@ -101,4 +101,6 @@ class LearningSessionService {
   }
 }
 
-export default new LearningSessionService()
+const learningSessionService = new LearningSessionService();
+export { learningSessionService };
+export default learningSessionService;
