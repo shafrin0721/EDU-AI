@@ -184,20 +184,20 @@ const handleEnroll = async (courseId) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {activeCourses.map((course) => {
                 const enrollment = getEnrollmentForCourse(course.Id)
-                return (
-<motion.div
-                   key={course.Id}
-                   initial={{ opacity: 0, y: 20 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   transition={{ duration: 0.3 }}
-                   onClick={() => navigate(`/courses/${course.Id}`)}
-                   className="cursor-pointer"
-                 >
-                   <CourseCard
-                     course={course}
-                     progress={enrollment?.progress}
-                     showProgress={true}
-                   />
+return (
+                  <motion.div
+                    key={course.Id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full"
+                  >
+                    <CourseCard
+                      course={course}
+                      progress={enrollment?.progress}
+                      showProgress={true}
+                      className="h-full flex flex-col"
+                    />
                   </motion.div>
                 )
               })}
@@ -211,65 +211,22 @@ const handleEnroll = async (courseId) => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Available Courses</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {availableCourses.map((course) => (
-                <motion.div
+<motion.div
                   key={course.Id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
+                  className="h-full"
                 >
-<Card hoverable className="cursor-pointer" onClick={() => navigate(`/courses/${course.Id}`)}>
-                   <div className="relative">
-                     <div className="aspect-video bg-gradient-to-br from-primary-50 to-secondary-50">
-                       <img
-                         src={course.metadata?.thumbnail || "/api/placeholder/300/200"}
-                         alt={course.title}
-                         className="w-full h-full object-cover"
-                       />
-                     </div>
-                     <div className="absolute top-3 right-3">
-                       <Badge variant={course.difficulty === "beginner" ? "success" : course.difficulty === "intermediate" ? "warning" : "danger"} size="sm">
-                         {course.difficulty}
-                       </Badge>
-                     </div>
-                   </div>
-                   
-                   <div className="p-5 space-y-4">
-                     <div>
-                       <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">
-                         {course.title}
-                       </h3>
-                       <p className="text-gray-600 text-sm mt-1 line-clamp-2">
-                         {course.description}
-                       </p>
-                     </div>
-                     
-                     <div className="flex items-center justify-between text-sm text-gray-500">
-                       <div className="flex items-center space-x-4">
-                         <div className="flex items-center space-x-1">
-                           <ApperIcon name="Clock" size={14} />
-                           <span>{Math.round(course.metadata?.duration / 60)} hours</span>
-                         </div>
-                         <div className="flex items-center space-x-1">
-                           <ApperIcon name="Users" size={14} />
-                           <span>{course.metadata?.enrollmentCount}</span>
-                         </div>
-                       </div>
-                     </div>
-                     
-                     <Button 
-                       onClick={(e) => {
-                         e.stopPropagation();
-                         handleEnroll(course.Id);
-                       }}
-                       className="w-full"
-                       variant="primary"
-                     >
-                       Enroll Now
-                     </Button>
-                   </div>
-                 </Card>
-               </motion.div>
-             ))}
+                  <CourseCard
+                    course={course}
+                    showProgress={false}
+                    showEnrollButton={true}
+                    onEnroll={handleEnroll}
+                    className="h-full flex flex-col border-2 border-dashed border-primary-200 hover:border-primary-400 bg-gradient-to-br from-primary-25 to-blue-25"
+                  />
+                </motion.div>
+              ))}
             </div>
           </section>
         )}
@@ -282,24 +239,24 @@ const handleEnroll = async (courseId) => {
               {completedCourses.map((course) => {
                 const enrollment = getEnrollmentForCourse(course.Id)
                 return (
-                  <motion.div
+<motion.div
                     key={course.Id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
+                    className="h-full relative"
                   >
-                    <div className="relative">
-                      <CourseCard
-                        course={course}
-                        progress={enrollment?.progress}
-                        showProgress={true}
-                      />
-                      <div className="absolute top-3 left-3">
-                        <Badge variant="success" size="sm">
-                          <ApperIcon name="CheckCircle" size={12} className="mr-1" />
-                          Completed
-                        </Badge>
-                      </div>
+                    <CourseCard
+                      course={course}
+                      progress={enrollment?.progress}
+                      showProgress={true}
+                      className="h-full flex flex-col border-2 border-green-200 bg-gradient-to-br from-green-25 to-emerald-25"
+                    />
+                    <div className="absolute top-4 left-4 z-10">
+                      <Badge variant="success" size="sm" className="bg-green-600 text-white shadow-lg">
+                        <ApperIcon name="CheckCircle" size={12} className="mr-1" />
+                        Completed
+                      </Badge>
                     </div>
                   </motion.div>
                 )
