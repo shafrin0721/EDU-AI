@@ -30,8 +30,8 @@ useEffect(() => {
         setLoading(true);
         setError(null);
         
-        // Validate moduleId
-        if (!moduleId || isNaN(parseInt(moduleId))) {
+// Validate moduleId - handle URL string parameters
+        if (!moduleId || moduleId.trim() === '' || isNaN(Number(moduleId)) || Number(moduleId) <= 0) {
           throw new Error('Invalid module identifier provided');
         }
         
