@@ -344,10 +344,9 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
                       )}
                     </div>
                   </div>
-                </div>
+</div>
               </div>
             </Card>
-          )}
           )}
         </div>
 
