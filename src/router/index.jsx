@@ -1,13 +1,25 @@
-import { createBrowserRouter } from "react-router-dom"
-import { Suspense, lazy } from "react"
-import Layout from "@/components/organisms/Layout"
+import { createBrowserRouter } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import Layout from "@/components/organisms/Layout";
+import Loading from "@/components/ui/Loading";
 
 // Lazy load all page components
-const Dashboard = lazy(() => import("@/components/pages/Dashboard"))
-const Courses = lazy(() => import("@/components/pages/Courses"))
-const Progress = lazy(() => import("@/components/pages/Progress"))
-const NotFound = lazy(() => import("@/components/pages/NotFound"))
+const Dashboard = lazy(() => import("@/components/pages/Dashboard"));
+const Courses = lazy(() => import("@/components/pages/Courses"));
+const Progress = lazy(() => import("@/components/pages/Progress"));
+const NotFound = lazy(() => import("@/components/pages/NotFound"));
+const Achievements = lazy(() => import("@/components/pages/Achievements"));
+const Recommendations = lazy(() => import("@/components/pages/Recommendations"));
 
+// Missing components that are referenced in routes
+const CourseDetail = lazy(() => import("@/components/pages/CourseDetail"));
+const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"));
+const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"));
+const Students = lazy(() => import("@/components/pages/Students"));
+const Users = lazy(() => import("@/components/pages/Users"));
+const Settings = lazy(() => import("@/components/pages/Settings"));
+const Billing = lazy(() => import("@/components/pages/Billing"));
+const Profile = lazy(() => import("@/components/pages/Profile"));
 // Loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -21,18 +33,6 @@ const LoadingFallback = () => (
   </div>
 )
 
-// Lazy load additional page components
-const Achievements = lazy(() => import("@/components/pages/Achievements"))
-const Recommendations = lazy(() => import("@/components/pages/Recommendations"))
-const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"))
-const Analytics = lazy(() => import("@/components/pages/Analytics"))
-const Students = lazy(() => import("@/components/pages/Students"))
-const Users = lazy(() => import("@/components/pages/Users"))
-const Settings = lazy(() => import("@/components/pages/Settings"))
-const Billing = lazy(() => import("@/components/pages/Billing"))
-const Profile = lazy(() => import("@/components/pages/Profile"))
-const CourseDetail = lazy(() => import("@/components/pages/CourseDetail"))
-const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"))
 // Main routes configuration
 const mainRoutes = [
   {
@@ -98,15 +98,7 @@ const mainRoutes = [
     path: "content",
     element: (
       <Suspense fallback={<LoadingFallback />}>
-        <ContentLibrary />
-      </Suspense>
-    )
-  },
-  {
-    path: "analytics",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Analytics />
+<ContentLibrary />
       </Suspense>
     )
   },
@@ -167,8 +159,8 @@ const routes = [
   {
     path: "/",
     element: <Layout />,
-    children: [...mainRoutes]
+children: [...mainRoutes]
   }
-]
+];
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes);
