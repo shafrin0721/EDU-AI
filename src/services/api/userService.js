@@ -209,4 +209,7 @@ async updateProfile(userId, profileData) {
     return this.data.some(u => u.email.toLowerCase() === email.toLowerCase())
 }
 }
-export default new UserService()
+
+const userService = new UserService();
+export { userService };
+export default userService;
