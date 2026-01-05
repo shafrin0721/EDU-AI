@@ -89,4 +89,7 @@ async getByStudent(studentId) {
   }
 }
 
-export default new EnrollmentService()
+const enrollmentServiceInstance = new EnrollmentService()
+
+export default enrollmentServiceInstance
+export { enrollmentServiceInstance as enrollmentService }
