@@ -1,39 +1,23 @@
-import { useSelector } from "react-redux";
-import StudentDashboard from "./StudentDashboard";
-import TeacherDashboard from "./TeacherDashboard";
-import AdminDashboard from "./AdminDashboard";
-import Loading from "@/components/ui/Loading";
 import React from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import StudentDashboard from "@/components/pages/StudentDashboard";
+import TeacherDashboard from "@/components/pages/TeacherDashboard";
+import AdminDashboard from "@/components/pages/AdminDashboard";
+import Loading from "@/components/ui/Loading";
 import ApperIcon from "@/components/ApperIcon";
 import Empty from "@/components/ui/Empty";
-import Achievements from "@/components/pages/Achievements";
-import Courses from "@/components/pages/Courses";
-import Progress from "@/components/pages/Progress";
 import Badge from "@/components/atoms/Badge";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
-import ProgressRing from "@/components/molecules/ProgressRing";
 import StatCard from "@/components/molecules/StatCard";
-
 const Dashboard = () => {
   const { user, loading } = useSelector(state => state.auth);
+  const { courses = [] } = useSelector(state => state.dashboard);
   
   if (loading) return <Loading />;
 
-  // Redirect to appropriate dashboard based on user role
-  switch (user?.Role) {
-    case 'student':
-      return <StudentDashboard />;
-    case 'teacher':
-      return <TeacherDashboard />;
-    case 'admin':
-      return <AdminDashboard />;
-    default:
-      return <StudentDashboard />; // Default to student dashboard
-  }
-}
-
-  // Teacher Dashboard
+  // Teacher Dashboard View
   if (user?.role === "teacher") {
     const publishedCourses = courses.filter(c => c.isPublished)
     const totalEnrollments = courses.reduce((sum, c) => sum + (c.metadata?.enrollmentCount || 0), 0)
@@ -133,7 +117,7 @@ const Dashboard = () => {
     )
   }
 
-  // Admin Dashboard
+  // Admin Dashboard View
   if (user?.role === "admin") {
     return (
       <div className="p-6 space-y-8">
@@ -212,7 +196,18 @@ const Dashboard = () => {
     )
   }
 
-  return <Empty title="Role not recognized" description="Please contact support" />
+  // Redirect to appropriate dashboard based on user role
+  switch (user?.Role) {
+    case 'student':
+      return <StudentDashboard />;
+    case 'teacher':
+      return <TeacherDashboard />;
+    case 'admin':
+      return <AdminDashboard />;
+    default:
+      return <StudentDashboard />; // Default to student dashboard
+  }
 }
 
+  // Teacher Dashboard
 export default Dashboard
