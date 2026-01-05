@@ -1,11 +1,42 @@
-import { Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { restoreAuth } from "@/store/slices/authSlice"
 import Header from "./Header"
 import Sidebar from "./Sidebar"
 
 const Layout = () => {
-  const { user } = useSelector(state => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { user, isAuthenticated } = useSelector(state => state.auth)
+
+  // Restore authentication from localStorage on app load
+  useEffect(() => {
+    const savedAuth = localStorage.getItem('eduai_auth')
+    if (savedAuth) {
+      try {
+        const authData = JSON.parse(savedAuth)
+        if (authData.isAuthenticated && authData.user) {
+          dispatch(restoreAuth(authData))
+          return
+        }
+      } catch (error) {
+        // Invalid saved auth data
+        localStorage.removeItem('eduai_auth')
+      }
+    }
+    
+    // If no valid auth, redirect to login
+    if (!isAuthenticated) {
+      navigate('/login')
+    }
+  }, [isAuthenticated, navigate, dispatch])
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated || !user) {
+    return null
+  }
   
   const getPageTitle = () => {
     switch (user?.role) {
@@ -19,7 +50,6 @@ const Layout = () => {
         return "EduAI Platform"
     }
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex h-screen">

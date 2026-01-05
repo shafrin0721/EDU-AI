@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/utils/cn"
 import ApperIcon from "@/components/ApperIcon"
 import { toggleSidebar } from "@/store/slices/dashboardSlice"
+import { logout } from "@/store/slices/authSlice"
 
 const Header = ({ title, className }) => {
   const dispatch = useDispatch()
@@ -149,15 +150,21 @@ const Header = ({ title, className }) => {
                     </a>
                     <a href="/settings" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors">
                       <ApperIcon name="Settings" size={16} />
-                      <span className="text-sm">Settings</span>
-                    </a>
+</a>
                     <hr className="my-2" />
-                    <button className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors w-full text-left text-red-600">
+                    <button 
+                      onClick={() => {
+                        dispatch(logout())
+                        window.location.href = '/login'
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors w-full text-left text-red-600"
+                    >
                       <ApperIcon name="LogOut" size={16} />
                       <span className="text-sm">Sign out</span>
                     </button>
                   </div>
                 </motion.div>
+              )}
               )}
             </AnimatePresence>
           </div>

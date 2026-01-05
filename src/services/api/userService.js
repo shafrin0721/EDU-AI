@@ -179,7 +179,36 @@ async updateProfile(userId, profileData) {
     }
     
     return { ...this.data[index] }
+return { ...this.data[index] }
+  }
+
+  async authenticate(email, password) {
+    await this.delay()
+    const user = this.data.find(u => u.email === email)
+    
+    if (!user) {
+      return null
+    }
+    
+    // In a real app, you would hash and compare passwords
+    // For demo purposes, we'll use a simple password check
+    const validPassword = password === "password123"
+    
+    if (!validPassword) {
+      return null
+    }
+    
+    // Update last active
+    const index = this.data.findIndex(item => item.Id === user.Id)
+    this.data[index].lastActive = new Date().toISOString()
+    
+    return { ...this.data[index] }
+  }
+
+  async emailExists(email) {
+    await this.delay()
+    return this.data.some(u => u.email.toLowerCase() === email.toLowerCase())
   }
 }
-
+export default new UserService()
 export default new UserService()

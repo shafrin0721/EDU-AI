@@ -3,7 +3,11 @@ import React, { Suspense, lazy } from "react";
 import Layout from "@/components/organisms/Layout";
 import Loading from "@/components/ui/Loading";
 
-// Lazy load all page components
+// Authentication components
+const Login = lazy(() => import("@/components/pages/Login"));
+const Register = lazy(() => import("@/components/pages/Register"));
+
+// Protected page components
 const Dashboard = lazy(() => import("@/components/pages/Dashboard"));
 const Courses = lazy(() => import("@/components/pages/Courses"));
 const Progress = lazy(() => import("@/components/pages/Progress"));
@@ -19,6 +23,7 @@ const Users = lazy(() => import("@/components/pages/Users"));
 const Settings = lazy(() => import("@/components/pages/Settings"));
 const Billing = lazy(() => import("@/components/pages/Billing"));
 const Profile = lazy(() => import("@/components/pages/Profile"));
+
 // Loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -32,7 +37,27 @@ const LoadingFallback = () => (
   </div>
 )
 
-// Main routes configuration
+// Authentication routes (public)
+const authRoutes = [
+  {
+    path: "login",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Login />
+      </Suspense>
+    )
+  },
+  {
+    path: "register", 
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Register />
+      </Suspense>
+    )
+  }
+]
+
+// Protected routes configuration
 const mainRoutes = [
   {
     path: "",
@@ -147,11 +172,14 @@ element: (
 
 // Create router configuration
 const routes = [
-{
-path: "/",
-element: <Layout />,
-children: [...mainRoutes]
-}
+  // Authentication routes (public)
+  ...authRoutes,
+  // Protected routes (require authentication)
+  {
+    path: "/",
+    element: <Layout />,
+    children: [...mainRoutes]
+  }
 ];
 
 export const router = createBrowserRouter(routes);

@@ -1,80 +1,87 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-  user: {
-    Id: 1,
-    email: "alex.chen@university.edu",
-    role: "student",
-    organizationId: "org_001",
-    profile: {
-      firstName: "Alex",
-      lastName: "Chen",
-      avatar: "/api/placeholder/40/40",
-      learningStreak: 7,
-      totalPoints: 2450,
-      level: 3,
-      timezone: "America/New_York",
-      preferences: {
-        learning: {
-          preferredDifficulty: "intermediate"
-        },
-        notifications: {
-          email: true,
-          push: true,
-          achievements: true
-        }
-      }
-    },
-    permissions: {
-      canCreateCourse: false,
-      canManageUsers: false,
-      canViewAnalytics: false,
-      canEditProfile: true
-    }
-  },
-  organization: {
-    id: "org_001",
-    name: "Global University",
-    domain: "university.edu",
-    settings: {
-      aiEnabled: true,
-      adaptiveLearning: true
-    }
-  },
-  isAuthenticated: true,
-  availableRoles: ["student"],
-  sessionData: {
-    loginTime: new Date().toISOString(),
-    lastActivity: new Date().toISOString()
-  }
+  user: null,
+  organization: null,
+  isAuthenticated: false,
+  availableRoles: [],
+  sessionData: null,
+  error: null
 }
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    login: (state, action) => {
+      const user = action.payload
+      state.user = user
+      state.isAuthenticated = true
+      state.organization = {
+        id: user.organizationId || "org_001",
+        name: "Global University",
+        domain: "university.edu",
+        settings: {
+          aiEnabled: true,
+          adaptiveLearning: true
+        }
+      }
+      state.availableRoles = [user.role]
+      state.sessionData = {
+        loginTime: new Date().toISOString(),
+        lastActivity: new Date().toISOString()
+      }
+      state.error = null
+      
+      // Store in localStorage for persistence
+      localStorage.setItem('eduai_auth', JSON.stringify({
+        user: user,
+        isAuthenticated: true,
+        sessionData: state.sessionData
+      }))
+    },
+    
     setUser: (state, action) => {
       state.user = { ...state.user, ...action.payload }
       state.isAuthenticated = true
-      state.sessionData.lastActivity = new Date().toISOString()
-    },
-    updateUserProfile: (state, action) => {
-      state.user.profile = { ...state.user.profile, ...action.payload }
-      state.sessionData.lastActivity = new Date().toISOString()
-    },
-    updateUserPreferences: (state, action) => {
-      state.user.profile.preferences = { 
-        ...state.user.profile.preferences, 
-        ...action.payload 
+      if (state.sessionData) {
+        state.sessionData.lastActivity = new Date().toISOString()
       }
     },
+    
+    updateUserProfile: (state, action) => {
+      if (state.user) {
+        state.user.profile = { ...state.user.profile, ...action.payload }
+        if (state.sessionData) {
+          state.sessionData.lastActivity = new Date().toISOString()
+        }
+      }
+    },
+    
+    updateUserPreferences: (state, action) => {
+      if (state.user?.profile) {
+        state.user.profile.preferences = { 
+          ...state.user.profile.preferences, 
+          ...action.payload 
+        }
+      }
+    },
+    
     setOrganization: (state, action) => {
       state.organization = action.payload
     },
+    
     logout: (state) => {
-      return initialState
+      localStorage.removeItem('eduai_auth')
+      return {
+        ...initialState,
+        error: null
+      }
     },
+    
     switchRole: (state, action) => {
+      if (!state.user) return
+      
       const newRole = action.payload
       state.user.role = newRole
       
@@ -105,29 +112,67 @@ const authSlice = createSlice({
           }
           break
       }
-      state.sessionData.lastActivity = new Date().toISOString()
+      if (state.sessionData) {
+        state.sessionData.lastActivity = new Date().toISOString()
+      }
     },
+    
     setAvailableRoles: (state, action) => {
       state.availableRoles = action.payload
     },
+    
     updateLearningStreak: (state, action) => {
-      state.user.profile.learningStreak = action.payload
-    },
-    addPoints: (state, action) => {
-      state.user.profile.totalPoints += action.payload
-      // Level up calculation
-      const newLevel = Math.floor(state.user.profile.totalPoints / 1000) + 1
-      if (newLevel > state.user.profile.level) {
-        state.user.profile.level = newLevel
+      if (state.user?.profile) {
+        state.user.profile.learningStreak = action.payload
       }
     },
+    
+    addPoints: (state, action) => {
+      if (state.user?.profile) {
+        state.user.profile.totalPoints += action.payload
+        // Level up calculation
+        const newLevel = Math.floor(state.user.profile.totalPoints / 1000) + 1
+        if (newLevel > state.user.profile.level) {
+          state.user.profile.level = newLevel
+        }
+      }
+    },
+    
     updateLastActivity: (state) => {
-      state.sessionData.lastActivity = new Date().toISOString()
+      if (state.sessionData) {
+        state.sessionData.lastActivity = new Date().toISOString()
+      }
+    },
+    
+    setError: (state, action) => {
+      state.error = action.payload
+    },
+    
+    clearError: (state) => {
+      state.error = null
+    },
+    
+    restoreAuth: (state, action) => {
+      const { user, sessionData } = action.payload
+      state.user = user
+      state.isAuthenticated = true
+      state.organization = {
+        id: user.organizationId || "org_001",
+        name: "Global University", 
+        domain: "university.edu",
+        settings: {
+          aiEnabled: true,
+          adaptiveLearning: true
+        }
+      }
+      state.availableRoles = [user.role]
+      state.sessionData = sessionData
     }
   },
 })
 
 export const { 
+  login,
   setUser, 
   updateUserProfile,
   updateUserPreferences,
@@ -137,6 +182,10 @@ export const {
   setAvailableRoles,
   updateLearningStreak,
   addPoints,
-  updateLastActivity
+  updateLastActivity,
+  setError,
+  clearError,
+  restoreAuth
 } = authSlice.actions
+
 export default authSlice.reducer
