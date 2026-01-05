@@ -162,9 +162,8 @@ const Header = ({ title, className }) => {
                       <ApperIcon name="LogOut" size={16} />
                       <span className="text-sm">Sign out</span>
                     </button>
-                  </div>
+</div>
                 </motion.div>
-              )}
               )}
             </AnimatePresence>
           </div>

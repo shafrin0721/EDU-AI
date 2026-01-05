@@ -208,7 +208,6 @@ return { ...this.data[index] }
   async emailExists(email) {
     await this.delay()
     return this.data.some(u => u.email.toLowerCase() === email.toLowerCase())
-  }
 }
-export default new UserService()
+}
 export default new UserService()
