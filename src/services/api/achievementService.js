@@ -70,4 +70,6 @@ class AchievementService {
   }
 }
 
-export default new AchievementService()
+const achievementService = new AchievementService()
+export { achievementService }
+export default achievementService
