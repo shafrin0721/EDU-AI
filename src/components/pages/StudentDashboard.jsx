@@ -13,7 +13,7 @@ import ProgressRing from '@/components/molecules/ProgressRing';
 import StatCard from '@/components/molecules/StatCard';
 import courseService from '@/services/api/courseService';
 import { enrollmentService } from '@/services/api/enrollmentService';
-import { learningSessionService } from '@/services/api/learningSessionService';
+import learningSessionService from '@/services/api/learningSessionService';
 import { achievementService } from '@/services/api/achievementService';
 import { assessmentService } from '@/services/api/assessmentService';
 

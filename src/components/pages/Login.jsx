@@ -156,11 +156,11 @@ const Login = () => {
 
           {/* Demo credentials */}
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-sm text-blue-800 font-medium mb-2">Demo Credentials:</p>
+<p className="text-sm text-blue-800 font-medium mb-2">Demo Credentials:</p>
             <div className="text-xs text-blue-700 space-y-1">
               <p><strong>Student:</strong> alex.chen@university.edu / password123</p>
-              <p><strong>Teacher:</strong> emma.davis@university.edu / password123</p>
-              <p><strong>Admin:</strong> michael.johnson@university.edu / password123</p>
+              <p><strong>Teacher:</strong> sarah.johnson@university.edu / password123</p>
+              <p><strong>Admin:</strong> michael.admin@university.edu / password123</p>
             </div>
           </div>
         </Card>
