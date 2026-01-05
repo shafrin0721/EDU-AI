@@ -17,6 +17,7 @@ import enrollmentService from "@/services/api/enrollmentService";
 
 const Courses = () => {
   const { user } = useSelector(state => state.auth)
+  const navigate = useNavigate()
   const [courses, setCourses] = useState([])
   const [enrollments, setEnrollments] = useState([])
   const [filteredCourses, setFilteredCourses] = useState([])
