@@ -136,4 +136,6 @@ async submitAssessment(moduleId, studentId, answers, timeSpent) {
   }
 }
 
-export default new AssessmentService()
+const assessmentService = new AssessmentService()
+export { assessmentService }
+export default assessmentService
