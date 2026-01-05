@@ -24,6 +24,8 @@ const Users = lazy(() => import("@/components/pages/Users"));
 const Settings = lazy(() => import("@/components/pages/Settings"));
 const Billing = lazy(() => import("@/components/pages/Billing"));
 const Profile = lazy(() => import("@/components/pages/Profile"));
+const Classes = lazy(() => import("@/components/pages/Classes"));
+const CreateCourse = lazy(() => import("@/components/pages/CreateCourse"));
 // Loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -123,6 +125,22 @@ path: "content",
 element: (
 <Suspense fallback={<LoadingFallback />}>
 <ContentLibrary />
+</Suspense>
+),
+},
+{
+path: "classes",
+element: (
+<Suspense fallback={<LoadingFallback />}>
+<Classes />
+</Suspense>
+),
+},
+{
+path: "courses/create",
+element: (
+<Suspense fallback={<LoadingFallback />}>
+<CreateCourse />
 </Suspense>
 )
   },

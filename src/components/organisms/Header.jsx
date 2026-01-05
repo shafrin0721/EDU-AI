@@ -7,7 +7,6 @@ import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 import { toggleSidebar } from "@/store/slices/dashboardSlice";
 import { logout } from "@/store/slices/authSlice";
-import Settings from "@/components/pages/Settings";
 import Profile from "@/components/pages/Profile";
 const Header = ({ title, className }) => {
   const dispatch = useDispatch()
@@ -133,17 +132,15 @@ const [isDarkMode, setIsDarkMode] = useState(false);
             </AnimatePresence>
           </div>
 
-          {/* Profile */}
+{/* Profile */}
           <div className="relative">
             <button
               onClick={() => setShowProfile(!showProfile)}
               className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <img
-                src={user?.profile?.avatar || "/api/placeholder/32/32"}
-                alt={`${user?.profile?.firstName} ${user?.profile?.lastName}`}
-                className="w-8 h-8 rounded-full border-2 border-primary-200"
-              />
+              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                {user?.profile?.firstName?.[0]}{user?.profile?.lastName?.[0]}
+              </div>
               <div className="hidden md:block text-left">
                 <p className="text-sm font-medium text-gray-900">
                   {user?.profile?.firstName} {user?.profile?.lastName}

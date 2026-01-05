@@ -38,7 +38,7 @@ const Layout = () => {
     return null
   }
   
-  const getPageTitle = () => {
+const getPageTitle = () => {
     switch (user?.role) {
       case "student":
         return "Learning Dashboard"

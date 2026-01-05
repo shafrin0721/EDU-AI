@@ -25,7 +25,7 @@ const getNavigationItems = () => {
           { to: "recommendations", icon: "Lightbulb", label: "Recommendations", badge: "AI" }
         ]
       case "teacher":
-        return [
+return [
           ...baseItems,
           { to: "classes", icon: "Users", label: "My Classes" },
           { to: "content", icon: "FileText", label: "Content Library" },

@@ -1,20 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import ProgressBar from '@/components/atoms/ProgressBar';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
-import StatCard from '@/components/molecules/StatCard';
-import { courseService } from '@/services/api/courseService';
-import { enrollmentService } from '@/services/api/enrollmentService';
-import { userService } from '@/services/api/userService';
-import { assessmentService } from '@/services/api/assessmentService';
-import { learningSessionService } from '@/services/api/learningSessionService';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import ProgressBar from "@/components/atoms/ProgressBar";
+import Badge from "@/components/atoms/Badge";
+import Loading from "@/components/ui/Loading";
+import StatCard from "@/components/molecules/StatCard";
+import { courseService } from "@/services/api/courseService";
+import { enrollmentService } from "@/services/api/enrollmentService";
+import userService from "@/services/api/userService";
+import assessmentService from "@/services/api/assessmentService";
+import learningSessionService from "@/services/api/learningSessionService";
+import Courses from "@/components/pages/Courses";
+import Dashboard from "@/components/pages/Dashboard";
+import Students from "@/components/pages/Students";
+import Progress from "@/components/pages/Progress";
 
 const TeacherDashboard = () => {
   const { user } = useSelector(state => state.auth);
@@ -143,13 +147,23 @@ const TeacherDashboard = () => {
             <p className="text-gray-600">Manage your courses and track student progress</p>
           </div>
           
-          <Button
-            onClick={() => navigate('/courses/create')}
-            icon="Plus"
-            size="lg"
-          >
-            Create Course
-          </Button>
+<div className="flex space-x-3">
+            <Button
+              onClick={() => navigate('/courses/create')}
+              icon="Plus"
+              size="lg"
+            >
+              Create Course
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate('/classes')}
+              icon="Users"
+              size="lg"
+            >
+              My Classes
+            </Button>
+          </div>
         </motion.div>
 
         {/* Stats Cards */}
@@ -377,16 +391,25 @@ const TeacherDashboard = () => {
                   Quick Actions
                 </h3>
                 
-                <div className="space-y-3">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start"
-                    onClick={() => navigate('/courses/create')}
-                    icon="BookOpen"
-                  >
-                    Create New Course
-                  </Button>
-                  
+<div className="space-y-3">
+                  <div className="space-y-2">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      onClick={() => navigate('/courses/create')}
+                      icon="Plus"
+                    >
+                      Create New Course
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      onClick={() => navigate('/classes')}
+                      icon="Users"
+                    >
+                      Manage Classes
+                    </Button>
+                  </div>
                   <Button
                     variant="outline"
                     className="w-full justify-start"
