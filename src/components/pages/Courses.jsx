@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { toast } from "react-toastify"
-import { motion } from "framer-motion"
-import CourseCard from "@/components/molecules/CourseCard"
-import SearchBar from "@/components/molecules/SearchBar"
-import Card from "@/components/atoms/Card"
-import Button from "@/components/atoms/Button"
-import Badge from "@/components/atoms/Badge"
-import ApperIcon from "@/components/ApperIcon"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import Empty from "@/components/ui/Empty"
-import courseService from "@/services/api/courseService"
-import enrollmentService from "@/services/api/enrollmentService"
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import CourseCard from "@/components/molecules/CourseCard";
+import SearchBar from "@/components/molecules/SearchBar";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
+import ApperIcon from "@/components/ApperIcon";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import Empty from "@/components/ui/Empty";
+import courseService from "@/services/api/courseService";
+import enrollmentService from "@/services/api/enrollmentService";
 
 const Courses = () => {
   const { user } = useSelector(state => state.auth)
@@ -174,17 +175,19 @@ const Courses = () => {
               {activeCourses.map((course) => {
                 const enrollment = getEnrollmentForCourse(course.Id)
                 return (
-                  <motion.div
-                    key={course.Id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <CourseCard
-                      course={course}
-                      progress={enrollment?.progress}
-                      showProgress={true}
-                    />
+<motion.div
+                   key={course.Id}
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ duration: 0.3 }}
+                   onClick={() => navigate(`/courses/${course.Id}`)}
+                   className="cursor-pointer"
+                 >
+                   <CourseCard
+                     course={course}
+                     progress={enrollment?.progress}
+                     showProgress={true}
+                   />
                   </motion.div>
                 )
               })}
@@ -204,56 +207,59 @@ const Courses = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Card hoverable className="cursor-pointer">
-                    <div className="relative">
-                      <div className="aspect-video bg-gradient-to-br from-primary-50 to-secondary-50">
-                        <img
-                          src={course.metadata?.thumbnail || "/api/placeholder/300/200"}
-                          alt={course.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute top-3 right-3">
-                        <Badge variant={course.difficulty === "beginner" ? "success" : course.difficulty === "intermediate" ? "warning" : "danger"} size="sm">
-                          {course.difficulty}
-                        </Badge>
-                      </div>
-                    </div>
-                    
-                    <div className="p-5 space-y-4">
-                      <div>
-                        <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">
-                          {course.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm mt-1 line-clamp-2">
-                          {course.description}
-                        </p>
-                      </div>
-                      
-                      <div className="flex items-center justify-between text-sm text-gray-500">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center space-x-1">
-                            <ApperIcon name="Clock" size={14} />
-                            <span>{Math.round(course.metadata?.duration / 60)} hours</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <ApperIcon name="Users" size={14} />
-                            <span>{course.metadata?.enrollmentCount}</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Button 
-                        onClick={() => handleEnroll(course.Id)}
-                        className="w-full"
-                        variant="primary"
-                      >
-                        Enroll Now
-                      </Button>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
+<Card hoverable className="cursor-pointer" onClick={() => navigate(`/courses/${course.Id}`)}>
+                   <div className="relative">
+                     <div className="aspect-video bg-gradient-to-br from-primary-50 to-secondary-50">
+                       <img
+                         src={course.metadata?.thumbnail || "/api/placeholder/300/200"}
+                         alt={course.title}
+                         className="w-full h-full object-cover"
+                       />
+                     </div>
+                     <div className="absolute top-3 right-3">
+                       <Badge variant={course.difficulty === "beginner" ? "success" : course.difficulty === "intermediate" ? "warning" : "danger"} size="sm">
+                         {course.difficulty}
+                       </Badge>
+                     </div>
+                   </div>
+                   
+                   <div className="p-5 space-y-4">
+                     <div>
+                       <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">
+                         {course.title}
+                       </h3>
+                       <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+                         {course.description}
+                       </p>
+                     </div>
+                     
+                     <div className="flex items-center justify-between text-sm text-gray-500">
+                       <div className="flex items-center space-x-4">
+                         <div className="flex items-center space-x-1">
+                           <ApperIcon name="Clock" size={14} />
+                           <span>{Math.round(course.metadata?.duration / 60)} hours</span>
+                         </div>
+                         <div className="flex items-center space-x-1">
+                           <ApperIcon name="Users" size={14} />
+                           <span>{course.metadata?.enrollmentCount}</span>
+                         </div>
+                       </div>
+                     </div>
+                     
+                     <Button 
+                       onClick={(e) => {
+                         e.stopPropagation();
+                         handleEnroll(course.Id);
+                       }}
+                       className="w-full"
+                       variant="primary"
+                     >
+                       Enroll Now
+                     </Button>
+                   </div>
+                 </Card>
+               </motion.div>
+             ))}
             </div>
           </section>
         )}

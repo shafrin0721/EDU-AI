@@ -1,13 +1,17 @@
-import { useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
-import { toggleSidebar } from "@/store/slices/dashboardSlice"
-import { logout } from "@/store/slices/authSlice"
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "@/utils/cn";
+import ApperIcon from "@/components/ApperIcon";
+import { toggleSidebar } from "@/store/slices/dashboardSlice";
+import { logout } from "@/store/slices/authSlice";
+import Settings from "@/components/pages/Settings";
+import Profile from "@/components/pages/Profile";
 
 const Header = ({ title, className }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { user, organization } = useSelector(state => state.auth)
   const { notifications } = useSelector(state => state.dashboard)
   const [showNotifications, setShowNotifications] = useState(false)
@@ -148,9 +152,10 @@ const Header = ({ title, className }) => {
                       <ApperIcon name="User" size={16} />
                       <span className="text-sm">Profile</span>
                     </a>
-                    <a href="/settings" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                      <ApperIcon name="Settings" size={16} />
-</a>
+<button onClick={() => navigate('/settings')} className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors w-full text-left">
+                     <ApperIcon name="Settings" size={16} />
+                     <span>Settings</span>
+                   </button>
                     <hr className="my-2" />
                     <button 
                       onClick={() => {
