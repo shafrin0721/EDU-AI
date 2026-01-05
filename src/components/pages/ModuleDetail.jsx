@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlice";
 import learningSessionService from "@/services/api/learningSessionService";
 import enrollmentService from "@/services/api/enrollmentService";
+import moduleService from "@/services/api/moduleService";
 const ModuleDetail = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
@@ -34,80 +35,70 @@ useEffect(() => {
           throw new Error('Invalid module identifier provided');
         }
         
-        // Simulate API call with realistic delay
-        await new Promise(resolve => setTimeout(resolve, 800));
+        // Load module data from service
+        const moduleData = await moduleService.getById(parseInt(moduleId));
         
-        // Mock module data with YouTube video integration
-        const mockModule = {
-          id: parseInt(moduleId),
-          title: 'Introduction to Machine Learning',
-          description: 'Learn the fundamentals of machine learning including algorithms, data preprocessing, and model evaluation.',
-          instructor: 'Dr. Sarah Johnson',
-          duration: '6 weeks',
-          difficulty: 'Intermediate',
+        if (!moduleData) {
+          throw new Error('Module not found');
+        }
+        
+        // Transform service data to component format
+        const transformedModule = {
+          id: moduleData.Id,
+          title: moduleData.Title,
+          description: moduleData.Description,
+          instructor: moduleData.instructor || 'Course Instructor',
+          duration: moduleData.EstimatedDuration ? `${Math.ceil(moduleData.EstimatedDuration / 60)} min` : '30 min',
+          difficulty: moduleData.Difficulty || 'Intermediate',
           rating: 4.8,
           studentsEnrolled: 1234,
           progress: 65,
           content: {
-            type: 'video',
-            videoUrl: 'https://www.youtube.com/embed/ukzFI9rgwfU',
-            videoAttribution: {
-              creator: 'Zach Galbraith',
-              channel: 'ZachGalbraith',
-              title: 'Machine Learning Explained',
-              originalUrl: 'https://www.youtube.com/watch?v=ukzFI9rgwfU'
+            type: moduleData.content?.type || 'video',
+            videoUrl: moduleData.content?.videoUrl || 'https://www.youtube.com/embed/ukzFI9rgwfU',
+            videoAttribution: moduleData.content?.videoAttribution || {
+              creator: 'Educational Content',
+              channel: 'EduAI Platform',
+              title: moduleData.Title,
+              originalUrl: '#'
             }
           },
-          theoreticalContent: {
+          theoreticalContent: moduleData.theoreticalContent || {
             learningTheories: [
               {
                 name: 'Constructivism',
                 description: 'Learning is an active process where learners construct their own understanding through experience and reflection.',
-                application: 'In ML education, students build understanding by experimenting with algorithms and observing outcomes.',
+                application: 'Students build understanding by experimenting with concepts and observing outcomes.',
                 keyPrinciples: ['Active learning', 'Prior knowledge integration', 'Social interaction', 'Authentic contexts']
-              },
-              {
-                name: 'Cognitive Load Theory',
-                description: 'Learning is optimized when cognitive load is managed effectively, focusing on intrinsic, extraneous, and germane load.',
-                application: 'ML concepts are presented progressively, starting with simple algorithms before moving to complex neural networks.',
-                keyPrinciples: ['Progressive complexity', 'Worked examples', 'Problem-solving schemas', 'Chunking information']
               }
             ],
             foundations: [
               {
-                category: 'Mathematical Foundations',
+                category: 'Core Foundations',
                 concepts: [
                   {
-                    name: 'Linear Algebra',
-                    description: 'Vector spaces, matrices, and linear transformations form the mathematical backbone of machine learning.',
-                    importance: 'Essential for understanding neural networks, PCA, and most optimization algorithms.'
-                  },
-                  {
-                    name: 'Statistics & Probability',
-                    description: 'Statistical inference and probability distributions are fundamental to understanding ML model behavior.',
-                    importance: 'Critical for model evaluation, uncertainty quantification, and Bayesian methods.'
+                    name: 'Fundamental Concepts',
+                    description: 'Core principles and theories underlying this subject area.',
+                    importance: 'Essential for understanding advanced topics and applications.'
                   }
                 ]
               }
             ]
           },
           lessons: [
-            { id: 1, title: 'What is Machine Learning?', duration: '15 min', completed: true },
-            { id: 2, title: 'Types of Machine Learning', duration: '20 min', completed: true },
-            { id: 3, title: 'Data Preprocessing', duration: '25 min', completed: true },
-            { id: 4, title: 'Supervised Learning', duration: '30 min', completed: false, current: true },
-            { id: 5, title: 'Unsupervised Learning', duration: '25 min', completed: false },
-            { id: 6, title: 'Model Evaluation', duration: '20 min', completed: false },
-            { id: 7, title: 'Final Project', duration: '45 min', completed: false }
+            { id: 1, title: 'Introduction', duration: '15 min', completed: false, current: true },
+            { id: 2, title: 'Core Concepts', duration: '20 min', completed: false },
+            { id: 3, title: 'Practical Applications', duration: '25 min', completed: false },
+            { id: 4, title: 'Assessment', duration: '30 min', completed: false }
           ]
         };
         
-        setModule(mockModule);
-        const currentLessonIndex = mockModule.lessons.findIndex(lesson => lesson.current);
+        setModule(transformedModule);
+        const currentLessonIndex = transformedModule.lessons.findIndex(lesson => lesson.current);
         setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0);
         
         // Set current module in Redux
-        dispatch(setCurrentModule(mockModule));
+        dispatch(setCurrentModule(transformedModule));
         dispatch(setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0));
       } catch (err) {
         console.error('Module loading error:', err);
@@ -526,10 +517,10 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
               {module.lessons.map((lesson, index) => (
                 <div
                   key={lesson.id}
-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                     lesson.current 
                       ? 'bg-primary-50 border border-primary-200' 
-: 'hover:bg-gray-50'
+                      : 'hover:bg-gray-50'
                   }`}
                   onClick={() => navigateToLesson(index)}
                 >
