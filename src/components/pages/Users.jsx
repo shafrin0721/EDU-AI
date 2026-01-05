@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Crown, Filter, MoreVertical, Search, Shield, UserPlus, UsersIcon } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Input from "@/components/atoms/Input";
