@@ -14,7 +14,6 @@ const Progress = lazy(() => import("@/components/pages/Progress"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
 const Achievements = lazy(() => import("@/components/pages/Achievements"));
 const Recommendations = lazy(() => import("@/components/pages/Recommendations"));
-const CourseDetail = lazy(() => import("@/components/pages/ModuleDetail"));
 const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"));
 
 // Missing components that are referenced in routes
@@ -79,10 +78,10 @@ const mainRoutes = [
     )
 },
 {
-    path: "courses/:courseId",
+path: "modules/:moduleId",
     element: (
       <Suspense fallback={<LoadingFallback />}>
-        <CourseDetail />
+        <ModuleDetail />
       </Suspense>
     )
   },

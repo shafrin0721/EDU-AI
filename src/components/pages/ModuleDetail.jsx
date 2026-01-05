@@ -24,16 +24,23 @@ const ModuleDetail = () => {
   const [activeSession, setActiveSession] = useState(null);
   const [learningStarted, setLearningStarted] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchModule = async () => {
       try {
         setLoading(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        setError(null);
         
-// Mock module data with YouTube video integration
-const mockModule = {
-          id: moduleId,
+        // Validate moduleId
+        if (!moduleId || isNaN(parseInt(moduleId))) {
+          throw new Error('Invalid module identifier provided');
+        }
+        
+        // Simulate API call with realistic delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Mock module data with YouTube video integration
+        const mockModule = {
+          id: parseInt(moduleId),
           title: 'Introduction to Machine Learning',
           description: 'Learn the fundamentals of machine learning including algorithms, data preprocessing, and model evaluation.',
           instructor: 'Dr. Sarah Johnson',
@@ -98,13 +105,15 @@ const mockModule = {
         
         setModule(mockModule);
         const currentLessonIndex = mockModule.lessons.findIndex(lesson => lesson.current);
-        setCurrentLesson(currentLessonIndex);
+        setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0);
         
         // Set current module in Redux
         dispatch(setCurrentModule(mockModule));
-        dispatch(setCurrentLesson(currentLessonIndex));
+        dispatch(setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0));
       } catch (err) {
-        setError('Failed to load module details');
+        console.error('Module loading error:', err);
+        const errorMessage = err.message || 'Unable to load module content. Please try again later.';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
