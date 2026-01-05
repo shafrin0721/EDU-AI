@@ -24,7 +24,6 @@ const LoadingFallback = () => (
 // Lazy load additional page components
 const Achievements = lazy(() => import("@/components/pages/Achievements"))
 const Recommendations = lazy(() => import("@/components/pages/Recommendations"))
-const Classes = lazy(() => import("@/components/pages/Classes"))
 const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"))
 const Analytics = lazy(() => import("@/components/pages/Analytics"))
 const Students = lazy(() => import("@/components/pages/Students"))
@@ -34,7 +33,6 @@ const Billing = lazy(() => import("@/components/pages/Billing"))
 const Profile = lazy(() => import("@/components/pages/Profile"))
 const CourseDetail = lazy(() => import("@/components/pages/CourseDetail"))
 const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"))
-
 // Main routes configuration
 const mainRoutes = [
   {
@@ -96,14 +94,6 @@ const mainRoutes = [
     )
   },
   // Teacher Routes
-  {
-    path: "classes",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Classes />
-      </Suspense>
-    )
-  },
   {
     path: "content",
     element: (
