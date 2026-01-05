@@ -176,10 +176,9 @@ async updateProfile(userId, profileData) {
     this.data[index].preferences.notifications = {
       ...this.data[index].preferences.notifications,
       ...preferences
-    }
+}
     
     return { ...this.data[index] }
-return { ...this.data[index] }
   }
 
   async authenticate(email, password) {
