@@ -10,9 +10,9 @@ const Progress = lazy(() => import("@/components/pages/Progress"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
 const Achievements = lazy(() => import("@/components/pages/Achievements"));
 const Recommendations = lazy(() => import("@/components/pages/Recommendations"));
+const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"));
 
 // Missing components that are referenced in routes
-const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"));
 const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"));
 const Students = lazy(() => import("@/components/pages/Students"));
 const Users = lazy(() => import("@/components/pages/Users"));
@@ -52,16 +52,14 @@ const mainRoutes = [
       </Suspense>
     )
   },
-  {
-  },
-  {
-    path: "modules/:moduleId",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <ModuleDetail />
-      </Suspense>
-    )
-  },
+{
+path: "modules/:moduleId",
+element: (
+<Suspense fallback={<LoadingFallback />}>
+<ModuleDetail />
+</Suspense>
+)
+},
   {
     path: "progress",
     element: (
@@ -87,13 +85,13 @@ const mainRoutes = [
     )
   },
   // Teacher Routes
-  {
-    path: "content",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
+{
+path: "content",
+element: (
+<Suspense fallback={<LoadingFallback />}>
 <ContentLibrary />
-      </Suspense>
-    )
+</Suspense>
+)
   },
   {
     path: "students",
@@ -149,11 +147,11 @@ const mainRoutes = [
 
 // Create router configuration
 const routes = [
-  {
-    path: "/",
-    element: <Layout />,
+{
+path: "/",
+element: <Layout />,
 children: [...mainRoutes]
-  }
+}
 ];
 
 export const router = createBrowserRouter(routes);
