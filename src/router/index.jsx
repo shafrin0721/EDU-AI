@@ -86,14 +86,6 @@ path: "modules/:moduleId",
     )
   },
   {
-    path: "modules/:moduleId",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <ModuleDetail />
-      </Suspense>
-    )
-},
-  {
     path: "progress",
     element: (
       <Suspense fallback={<LoadingFallback />}>

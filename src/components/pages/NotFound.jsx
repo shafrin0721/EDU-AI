@@ -33,7 +33,7 @@ const NotFound = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-4"
         >
-          <h1 className="text-3xl font-bold text-gray-900">
+<h1 className="text-3xl font-bold text-gray-900">
             Page Not Found
           </h1>
           <p className="text-lg text-gray-600 leading-relaxed">
@@ -72,19 +72,28 @@ const NotFound = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="pt-8 border-t border-gray-200"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-500">
-            <a href="/" className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200">
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-500">
+            <button 
+              onClick={() => navigate("/")} 
+              className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
+            >
               <ApperIcon name="Home" size={16} />
               <span>Dashboard</span>
-            </a>
-            <a href="/courses" className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200">
+            </button>
+            <button 
+              onClick={() => navigate("/courses")} 
+              className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
+            >
               <ApperIcon name="BookOpen" size={16} />
               <span>Courses</span>
-            </a>
-            <a href="/progress" className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200">
+            </button>
+            <button 
+              onClick={() => navigate("/progress")} 
+              className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
+            >
               <ApperIcon name="TrendingUp" size={16} />
               <span>Progress</span>
-            </a>
+            </button>
           </div>
         </motion.div>
 
