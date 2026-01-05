@@ -12,8 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlice";
 import learningSessionService from "@/services/api/learningSessionService";
 import enrollmentService from "@/services/api/enrollmentService";
-import enrollmentService from "@/services/api/enrollmentService";
-
 const ModuleDetail = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
