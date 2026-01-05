@@ -72,4 +72,9 @@ class OrganizationService {
   }
 }
 
-export default new OrganizationService()
+// Create service instance
+const organizationService = new OrganizationService();
+
+// Export both default and named exports for flexibility
+export default organizationService;
+export { organizationService };
