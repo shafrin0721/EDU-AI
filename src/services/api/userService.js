@@ -69,7 +69,7 @@ class UserService {
     return true
   }
 
-  async updateProfile(userId, profileData) {
+async updateProfile(userId, profileData) {
     await this.delay()
     const numId = parseInt(userId)
     const index = this.data.findIndex(item => item.Id === numId)
@@ -80,6 +80,104 @@ class UserService {
       ...profileData
     }
     this.data[index].lastActive = new Date().toISOString()
+    return { ...this.data[index] }
+  }
+
+  async getUserAnalytics(userId) {
+    await this.delay()
+    const numId = parseInt(userId)
+    const user = this.data.find(item => item.Id === numId)
+    if (!user) return null
+
+    return {
+      learningStats: {
+        totalCoursesEnrolled: Math.floor(Math.random() * 10) + 1,
+        coursesCompleted: Math.floor(Math.random() * 5),
+        totalStudyHours: user.studyHours || Math.floor(Math.random() * 200) + 50,
+        averageSessionLength: Math.floor(Math.random() * 60) + 30,
+        learningStreak: user.profile?.learningStreak || Math.floor(Math.random() * 30)
+      },
+      performanceMetrics: {
+        averageScore: Math.floor(Math.random() * 30) + 70,
+        improvementRate: Math.random() * 0.3 + 0.1,
+        consistencyScore: Math.random() * 0.4 + 0.6,
+        engagementLevel: Math.random() * 0.3 + 0.7
+      },
+      adaptiveProfile: {
+        preferredLearningStyle: ["visual", "auditory", "kinesthetic"][Math.floor(Math.random() * 3)],
+        optimalDifficulty: user.preferences?.learning?.preferredDifficulty || "intermediate",
+        bestStudyTimes: ["morning", "afternoon", "evening"][Math.floor(Math.random() * 3)],
+        recommendedBreakFrequency: Math.floor(Math.random() * 30) + 15
+      }
+    }
+  }
+
+  async getTeacherStudents(teacherId) {
+    await this.delay()
+    // Get students enrolled in courses taught by this teacher
+    return this.data
+      .filter(user => user.role === "student")
+      .map(student => ({
+        ...student,
+        enrolledCourses: Math.floor(Math.random() * 5) + 1,
+        averageProgress: Math.floor(Math.random() * 100),
+        lastActivity: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString()
+      }))
+  }
+
+  async getOrganizationUsers(organizationId, role = null) {
+    await this.delay()
+    let users = this.data.filter(user => user.organizationId === organizationId)
+    
+    if (role) {
+      users = users.filter(user => user.role === role)
+    }
+    
+    return users.map(user => ({ ...user }))
+  }
+
+  async updateUserRole(userId, newRole) {
+    await this.delay()
+    const numId = parseInt(userId)
+    const index = this.data.findIndex(item => item.Id === numId)
+    if (index === -1) return null
+    
+    this.data[index].role = newRole
+    this.data[index].lastActive = new Date().toISOString()
+    return { ...this.data[index] }
+  }
+
+  async getUserNotificationPreferences(userId) {
+    await this.delay()
+    const numId = parseInt(userId)
+    const user = this.data.find(item => item.Id === numId)
+    if (!user) return null
+    
+    return user.preferences?.notifications || {
+      email: true,
+      push: true,
+      achievements: true,
+      reminders: true,
+      contentUpdates: false,
+      systemAlerts: true
+    }
+  }
+
+  async updateNotificationPreferences(userId, preferences) {
+    await this.delay()
+    const numId = parseInt(userId)
+    const index = this.data.findIndex(item => item.Id === numId)
+    if (index === -1) return null
+    
+    if (!this.data[index].preferences) {
+      this.data[index].preferences = {}
+    }
+    
+    this.data[index].preferences.notifications = {
+      ...this.data[index].preferences.notifications,
+      ...preferences
+    }
+    
     return { ...this.data[index] }
   }
 }

@@ -10,7 +10,7 @@ const Sidebar = () => {
   const { user } = useSelector(state => state.auth)
   const { sidebarCollapsed } = useSelector(state => state.dashboard)
 
-  const getNavigationItems = () => {
+const getNavigationItems = () => {
     const baseItems = [
       { to: "", icon: "Home", label: "Dashboard" }
     ]

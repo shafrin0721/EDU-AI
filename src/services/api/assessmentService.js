@@ -43,7 +43,7 @@ class AssessmentService {
     return { ...newAssessment }
   }
 
-  async submitAssessment(moduleId, studentId, answers, timeSpent) {
+async submitAssessment(moduleId, studentId, answers, timeSpent) {
     await this.delay(500) // Simulate AI processing time
     
     const maxId = Math.max(...this.data.map(item => item.Id), 0)
@@ -65,15 +65,74 @@ class AssessmentService {
         adaptationSuggestions: [
           {
             type: score >= 90 ? "difficulty_increase" : "additional_practice",
-            reason: score >= 90 ? "high_performance" : "reinforcement_needed"
+            reason: score >= 90 ? "high_performance" : "reinforcement_needed",
+            module: `Module ${Math.floor(Math.random() * 5) + 1}`,
+            topic: score >= 90 ? "Advanced Applications" : "Foundational Review"
           }
-        ]
+        ],
+        learningInsights: {
+          conceptMastery: score / 100,
+          problemSolvingSpeed: Math.max(0.1, 1 - (timeSpent / 300)),
+          retentionPrediction: Math.min(1, score / 80),
+          recommendedStudyTime: score < 70 ? timeSpent * 1.5 : timeSpent * 0.8
+        }
       },
       submittedAt: new Date().toISOString()
     }
     
     this.data.push(newAssessment)
     return { ...newAssessment }
+  }
+
+  async getAssessmentAnalytics(moduleId) {
+    await this.delay()
+    const moduleAssessments = this.data.filter(a => a.moduleId === moduleId)
+    
+    return {
+      totalAttempts: moduleAssessments.length,
+      averageScore: moduleAssessments.reduce((sum, a) => sum + a.score, 0) / moduleAssessments.length || 0,
+      passingRate: moduleAssessments.filter(a => a.score >= 70).length / moduleAssessments.length || 0,
+      averageTimeSpent: moduleAssessments.reduce((sum, a) => sum + a.timeSpent, 0) / moduleAssessments.length || 0,
+      commonStrengths: ["concept-understanding", "problem-solving", "analytical-thinking"],
+      commonWeaknesses: ["attention-to-detail", "time-management", "complex-applications"],
+      improvementTrends: {
+        scoreImprovement: Math.random() * 0.2 + 0.1, // 10-30% improvement
+        timeEfficiency: Math.random() * 0.15 + 0.05 // 5-20% faster
+      }
+    }
+  }
+
+  async generatePersonalizedQuestions(studentId, moduleId, difficulty = 'intermediate') {
+    await this.delay(800) // Simulate AI generation time
+    
+    const baseQuestions = [
+      {
+        id: 1,
+        question: "What is the primary concept demonstrated in this module?",
+        type: "multiple-choice",
+        options: ["Concept A", "Concept B", "Concept C", "Concept D"],
+        correct: 0,
+        explanation: "This tests fundamental understanding of core concepts."
+      },
+      {
+        id: 2,
+        question: "Apply the learned concept to solve this problem:",
+        type: "multiple-choice", 
+        options: ["Solution A", "Solution B", "Solution C", "Solution D"],
+        correct: 1,
+        explanation: "This tests practical application abilities."
+      }
+    ]
+
+    // Adapt difficulty based on student performance
+    const adaptedQuestions = baseQuestions.map(q => ({
+      ...q,
+      difficulty: difficulty,
+      adaptedFor: studentId,
+      generatedAt: new Date().toISOString()
+    }))
+
+    return adaptedQuestions
   }
 }
 

@@ -21,6 +21,20 @@ const LoadingFallback = () => (
   </div>
 )
 
+// Lazy load additional page components
+const Achievements = lazy(() => import("@/components/pages/Achievements"))
+const Recommendations = lazy(() => import("@/components/pages/Recommendations"))
+const Classes = lazy(() => import("@/components/pages/Classes"))
+const ContentLibrary = lazy(() => import("@/components/pages/ContentLibrary"))
+const Analytics = lazy(() => import("@/components/pages/Analytics"))
+const Students = lazy(() => import("@/components/pages/Students"))
+const Users = lazy(() => import("@/components/pages/Users"))
+const Settings = lazy(() => import("@/components/pages/Settings"))
+const Billing = lazy(() => import("@/components/pages/Billing"))
+const Profile = lazy(() => import("@/components/pages/Profile"))
+const CourseDetail = lazy(() => import("@/components/pages/CourseDetail"))
+const ModuleDetail = lazy(() => import("@/components/pages/ModuleDetail"))
+
 // Main routes configuration
 const mainRoutes = [
   {
@@ -32,6 +46,7 @@ const mainRoutes = [
       </Suspense>
     )
   },
+  // Student Routes
   {
     path: "courses",
     element: (
@@ -41,10 +56,109 @@ const mainRoutes = [
     )
   },
   {
+    path: "courses/:courseId",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <CourseDetail />
+      </Suspense>
+    )
+  },
+  {
+    path: "modules/:moduleId",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <ModuleDetail />
+      </Suspense>
+    )
+  },
+  {
     path: "progress",
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <Progress />
+      </Suspense>
+    )
+  },
+  {
+    path: "achievements",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Achievements />
+      </Suspense>
+    )
+  },
+  {
+    path: "recommendations",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Recommendations />
+      </Suspense>
+    )
+  },
+  // Teacher Routes
+  {
+    path: "classes",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Classes />
+      </Suspense>
+    )
+  },
+  {
+    path: "content",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <ContentLibrary />
+      </Suspense>
+    )
+  },
+  {
+    path: "analytics",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Analytics />
+      </Suspense>
+    )
+  },
+  {
+    path: "students",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Students />
+      </Suspense>
+    )
+  },
+  // Admin Routes
+  {
+    path: "users",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Users />
+      </Suspense>
+    )
+  },
+  {
+    path: "settings",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Settings />
+      </Suspense>
+    )
+  },
+  {
+    path: "billing",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Billing />
+      </Suspense>
+    )
+  },
+  // Shared Routes
+  {
+    path: "profile",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <Profile />
       </Suspense>
     )
   },

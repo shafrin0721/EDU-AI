@@ -1,5 +1,6 @@
-import { motion } from "framer-motion"
-import { cn } from "@/utils/cn"
+import { motion } from "framer-motion";
+import { cn } from "@/utils/cn";
+import React from "react";
 
 const ProgressBar = ({ 
   value = 0, 
@@ -51,7 +52,7 @@ const ProgressBar = ({
           />
         )}
       </div>
-    </div>
+</div>
   )
 }
 
