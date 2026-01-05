@@ -31,7 +31,7 @@ const ModuleDetail = () => {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Mock module data
+// Mock module data with YouTube video integration
         const mockModule = {
           id: moduleId,
           title: 'Introduction to Machine Learning',
@@ -42,6 +42,16 @@ const ModuleDetail = () => {
           rating: 4.8,
           studentsEnrolled: 1234,
           progress: 65,
+          content: {
+            type: 'video',
+            videoUrl: 'https://www.youtube.com/embed/ukzFI9rgwfU',
+            videoAttribution: {
+              creator: 'Zach Galbraith',
+              channel: 'ZachGalbraith',
+              title: 'Machine Learning Explained',
+              originalUrl: 'https://www.youtube.com/watch?v=ukzFI9rgwfU'
+            }
+          },
           lessons: [
             { id: 1, title: 'What is Machine Learning?', duration: '15 min', completed: true },
             { id: 2, title: 'Types of Machine Learning', duration: '20 min', completed: true },
@@ -157,7 +167,7 @@ const ModuleDetail = () => {
   if (error) return <ErrorView message={error} />;
   if (!module) return <ErrorView message="Module not found" />;
 
-  const completedLessons = module.lessons.filter(lesson => lesson.completed).length;
+const completedLessons = module.lessons.filter(lesson => lesson.completed).length;
   const progressPercentage = (completedLessons / module.lessons.length) * 100;
 
   return (
@@ -216,6 +226,64 @@ const ModuleDetail = () => {
             </div>
           </Card>
 
+{/* Video Player Section */}
+          {module.content?.videoUrl && (
+            <Card className="p-6 mb-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-gray-900">Module Video</h2>
+                  <Badge variant="primary">Educational Content</Badge>
+                </div>
+                
+                <div className="aspect-video w-full bg-gray-100 rounded-lg overflow-hidden">
+                  <iframe
+                    src={module.content.videoUrl}
+                    title={module.content.videoAttribution?.title || module.title}
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                
+                {/* Video Attribution */}
+                {module.content.videoAttribution && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start space-x-3">
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <Play className="h-4 w-4 text-blue-600" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-blue-900 mb-1">
+                          Video Credits & Attribution
+                        </div>
+                        <div className="text-sm text-blue-700 space-y-1">
+                          <div><strong>Creator:</strong> {module.content.videoAttribution.creator}</div>
+                          <div><strong>Channel:</strong> {module.content.videoAttribution.channel}</div>
+                          <div><strong>Original Video:</strong> 
+                            <a 
+                              href={module.content.videoAttribution.originalUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="ml-1 text-blue-600 hover:underline font-medium"
+                            >
+                              Watch on YouTube
+                            </a>
+                          </div>
+                        </div>
+                        <div className="mt-2 text-xs text-blue-600">
+                          This video is used for educational purposes with full attribution to the original creator.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+
           {/* Current Lesson */}
           {currentLesson >= 0 && (
             <Card className="p-6">
@@ -228,7 +296,7 @@ const ModuleDetail = () => {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-medium text-gray-900 mb-2">
                     {module.lessons[currentLesson]?.title}
-</h3>
+                  </h3>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-sm text-gray-500">
                       <Clock className="h-4 w-4" />
@@ -259,7 +327,7 @@ const ModuleDetail = () => {
                         <Button 
                           size="sm" 
                           variant="outline"
-onClick={() => navigateToLesson(currentLesson - 1)}
+                          onClick={() => navigateToLesson(currentLesson - 1)}
                         >
                           Previous
                         </Button>
@@ -268,7 +336,7 @@ onClick={() => navigateToLesson(currentLesson - 1)}
                       {currentLesson < module.lessons.length - 1 && (
                         <Button 
                           size="sm" 
-variant="outline"
+                          variant="outline"
                           onClick={() => navigateToLesson(currentLesson + 1)}
                         >
                           Next
@@ -279,6 +347,7 @@ variant="outline"
                 </div>
               </div>
             </Card>
+          )}
           )}
         </div>
 

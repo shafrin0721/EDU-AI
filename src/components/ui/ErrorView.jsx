@@ -23,13 +23,21 @@ const ErrorView = ({
           />
         </motion.div>
         
-        <div className="space-y-2">
+<div className="space-y-2">
           <h3 className="text-xl font-semibold text-gray-900">
             Oops! Something went wrong
           </h3>
           <p className="text-gray-500 leading-relaxed">
             {message}
           </p>
+          {message.toLowerCase().includes('video') && (
+            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Video Content:</strong> All videos are sourced from YouTube with proper attribution to respect copyright. 
+                If you're experiencing video loading issues, please check your internet connection or try refreshing the page.
+              </p>
+            </div>
+          )}
         </div>
 
         {showRetry && onRetry && (
@@ -44,8 +52,11 @@ const ErrorView = ({
           </motion.button>
         )}
 
-        <div className="text-xs text-gray-400">
-          If this problem persists, please contact support
+<div className="text-xs text-gray-400 space-y-1">
+          <div>If this problem persists, please contact support</div>
+          <div className="text-xs text-gray-300">
+            Videos are provided with full attribution to their original creators
+          </div>
         </div>
       </div>
     </div>

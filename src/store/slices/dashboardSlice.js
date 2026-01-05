@@ -24,6 +24,22 @@ const initialState = {
     recommendations: [],
     difficultyLevel: 'intermediate',
     lastUpdate: null
+  },
+  videoPlayer: {
+    currentVideoId: null,
+    isPlaying: false,
+    currentTime: 0,
+    watchedPercentage: 0,
+    fullscreen: false,
+    volume: 1,
+    playbackRate: 1,
+    attribution: null,
+    analytics: {
+      startTime: null,
+      totalWatchTime: 0,
+      interactionCount: 0,
+      seekEvents: []
+    }
   }
 }
 
