@@ -412,9 +412,8 @@ handleProfileChange('expertise', profile.expertise.filter((_, i) => i !== index)
           ) : (
             <p className="text-gray-500">No skills added yet</p>
           )}
-        </div>
+</div>
       </Card>
-</Card>
     </div>
   );
 };
