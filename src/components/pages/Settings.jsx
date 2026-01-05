@@ -7,7 +7,7 @@ import Card from "@/components/atoms/Card";
 import Input from "@/components/atoms/Input";
 import Badge from "@/components/atoms/Badge";
 import Loading from "@/components/ui/Loading";
-import { userService } from "@/services/api/userService";
+import userService from "@/services/api/userService";
 import Profile from "@/components/pages/Profile";
 
 const Settings = () => {
