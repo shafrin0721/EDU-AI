@@ -11,7 +11,7 @@ import Badge from '@/components/atoms/Badge';
 import Loading from '@/components/ui/Loading';
 import ProgressRing from '@/components/molecules/ProgressRing';
 import StatCard from '@/components/molecules/StatCard';
-import { courseService } from '@/services/api/courseService';
+import courseService from '@/services/api/courseService';
 import { enrollmentService } from '@/services/api/enrollmentService';
 import { learningSessionService } from '@/services/api/learningSessionService';
 import { achievementService } from '@/services/api/achievementService';
