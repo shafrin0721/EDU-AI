@@ -131,4 +131,3 @@ async getModuleProgress(moduleId, studentId) {
 }
 
 export default new ModuleService()
-export default new ModuleService()
