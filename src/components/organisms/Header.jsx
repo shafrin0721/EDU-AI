@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 import { toggleSidebar } from "@/store/slices/dashboardSlice";
 import { logout } from "@/store/slices/authSlice";
 import Settings from "@/components/pages/Settings";
 import Profile from "@/components/pages/Profile";
-
 const Header = ({ title, className }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
