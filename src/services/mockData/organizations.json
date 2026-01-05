@@ -1,0 +1,46 @@
+[
+  {
+    "Id": 1,
+    "name": "Global University",
+    "domain": "university.edu",
+    "subscription": {
+      "plan": "enterprise",
+      "status": "active",
+      "userLimit": 10000,
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    "settings": {
+      "aiEnabled": true,
+      "adaptiveLearning": true,
+      "analyticsLevel": "advanced",
+      "branding": {
+        "primaryColor": "#4F46E5",
+        "logo": "/api/placeholder/200/60"
+      }
+    },
+    "createdAt": "2023-01-15T08:00:00Z",
+    "updatedAt": "2024-01-10T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "TechCorp Training",
+    "domain": "techcorp.com",
+    "subscription": {
+      "plan": "professional",
+      "status": "active",
+      "userLimit": 500,
+      "expiresAt": "2024-06-30T23:59:59Z"
+    },
+    "settings": {
+      "aiEnabled": true,
+      "adaptiveLearning": true,
+      "analyticsLevel": "standard",
+      "branding": {
+        "primaryColor": "#059669",
+        "logo": "/api/placeholder/200/60"
+      }
+    },
+    "createdAt": "2023-03-22T10:15:00Z",
+    "updatedAt": "2024-01-05T16:45:00Z"
+  }
+]

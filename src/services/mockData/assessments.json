@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "moduleId": "4",
+    "studentId": "1", 
+    "questions": [
+      {
+        "id": 1,
+        "question": "What type of learning uses labeled data?",
+        "options": ["Supervised", "Unsupervised", "Reinforcement", "Deep"],
+        "studentAnswer": 0,
+        "correct": 0,
+        "timeSpent": 15
+      },
+      {
+        "id": 2,
+        "question": "Linear regression is used for:",
+        "options": ["Classification", "Clustering", "Regression", "Dimensionality Reduction"],
+        "studentAnswer": 2,
+        "correct": 2,
+        "timeSpent": 12
+      }
+    ],
+    "answers": {
+      "1": 0,
+      "2": 2
+    },
+    "score": 100,
+    "timeSpent": 27,
+    "attemptNumber": 1,
+    "aiAnalysis": {
+      "strengthAreas": ["supervised-learning", "regression-concepts"],
+      "improvementAreas": [],
+      "recommendedNextSteps": ["advanced-regression", "classification-intro"],
+      "confidenceLevel": 0.92,
+      "adaptationSuggestions": [
+        {
+          "type": "difficulty_increase",
+          "module": "5",
+          "reason": "perfect_score"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-14T15:45:00Z"
+  },
+  {
+    "Id": 2,
+    "moduleId": "4",
+    "studentId": "1",
+    "questions": [
+      {
+        "id": 3,
+        "question": "Which algorithm is best for clustering?",
+        "options": ["Linear Regression", "K-Means", "Decision Tree", "SVM"],
+        "studentAnswer": 1,
+        "correct": 1,
+        "timeSpent": 18
+      },
+      {
+        "id": 4, 
+        "question": "What is overfitting?",
+        "options": ["Perfect accuracy", "Model too complex", "Insufficient data", "All correct"],
+        "studentAnswer": 3,
+        "correct": 1,
+        "timeSpent": 25
+      }
+    ],
+    "answers": {
+      "3": 1,
+      "4": 3
+    },
+    "score": 50,
+    "timeSpent": 43,
+    "attemptNumber": 1,
+    "aiAnalysis": {
+      "strengthAreas": ["clustering-concepts"],
+      "improvementAreas": ["overfitting-concept", "model-complexity"],
+      "recommendedNextSteps": ["model-validation", "bias-variance-tradeoff"],
+      "confidenceLevel": 0.65,
+      "adaptationSuggestions": [
+        {
+          "type": "remedial_content",
+          "topic": "overfitting",
+          "reason": "knowledge_gap"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-13T14:20:00Z"
+  }
+]

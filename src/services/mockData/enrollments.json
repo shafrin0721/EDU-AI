@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "studentId": "1",
+    "courseId": "1", 
+    "status": "active",
+    "progress": 68,
+    "startedAt": "2024-01-08T08:00:00Z",
+    "completedAt": null,
+    "adaptiveProfile": {
+      "learningVelocity": 1.2,
+      "skillLevels": {
+        "machinelearning": 6,
+        "python": 7,
+        "statistics": 5
+      },
+      "engagementPattern": {
+        "averageSessionLength": 45,
+        "preferredTimeSlots": [9, 10, 14, 15],
+        "dropoffRate": 0.15
+      },
+      "recommendedDifficulty": 5,
+      "lastAdaptation": "2024-01-15T10:30:00Z"
+    }
+  },
+  {
+    "Id": 2,
+    "studentId": "1",
+    "courseId": "3",
+    "status": "active", 
+    "progress": 32,
+    "startedAt": "2024-01-02T08:00:00Z",
+    "completedAt": null,
+    "adaptiveProfile": {
+      "learningVelocity": 0.9,
+      "skillLevels": {
+        "algorithms": 4,
+        "datastructures": 5,
+        "programming": 7
+      },
+      "engagementPattern": {
+        "averageSessionLength": 38,
+        "preferredTimeSlots": [19, 20, 21],
+        "dropoffRate": 0.22
+      },
+      "recommendedDifficulty": 4,
+      "lastAdaptation": "2024-01-14T20:15:00Z"
+    }
+  },
+  {
+    "Id": 3,
+    "studentId": "1", 
+    "courseId": "2",
+    "status": "completed",
+    "progress": 100,
+    "startedAt": "2023-11-15T08:00:00Z",
+    "completedAt": "2023-12-28T16:30:00Z",
+    "adaptiveProfile": {
+      "learningVelocity": 1.4,
+      "skillLevels": {
+        "react": 8,
+        "javascript": 8,
+        "frontend": 7
+      },
+      "engagementPattern": {
+        "averageSessionLength": 52,
+        "preferredTimeSlots": [10, 11, 15, 16],
+        "dropoffRate": 0.08
+      },
+      "recommendedDifficulty": 6,
+      "lastAdaptation": "2023-12-28T16:30:00Z"
+    }
+  }
+]

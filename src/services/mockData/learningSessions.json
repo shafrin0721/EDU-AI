@@ -1,0 +1,58 @@
+[
+  {
+    "Id": 1,
+    "studentId": "1",
+    "moduleId": "1",
+    "startTime": "2024-01-15T09:00:00Z",
+    "endTime": "2024-01-15T09:42:00Z",
+    "engagementMetrics": {
+      "clickCount": 23,
+      "pauseCount": 3,
+      "rewindCount": 1,
+      "speedChanges": 0,
+      "notesTaken": 2,
+      "attentionScore": 0.85
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.9,
+      "timeOnTask": 2520,
+      "strugglingConcepts": [],
+      "masteredConcepts": ["ml-definition", "ml-applications"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "difficulty_increase",
+        "reason": "high_performance",
+        "confidence": 0.85
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "studentId": "1", 
+    "moduleId": "2",
+    "startTime": "2024-01-15T10:30:00Z",
+    "endTime": "2024-01-15T11:15:00Z",
+    "engagementMetrics": {
+      "clickCount": 34,
+      "pauseCount": 7,
+      "rewindCount": 4,
+      "speedChanges": 1,
+      "notesTaken": 5,
+      "attentionScore": 0.72
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.65,
+      "timeOnTask": 2700,
+      "strugglingConcepts": ["unsupervised-learning"],
+      "masteredConcepts": ["supervised-learning"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "additional_practice",
+        "reason": "struggling_concept",
+        "confidence": 0.78
+      }
+    ]
+  }
+]

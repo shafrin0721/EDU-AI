@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "organizationId": "org_001",
+    "teacherId": "2",
+    "title": "Introduction to Machine Learning",
+    "description": "Learn the fundamentals of machine learning including supervised and unsupervised learning, neural networks, and practical applications.",
+    "difficulty": "intermediate",
+    "modules": [1, 2, 3, 4, 5],
+    "learningObjectives": [
+      "Understand basic ML concepts and terminology",
+      "Implement simple ML algorithms",
+      "Evaluate model performance",
+      "Apply ML to real-world problems"
+    ],
+    "metadata": {
+      "duration": 480,
+      "category": "Computer Science",
+      "tags": ["machine-learning", "python", "data-science"],
+      "thumbnail": "/api/placeholder/300/200",
+      "enrollmentCount": 156
+    },
+    "isPublished": true,
+    "createdAt": "2023-08-20T08:00:00Z"
+  },
+  {
+    "Id": 2,
+    "organizationId": "org_001", 
+    "teacherId": "2",
+    "title": "Advanced React Development",
+    "description": "Master advanced React concepts including hooks, context, performance optimization, and modern development patterns.",
+    "difficulty": "advanced",
+    "modules": [6, 7, 8, 9],
+    "learningObjectives": [
+      "Master React hooks and context",
+      "Optimize React application performance",
+      "Implement complex state management",
+      "Build scalable React applications"
+    ],
+    "metadata": {
+      "duration": 360,
+      "category": "Web Development",
+      "tags": ["react", "javascript", "frontend"],
+      "thumbnail": "/api/placeholder/300/200",
+      "enrollmentCount": 89
+    },
+    "isPublished": true,
+    "createdAt": "2023-09-15T08:00:00Z"
+  },
+  {
+    "Id": 3,
+    "organizationId": "org_001",
+    "teacherId": "2", 
+    "title": "Data Structures and Algorithms",
+    "description": "Comprehensive course covering essential data structures and algorithms with practical implementations and problem-solving techniques.",
+    "difficulty": "intermediate",
+    "modules": [10, 11, 12, 13, 14],
+    "learningObjectives": [
+      "Implement fundamental data structures",
+      "Understand algorithm complexity",
+      "Solve coding problems efficiently",
+      "Apply algorithms to real scenarios"
+    ],
+    "metadata": {
+      "duration": 600,
+      "category": "Computer Science",
+      "tags": ["algorithms", "data-structures", "programming"],
+      "thumbnail": "/api/placeholder/300/200",
+      "enrollmentCount": 234
+    },
+    "isPublished": true,
+    "createdAt": "2023-07-10T08:00:00Z"
+  }
+]

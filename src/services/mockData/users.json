@@ -1,0 +1,88 @@
+[
+  {
+    "Id": 1,
+    "organizationId": "org_001",
+    "email": "alex.chen@university.edu",
+    "role": "student",
+    "profile": {
+      "firstName": "Alex",
+      "lastName": "Chen",
+      "avatar": "/api/placeholder/40/40",
+      "timezone": "UTC-8",
+      "learningStreak": 15,
+      "totalPoints": 2450,
+      "level": 8
+    },
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "push": true,
+        "achievements": true,
+        "reminders": true
+      },
+      "learning": {
+        "preferredDifficulty": "intermediate",
+        "studyHours": [9, 10, 11, 14, 15, 16, 19, 20],
+        "contentTypes": ["video", "interactive", "text"]
+      }
+    },
+    "createdAt": "2023-09-01T08:00:00Z",
+    "lastActive": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "organizationId": "org_001",
+    "email": "sarah.johnson@university.edu",
+    "role": "teacher",
+    "profile": {
+      "firstName": "Sarah",
+      "lastName": "Johnson",
+      "avatar": "/api/placeholder/40/40",
+      "timezone": "UTC-8",
+      "department": "Computer Science",
+      "title": "Assistant Professor"
+    },
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "push": true,
+        "studentProgress": true,
+        "contentUpdates": true
+      },
+      "dashboard": {
+        "defaultView": "class-analytics",
+        "studentsPerPage": 25
+      }
+    },
+    "createdAt": "2023-08-15T08:00:00Z",
+    "lastActive": "2024-01-15T16:45:00Z"
+  },
+  {
+    "Id": 3,
+    "organizationId": "org_001",
+    "email": "michael.admin@university.edu",
+    "role": "admin",
+    "profile": {
+      "firstName": "Michael",
+      "lastName": "Roberts",
+      "avatar": "/api/placeholder/40/40",
+      "timezone": "UTC-8",
+      "department": "IT Administration",
+      "title": "Learning Platform Administrator"
+    },
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "push": false,
+        "systemAlerts": true,
+        "billing": true
+      },
+      "dashboard": {
+        "defaultView": "organization-overview",
+        "reportFrequency": "weekly"
+      }
+    },
+    "createdAt": "2023-07-01T08:00:00Z",
+    "lastActive": "2024-01-15T09:15:00Z"
+  }
+]

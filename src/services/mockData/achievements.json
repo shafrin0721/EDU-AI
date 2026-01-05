@@ -1,0 +1,76 @@
+[
+  {
+    "Id": 1,
+    "studentId": "1",
+    "type": "streak",
+    "title": "Learning Streak Master",
+    "description": "Maintained a 15-day learning streak",
+    "earnedAt": "2024-01-15T10:30:00Z",
+    "metadata": {
+      "streakLength": 15,
+      "icon": "flame",
+      "color": "orange",
+      "points": 150
+    }
+  },
+  {
+    "Id": 2,
+    "studentId": "1",
+    "type": "course_completion",
+    "title": "React Expert",
+    "description": "Completed Advanced React Development course",
+    "earnedAt": "2023-12-28T16:30:00Z",
+    "metadata": {
+      "courseId": "2",
+      "courseName": "Advanced React Development",
+      "icon": "trophy",
+      "color": "gold",
+      "points": 500
+    }
+  },
+  {
+    "Id": 3,
+    "studentId": "1",
+    "type": "skill_mastery",
+    "title": "JavaScript Ninja",
+    "description": "Achieved mastery level in JavaScript",
+    "earnedAt": "2023-12-15T12:00:00Z", 
+    "metadata": {
+      "skill": "javascript",
+      "level": 8,
+      "icon": "star",
+      "color": "blue",
+      "points": 300
+    }
+  },
+  {
+    "Id": 4,
+    "studentId": "1",
+    "type": "assessment",
+    "title": "Perfect Score",
+    "description": "Scored 100% on ML Fundamentals quiz",
+    "earnedAt": "2024-01-14T15:45:00Z",
+    "metadata": {
+      "assessmentId": "1",
+      "score": 100,
+      "icon": "target",
+      "color": "green",
+      "points": 100
+    }
+  },
+  {
+    "Id": 5,
+    "studentId": "1",
+    "type": "engagement",
+    "title": "Early Bird",
+    "description": "Completed 10 morning learning sessions",
+    "earnedAt": "2024-01-10T09:30:00Z",
+    "metadata": {
+      "sessionCount": 10,
+      "timeSlot": "morning",
+      "icon": "sunrise",
+      "color": "yellow",
+      "points": 75
+    }
+  }
+]

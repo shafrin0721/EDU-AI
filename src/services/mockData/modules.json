@@ -1,0 +1,157 @@
+[
+  {
+    "Id": 1,
+    "courseId": "1",
+    "title": "What is Machine Learning?",
+    "content": {
+      "type": "video",
+      "videoUrl": "/api/placeholder/video",
+      "transcript": "Introduction to machine learning concepts...",
+      "slides": [
+        {
+          "title": "Definition",
+          "content": "Machine Learning is a subset of artificial intelligence..."
+        }
+      ]
+    },
+    "contentType": "video",
+    "difficulty": 3,
+    "estimatedTime": 45,
+    "prerequisites": [],
+    "learningObjectives": [
+      "Define machine learning",
+      "Identify ML applications"
+    ],
+    "sequence": 1
+  },
+  {
+    "Id": 2,
+    "courseId": "1",
+    "title": "Types of Machine Learning",
+    "content": {
+      "type": "interactive",
+      "sections": [
+        {
+          "title": "Supervised Learning",
+          "content": "Learning with labeled examples...",
+          "examples": ["Classification", "Regression"]
+        },
+        {
+          "title": "Unsupervised Learning", 
+          "content": "Finding patterns in unlabeled data...",
+          "examples": ["Clustering", "Dimensionality Reduction"]
+        }
+      ]
+    },
+    "contentType": "exercise",
+    "difficulty": 4,
+    "estimatedTime": 60,
+    "prerequisites": [1],
+    "learningObjectives": [
+      "Distinguish ML types",
+      "Choose appropriate ML approach"
+    ],
+    "sequence": 2
+  },
+  {
+    "Id": 3,
+    "courseId": "1",
+    "title": "Linear Regression Basics",
+    "content": {
+      "type": "text",
+      "sections": [
+        {
+          "title": "Introduction",
+          "content": "Linear regression is one of the simplest ML algorithms..."
+        },
+        {
+          "title": "Mathematical Foundation",
+          "content": "The linear regression equation: y = mx + b..."
+        }
+      ]
+    },
+    "contentType": "text",
+    "difficulty": 5,
+    "estimatedTime": 75,
+    "prerequisites": [1, 2],
+    "learningObjectives": [
+      "Understand linear regression",
+      "Implement basic regression"
+    ],
+    "sequence": 3
+  },
+  {
+    "Id": 4,
+    "courseId": "1",
+    "title": "ML Quiz: Fundamentals",
+    "content": {
+      "type": "quiz",
+      "questions": [
+        {
+          "id": 1,
+          "question": "What type of learning uses labeled data?",
+          "options": ["Supervised", "Unsupervised", "Reinforcement", "Deep"],
+          "correct": 0,
+          "explanation": "Supervised learning requires labeled training data."
+        },
+        {
+          "id": 2,
+          "question": "Linear regression is used for:",
+          "options": ["Classification", "Clustering", "Regression", "Dimensionality Reduction"],
+          "correct": 2,
+          "explanation": "Linear regression predicts continuous values."
+        }
+      ]
+    },
+    "contentType": "quiz",
+    "difficulty": 4,
+    "estimatedTime": 30,
+    "prerequisites": [1, 2, 3],
+    "learningObjectives": [
+      "Test ML fundamentals knowledge"
+    ],
+    "sequence": 4
+  },
+  {
+    "Id": 5,
+    "courseId": "1",
+    "title": "Hands-on: Build Your First Model",
+    "content": {
+      "type": "exercise",
+      "instructions": "Follow these steps to build a simple linear regression model...",
+      "codeTemplate": "import pandas as pd\nimport numpy as np\n# Your code here",
+      "expectedOutput": "Model accuracy: 85.3%"
+    },
+    "contentType": "exercise", 
+    "difficulty": 6,
+    "estimatedTime": 90,
+    "prerequisites": [1, 2, 3],
+    "learningObjectives": [
+      "Build ML model from scratch",
+      "Evaluate model performance"
+    ],
+    "sequence": 5
+  },
+  {
+    "Id": 6,
+    "courseId": "2",
+    "title": "Advanced React Hooks",
+    "content": {
+      "type": "video",
+      "videoUrl": "/api/placeholder/video",
+      "transcript": "Deep dive into useEffect, useContext, useReducer...",
+      "codeExamples": [
+        "const [state, dispatch] = useReducer(reducer, initialState);"
+      ]
+    },
+    "contentType": "video",
+    "difficulty": 7,
+    "estimatedTime": 85,
+    "prerequisites": [],
+    "learningObjectives": [
+      "Master complex hooks",
+      "Manage advanced state patterns"
+    ],
+    "sequence": 1
+  }
+]
