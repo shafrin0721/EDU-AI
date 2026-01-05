@@ -201,4 +201,6 @@ async updateModuleContent(moduleId, contentData) {
   }
 }
 
-export default new ModuleService()
+const moduleService = new ModuleService()
+export { moduleService }
+export default moduleService
