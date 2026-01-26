@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
+import AppIcon from '@/components/AppIcon';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import ProgressBar from '@/components/atoms/ProgressBar';
@@ -188,7 +188,7 @@ const StudentDashboard = () => {
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-                    <ApperIcon name="BookOpen" size={20} className="mr-2" />
+                    <AppIcon name="BookOpen" size={20} className="mr-2" />
                     My Courses ({enrollments.length})
                   </h2>
                   <Button
@@ -204,7 +204,7 @@ const StudentDashboard = () => {
                 {enrollments.length === 0 ? (
                   <div className="text-center py-12 space-y-4">
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="BookOpen" size={24} className="text-gray-400" />
+                      <AppIcon name="BookOpen" size={24} className="text-gray-400" />
                     </div>
                     <h3 className="text-lg font-medium text-gray-900">No courses yet</h3>
                     <p className="text-gray-600">Start your learning journey by enrolling in a course!</p>
@@ -229,7 +229,7 @@ const StudentDashboard = () => {
                         >
                           <div className="flex items-center space-x-4 flex-1">
                             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                              <ApperIcon name="GraduationCap" size={20} className="text-white" />
+                              <AppIcon name="GraduationCap" size={20} className="text-white" />
                             </div>
                             
                             <div className="flex-1 min-w-0">
@@ -255,7 +255,7 @@ const StudentDashboard = () => {
                             {enrollment.Progress === 100 && (
                               <Badge variant="success">Completed</Badge>
                             )}
-                            <ApperIcon name="ChevronRight" size={16} className="text-gray-400" />
+                            <AppIcon name="ChevronRight" size={16} className="text-gray-400" />
                           </div>
                         </motion.div>
                       );
@@ -283,14 +283,14 @@ const StudentDashboard = () => {
             >
               <Card className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                  <ApperIcon name="Activity" size={20} className="mr-2" />
+                  <AppIcon name="Activity" size={20} className="mr-2" />
                   Recent Activity
                 </h2>
 
                 {sessions.length === 0 ? (
                   <div className="text-center py-8 space-y-2">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="Clock" size={16} className="text-gray-400" />
+                      <AppIcon name="Clock" size={16} className="text-gray-400" />
                     </div>
                     <p className="text-gray-600">No recent activity</p>
                   </div>
@@ -346,7 +346,7 @@ const StudentDashboard = () => {
             >
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-6 flex items-center">
-                  <ApperIcon name="Trophy" size={16} className="mr-2" />
+                  <AppIcon name="Trophy" size={16} className="mr-2" />
                   Your Progress
                 </h3>
 
@@ -405,7 +405,7 @@ const StudentDashboard = () => {
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center justify-between">
                   <span className="flex items-center">
-                    <ApperIcon name="Award" size={16} className="mr-2" />
+                    <AppIcon name="Award" size={16} className="mr-2" />
                     Badges ({achievements.length})
                   </span>
                   <Button
@@ -420,7 +420,7 @@ const StudentDashboard = () => {
                 {achievements.length === 0 ? (
                   <div className="text-center py-4 space-y-2">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="Award" size={16} className="text-gray-400" />
+                      <AppIcon name="Award" size={16} className="text-gray-400" />
                     </div>
                     <p className="text-sm text-gray-600">No badges yet</p>
                     <p className="text-xs text-gray-500">Complete activities to earn your first badge!</p>
@@ -458,7 +458,7 @@ const StudentDashboard = () => {
             >
               <Card className="p-6 ai-card">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Brain" size={16} className="mr-2 text-purple-600" />
+                  <AppIcon name="Brain" size={16} className="mr-2 text-purple-600" />
                   AI Recommendations
                 </h3>
 <div className="space-y-3 text-sm">

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
+import AppIcon from '@/components/AppIcon';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import Badge from '@/components/atoms/Badge';
@@ -271,7 +271,7 @@ const AdminDashboard = () => {
               >
                 <Card className="p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                    <ApperIcon name="AlertCircle" size={20} className="mr-2 text-orange-500" />
+                    <AppIcon name="AlertCircle" size={20} className="mr-2 text-orange-500" />
                     Pending Approvals
                   </h2>
 
@@ -372,7 +372,7 @@ const AdminDashboard = () => {
             >
               <Card className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                  <ApperIcon name="BarChart" size={20} className="mr-2" />
+                  <AppIcon name="BarChart" size={20} className="mr-2" />
                   Platform Analytics
                 </h2>
 
@@ -412,14 +412,14 @@ const AdminDashboard = () => {
             >
               <Card className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                  <ApperIcon name="Activity" size={20} className="mr-2" />
+                  <AppIcon name="Activity" size={20} className="mr-2" />
                   Recent Platform Activity
                 </h2>
 
                 {recentActivity.length === 0 ? (
                   <div className="text-center py-8 space-y-2">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="Clock" size={16} className="text-gray-400" />
+                      <AppIcon name="Clock" size={16} className="text-gray-400" />
                     </div>
                     <p className="text-gray-600">No recent activity</p>
                   </div>
@@ -474,7 +474,7 @@ const AdminDashboard = () => {
             >
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Zap" size={16} className="mr-2" />
+                  <AppIcon name="Zap" size={16} className="mr-2" />
                   Quick Actions
                 </h3>
                 
@@ -535,7 +535,7 @@ onClick={() => navigate('/analytics')}
             >
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Monitor" size={16} className="mr-2" />
+                  <AppIcon name="Monitor" size={16} className="mr-2" />
                   System Status
                 </h3>
 
@@ -571,7 +571,7 @@ onClick={() => navigate('/analytics')}
             >
               <Card className="p-6 ai-card">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Brain" size={16} className="mr-2 text-purple-600" />
+                  <AppIcon name="Brain" size={16} className="mr-2 text-purple-600" />
                   Platform Insights
                 </h3>
                 <div className="space-y-3 text-sm text-gray-600">

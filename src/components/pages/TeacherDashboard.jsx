@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import ProgressBar from "@/components/atoms/ProgressBar";
@@ -218,7 +218,7 @@ const TeacherDashboard = () => {
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-                    <ApperIcon name="BookOpen" size={20} className="mr-2" />
+                    <AppIcon name="BookOpen" size={20} className="mr-2" />
                     My Courses ({courses.length})
                   </h2>
                   <Button
@@ -234,7 +234,7 @@ const TeacherDashboard = () => {
                 {courses.length === 0 ? (
                   <div className="text-center py-12 space-y-4">
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="BookOpen" size={24} className="text-gray-400" />
+                      <AppIcon name="BookOpen" size={24} className="text-gray-400" />
                     </div>
                     <h3 className="text-lg font-medium text-gray-900">No courses yet</h3>
                     <p className="text-gray-600">Create your first course to start teaching!</p>
@@ -325,14 +325,14 @@ const TeacherDashboard = () => {
             >
               <Card className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                  <ApperIcon name="Activity" size={20} className="mr-2" />
+                  <AppIcon name="Activity" size={20} className="mr-2" />
                   Recent Student Activity
                 </h2>
 
                 {recentActivity.length === 0 ? (
                   <div className="text-center py-8 space-y-2">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="Clock" size={16} className="text-gray-400" />
+                      <AppIcon name="Clock" size={16} className="text-gray-400" />
                     </div>
                     <p className="text-gray-600">No recent activity</p>
                   </div>
@@ -387,7 +387,7 @@ const TeacherDashboard = () => {
             >
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Zap" size={16} className="mr-2" />
+                  <AppIcon name="Zap" size={16} className="mr-2" />
                   Quick Actions
                 </h3>
                 
@@ -448,14 +448,14 @@ const TeacherDashboard = () => {
             >
               <Card className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Trophy" size={16} className="mr-2" />
+                  <AppIcon name="Trophy" size={16} className="mr-2" />
                   Top Performers
                 </h3>
 
                 {students.length === 0 ? (
                   <div className="text-center py-4 space-y-2">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                      <ApperIcon name="Users" size={16} className="text-gray-400" />
+                      <AppIcon name="Users" size={16} className="text-gray-400" />
                     </div>
                     <p className="text-sm text-gray-600">No students yet</p>
                   </div>
@@ -506,7 +506,7 @@ const TeacherDashboard = () => {
             >
               <Card className="p-6 ai-card">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <ApperIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />
+                  <AppIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />
                   Teaching Tips
                 </h3>
                 <div className="space-y-3 text-sm text-gray-600">

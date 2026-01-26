@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 
 const Empty = ({ 
   title = "No data found",
@@ -18,7 +18,7 @@ const Empty = ({
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mx-auto w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center"
         >
-          <ApperIcon 
+          <AppIcon 
             name={icon} 
             size={32} 
             className="text-gray-400" 
@@ -49,7 +49,7 @@ const Empty = ({
             onClick={onAction}
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            <ApperIcon name="Plus" size={18} />
+            <AppIcon name="Plus" size={18} />
             <span>{actionLabel}</span>
           </motion.button>
         )}

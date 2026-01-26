@@ -10,6 +10,7 @@ const Layout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user, isAuthenticated } = useSelector(state => state.auth)
+  const { mode: theme } = useSelector(state => state.theme)
 
   // Restore authentication from localStorage on app load
   useEffect(() => {
@@ -33,6 +34,15 @@ const Layout = () => {
     }
   }, [isAuthenticated, navigate, dispatch])
 
+  // Apply theme to HTML element
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [theme])
+
   // Redirect to login if not authenticated
   if (!isAuthenticated || !user) {
     return null
@@ -51,14 +61,14 @@ const getPageTitle = () => {
     }
   }
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <div className="flex h-screen">
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header title={getPageTitle()} />
           
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
             <div className="h-full">
               <Outlet />
             </div>

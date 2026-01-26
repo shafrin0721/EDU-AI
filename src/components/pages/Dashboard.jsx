@@ -1,11 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import StudentDashboard from "@/components/pages/StudentDashboard";
 import TeacherDashboard from "@/components/pages/TeacherDashboard";
 import AdminDashboard from "@/components/pages/AdminDashboard";
 import Loading from "@/components/ui/Loading";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Empty from "@/components/ui/Empty";
 import Badge from "@/components/atoms/Badge";
 import Card from "@/components/atoms/Card";
@@ -96,7 +96,7 @@ const Dashboard = () => {
                         {course.isPublished ? "Published" : "Draft"}
                       </Badge>
                       <Button variant="ghost" size="sm">
-                        <ApperIcon name="MoreVertical" size={16} />
+                        <AppIcon name="MoreVertical" size={16} />
                       </Button>
                     </div>
                   </div>
@@ -108,7 +108,7 @@ const Dashboard = () => {
           <Card className="p-6">
             <h3 className="text-xl font-semibold text-gray-900 mb-6">Student Activity</h3>
             <div className="text-center py-8">
-              <ApperIcon name="Users" size={48} className="mx-auto mb-4 text-gray-300" />
+              <AppIcon name="Users" size={48} className="mx-auto mb-4 text-gray-300" />
               <p className="text-gray-500">Student analytics will appear here</p>
             </div>
           </Card>
@@ -187,7 +187,7 @@ const Dashboard = () => {
           <Card className="p-6">
             <h3 className="text-xl font-semibold text-gray-900 mb-6">Recent Activity</h3>
             <div className="text-center py-8">
-              <ApperIcon name="Activity" size={48} className="mx-auto mb-4 text-gray-300" />
+              <AppIcon name="Activity" size={48} className="mx-auto mb-4 text-gray-300" />
               <p className="text-gray-500">Activity logs will appear here</p>
             </div>
           </Card>

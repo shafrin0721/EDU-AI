@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+﻿import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { motion } from "framer-motion"
@@ -8,7 +8,7 @@ import StatCard from "@/components/molecules/StatCard"
 import Card from "@/components/atoms/Card"
 import Badge from "@/components/atoms/Badge"
 import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 import Loading from "@/components/ui/Loading"
 import ErrorView from "@/components/ui/ErrorView"
 import Empty from "@/components/ui/Empty"
@@ -220,10 +220,10 @@ const Progress = () => {
               <h3 className="text-xl font-semibold text-gray-900">Progress Over Time</h3>
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="sm">
-                  <ApperIcon name="Download" size={16} />
+                  <AppIcon name="Download" size={16} />
                 </Button>
                 <Button variant="ghost" size="sm">
-                  <ApperIcon name="MoreVertical" size={16} />
+                  <AppIcon name="MoreVertical" size={16} />
                 </Button>
               </div>
             </div>
@@ -253,7 +253,7 @@ const Progress = () => {
                   >
                     <div className="flex items-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg flex items-center justify-center">
-                        <ApperIcon name="BookOpen" size={20} className="text-primary-600" />
+                        <AppIcon name="BookOpen" size={20} className="text-primary-600" />
                       </div>
                       <div>
                         <h4 className="font-medium text-gray-900">{course.title}</h4>
@@ -346,7 +346,7 @@ const Progress = () => {
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                      <ApperIcon name={stat.icon} size={16} className={stat.color} />
+                      <AppIcon name={stat.icon} size={16} className={stat.color} />
                     </div>
                     <span className="text-sm text-gray-600">{stat.label}</span>
                   </div>

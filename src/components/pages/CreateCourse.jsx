@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
+import AppIcon from '@/components/AppIcon';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import Input from '@/components/atoms/Input';
@@ -163,7 +163,7 @@ const CreateCourse = () => {
         >
           <Card className="p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <ApperIcon name="BookOpen" size={20} className="mr-2" />
+              <AppIcon name="BookOpen" size={20} className="mr-2" />
               Basic Information
             </h2>
             
@@ -236,7 +236,7 @@ const CreateCourse = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                <ApperIcon name="Target" size={20} className="mr-2" />
+                <AppIcon name="Target" size={20} className="mr-2" />
                 Learning Objectives
               </h2>
               <Button
@@ -284,7 +284,7 @@ const CreateCourse = () => {
         >
           <Card className="p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <ApperIcon name="Settings" size={20} className="mr-2" />
+              <AppIcon name="Settings" size={20} className="mr-2" />
               Additional Details
             </h2>
             
@@ -355,7 +355,7 @@ const CreateCourse = () => {
           className="flex items-center justify-between pt-4"
         >
           <div className="text-sm text-gray-600">
-            <ApperIcon name="Info" size={16} className="inline mr-1" />
+            <AppIcon name="Info" size={16} className="inline mr-1" />
             Course will be saved as draft. You can publish it later.
           </div>
           

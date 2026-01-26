@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Card from "@/components/atoms/Card";
 import React from "react";
 
@@ -46,8 +46,8 @@ const StatCard = ({
   return (
 <Card hoverable className={cn("p-6", className)}>
       <div className="flex items-center space-x-4">
-        <div className={cn("p-3 rounded-lg", colors[color])}>
-          <ApperIcon name={icon} size={24} />
+          <div className={cn("p-3 rounded-lg", colors[color])}>
+          <AppIcon name={icon} size={24} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-gray-600 truncate">
@@ -67,7 +67,7 @@ const StatCard = ({
                 "flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium",
                 trendColors[trend]
               )}>
-                <ApperIcon 
+                <AppIcon 
                   name={trend === "up" ? "TrendingUp" : trend === "down" ? "TrendingDown" : "Minus"} 
                   size={12} 
                 />

@@ -1,4 +1,4 @@
-﻿import * as Icons from 'lucide-react';
+import * as Icons from 'lucide-react';
 
 const AppIcon = ({ name, ...props }) => {
     let IconComponent = Icons[name];

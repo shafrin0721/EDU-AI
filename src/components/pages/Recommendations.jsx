@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import Card from '@/components/atoms/Card'
 import Button from '@/components/atoms/Button'
 import Badge from '@/components/atoms/Badge'
-import ApperIcon from '@/components/ApperIcon'
+import AppIcon from '@/components/AppIcon'
 import Loading from '@/components/ui/Loading'
 import ErrorView from '@/components/ui/ErrorView'
 import courseService from '@/services/api/courseService'
@@ -216,7 +216,7 @@ export default function Recommendations() {
           <p className="text-gray-600">Personalized learning suggestions based on your performance</p>
         </div>
         <Button onClick={loadRecommendations} variant="outline" size="sm">
-          <ApperIcon name="RotateCcw" size={16} className="mr-2" />
+          <AppIcon name="RotateCcw" size={16} className="mr-2" />
           Refresh
         </Button>
       </div>
@@ -231,7 +231,7 @@ export default function Recommendations() {
           <Card className="p-6">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <ApperIcon name="TrendingUp" size={20} className="text-blue-600" />
+                <AppIcon name="TrendingUp" size={20} className="text-blue-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Performance Level</h3>
@@ -245,7 +245,7 @@ export default function Recommendations() {
           <Card className="p-6">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <ApperIcon name="Activity" size={20} className="text-purple-600" />
+                <AppIcon name="Activity" size={20} className="text-purple-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Engagement</h3>
@@ -259,7 +259,7 @@ export default function Recommendations() {
           <Card className="p-6">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-green-100 rounded-lg">
-                <ApperIcon name="Target" size={20} className="text-green-600" />
+                <AppIcon name="Target" size={20} className="text-green-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Recommended Focus</h3>
@@ -277,13 +277,13 @@ export default function Recommendations() {
         <div className="lg:col-span-2 space-y-6">
           <Card className="p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-              <ApperIcon name="Brain" size={20} className="mr-2 text-purple-600" />
+              <AppIcon name="Brain" size={20} className="mr-2 text-purple-600" />
               Personalized Recommendations
             </h2>
             
             {recommendations.length === 0 ? (
               <div className="text-center py-8">
-                <ApperIcon name="Sparkles" size={48} className="mx-auto text-gray-400 mb-4" />
+                <AppIcon name="Sparkles" size={48} className="mx-auto text-gray-400 mb-4" />
                 <p className="text-gray-600">Complete more modules to receive personalized recommendations</p>
               </div>
             ) : (
@@ -299,7 +299,7 @@ export default function Recommendations() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3">
                         <div className="p-2 bg-gray-100 rounded-lg">
-                          <ApperIcon name={rec.icon} size={16} className={getCategoryColor(rec.category)} />
+                          <AppIcon name={rec.icon} size={16} className={getCategoryColor(rec.category)} />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-1">
@@ -329,7 +329,7 @@ export default function Recommendations() {
           {/* Adaptive Modules */}
           <Card className="p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-              <ApperIcon name="BookOpen" size={20} className="mr-2 text-blue-600" />
+              <AppIcon name="BookOpen" size={20} className="mr-2 text-blue-600" />
               Recommended Modules
             </h2>
             
@@ -353,11 +353,11 @@ export default function Recommendations() {
                   {module.adaptiveMetadata && (
                     <div className="space-y-1">
                       <div className="flex items-center text-xs text-gray-500">
-                        <ApperIcon name="Clock" size={12} className="mr-1" />
+                        <AppIcon name="Clock" size={12} className="mr-1" />
                         Est. {module.adaptiveMetadata.estimatedCompletionTime} min
                       </div>
                       <div className="flex items-center text-xs text-gray-500">
-                        <ApperIcon name="Target" size={12} className="mr-1" />
+                        <AppIcon name="Target" size={12} className="mr-1" />
                         {module.adaptiveMetadata.difficultyAlignment} difficulty
                       </div>
                     </div>
@@ -373,7 +373,7 @@ export default function Recommendations() {
           {learningInsights && (
             <Card className="p-6 ai-card">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <ApperIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />
+                <AppIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />
                 Learning Insights
               </h3>
               
@@ -411,21 +411,21 @@ export default function Recommendations() {
 
           <Card className="p-6">
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-              <ApperIcon name="Zap" size={16} className="mr-2 text-yellow-600" />
+              <AppIcon name="Zap" size={16} className="mr-2 text-yellow-600" />
               Quick Actions
             </h3>
             
             <div className="space-y-3">
               <Button variant="outline" className="w-full justify-start">
-                <ApperIcon name="Play" size={16} className="mr-2" />
+                <AppIcon name="Play" size={16} className="mr-2" />
                 Start Recommended Module
               </Button>
               <Button variant="outline" className="w-full justify-start">
-                <ApperIcon name="BarChart3" size={16} className="mr-2" />
+                <AppIcon name="BarChart3" size={16} className="mr-2" />
                 View Progress Report
               </Button>
               <Button variant="outline" className="w-full justify-start">
-                <ApperIcon name="Settings" size={16} className="mr-2" />
+                <AppIcon name="Settings" size={16} className="mr-2" />
                 Adjust Learning Preferences
               </Button>
             </div>

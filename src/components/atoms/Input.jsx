@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 
 const Input = forwardRef(({ 
   className, 
@@ -20,8 +20,8 @@ const Input = forwardRef(({
       )}
       <div className="relative">
         {icon && iconPosition === "left" && (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <ApperIcon name={icon} size={16} className="text-gray-400" />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <AppIcon name={icon} size={16} className="text-gray-400" />
           </div>
         )}
         <input
@@ -37,14 +37,14 @@ const Input = forwardRef(({
           {...props}
         />
         {icon && iconPosition === "right" && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <ApperIcon name={icon} size={16} className="text-gray-400" />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <AppIcon name={icon} size={16} className="text-gray-400" />
           </div>
         )}
       </div>
       {error && (
         <p className="text-sm text-red-600 flex items-center space-x-1">
-          <ApperIcon name="AlertCircle" size={14} />
+          <AppIcon name="AlertCircle" size={14} />
           <span>{error}</span>
         </p>
       )}

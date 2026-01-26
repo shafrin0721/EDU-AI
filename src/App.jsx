@@ -1,13 +1,15 @@
-import { Provider } from "react-redux"
+import { Provider, useSelector } from "react-redux"
 import { RouterProvider } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import { router } from "./router"
 import { store } from "./store"
 import "react-toastify/dist/ReactToastify.css"
 
-function App() {
+function AppContent() {
+  const { mode: theme } = useSelector(state => state.theme)
+  
   return (
-    <Provider store={store}>
+    <>
       <RouterProvider router={router} />
       <ToastContainer
         position="top-right"
@@ -19,9 +21,17 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={theme}
         className="z-[9999]"
       />
+    </>
+  )
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <AppContent />
     </Provider>
   )
 }

@@ -6,7 +6,7 @@ import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Input from "@/components/atoms/Input";
 import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import { updateUserProfile } from "@/store/slices/authSlice";
 import userService from "@/services/api/userService";
 import Settings from "@/components/pages/Settings";

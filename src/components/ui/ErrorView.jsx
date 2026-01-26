@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 
 const ErrorView = ({ 
   message = "Something went wrong", 
@@ -16,7 +16,7 @@ const ErrorView = ({
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center"
         >
-          <ApperIcon 
+          <AppIcon 
             name="AlertCircle" 
             size={32} 
             className="text-red-600" 
@@ -47,7 +47,7 @@ const ErrorView = ({
             onClick={onRetry}
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            <ApperIcon name="RefreshCw" size={18} />
+            <AppIcon name="RefreshCw" size={18} />
             <span>Try Again</span>
           </motion.button>
         )}

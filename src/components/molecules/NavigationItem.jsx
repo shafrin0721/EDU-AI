@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { motion } from "framer-motion"
 import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 
 const NavigationItem = ({ 
   to, 
@@ -28,7 +28,7 @@ const NavigationItem = ({
       {({ isActive }) => (
         <>
           <div className="relative">
-            <ApperIcon 
+            <AppIcon 
               name={icon} 
               size={20} 
               className={cn(

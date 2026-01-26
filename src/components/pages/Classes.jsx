@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
+import AppIcon from '@/components/AppIcon';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import Badge from '@/components/atoms/Badge';
@@ -127,7 +127,7 @@ const Classes = () => {
       {classes.length === 0 ? (
         <Card className="p-12 text-center">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <ApperIcon name="BookOpen" size={24} className="text-gray-400" />
+            <AppIcon name="BookOpen" size={24} className="text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">No Classes Yet</h3>
           <p className="text-gray-600 mb-6">Start teaching by creating your first course</p>
@@ -213,7 +213,7 @@ const Classes = () => {
                         onClick={() => navigate(`/courses/${classItem.Id}/edit`)}
                         className="text-gray-400 hover:text-gray-600"
                       >
-                        <ApperIcon name="Settings" size={16} />
+                        <AppIcon name="Settings" size={16} />
                       </button>
                     </div>
                   </div>
@@ -242,7 +242,7 @@ const Classes = () => {
                   onClick={() => setSelectedClass(null)}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <ApperIcon name="X" size={20} />
+                  <AppIcon name="X" size={20} />
                 </button>
               </div>
             </div>
@@ -282,7 +282,7 @@ const Classes = () => {
                 
                 {getClassStudents(selectedClass).length === 0 && (
                   <div className="text-center py-8 text-gray-500">
-                    <ApperIcon name="Users" size={24} className="mx-auto mb-2" />
+                    <AppIcon name="Users" size={24} className="mx-auto mb-2" />
                     <p>No students enrolled yet</p>
                   </div>
                 )}

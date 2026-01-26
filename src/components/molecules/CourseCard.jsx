@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { useNavigate } from "react-router-dom";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
 import ProgressBar from "@/components/atoms/ProgressBar";
@@ -88,12 +88,12 @@ return (
         {/* Course Metadata */}
         <div className="flex items-center justify-between py-2">
           <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <div className="flex items-center space-x-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
-              <ApperIcon name="Clock" size={14} className="text-primary-500" />
+              <div className="flex items-center space-x-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
+              <AppIcon name="Clock" size={14} className="text-primary-500" />
               <span className="font-medium">{Math.round((course.metadata?.duration || 300) / 60)}h</span>
             </div>
             <div className="flex items-center space-x-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
-              <ApperIcon name="Users" size={14} className="text-primary-500" />
+              <AppIcon name="Users" size={14} className="text-primary-500" />
               <span className="font-medium">{course.metadata?.enrollmentCount || 0}</span>
             </div>
           </div>

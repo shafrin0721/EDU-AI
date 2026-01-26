@@ -7,7 +7,7 @@ import { login, clearError } from "@/store/slices/authSlice"
 import Card from "@/components/atoms/Card"
 import Input from "@/components/atoms/Input"
 import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 import userService from "@/services/api/userService"
 
 const Register = () => {
@@ -155,8 +155,8 @@ const Register = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-xl flex items-center justify-center">
-              <ApperIcon name="GraduationCap" size={28} className="text-white" />
+              <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-xl flex items-center justify-center">
+              <AppIcon name="GraduationCap" size={28} className="text-white" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
               EduAI
@@ -239,7 +239,7 @@ const Register = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  <ApperIcon name={showPassword ? "EyeOff" : "Eye"} size={18} />
+                  <AppIcon name={showPassword ? "EyeOff" : "Eye"} size={18} />
                 </button>
               </div>
             </div>
@@ -265,7 +265,7 @@ const Register = () => {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  <ApperIcon name={showConfirmPassword ? "EyeOff" : "Eye"} size={18} />
+                  <AppIcon name={showConfirmPassword ? "EyeOff" : "Eye"} size={18} />
                 </button>
               </div>
             </div>

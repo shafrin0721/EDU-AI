@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 import NavigationItem from "@/components/molecules/NavigationItem"
 import { toggleSidebar } from "@/store/slices/dashboardSlice"
 
@@ -50,7 +50,7 @@ return [
   const DesktopSidebar = () => (
     <div className="hidden lg:flex lg:flex-shrink-0">
       <div className={cn(
-        "flex flex-col bg-white border-r border-gray-200 transition-all duration-300",
+        "flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300",
         sidebarCollapsed ? "w-16" : "w-64"
       )}>
         <div className="flex items-center justify-between p-4">
@@ -63,7 +63,7 @@ return [
                 className="flex items-center space-x-3"
               >
                 <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-lg flex items-center justify-center">
-                  <ApperIcon name="GraduationCap" size={20} className="text-white" />
+                  <AppIcon name="GraduationCap" size={20} className="text-white" />
                 </div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                   EduAI
@@ -74,9 +74,9 @@ return [
           
           <button
             onClick={() => dispatch(toggleSidebar())}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
-            <ApperIcon 
+            <AppIcon 
               name={sidebarCollapsed ? "ChevronRight" : "ChevronLeft"} 
               size={16} 
             />
@@ -97,13 +97,13 @@ return [
           ))}
         </nav>
 
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <div className={cn(
-            "flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary-50 to-secondary-50",
+            "flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20",
             sidebarCollapsed && "justify-center"
           )}>
-            <div className="w-8 h-8 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center">
-              <ApperIcon name="Zap" size={16} className="text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center">
+              <AppIcon name="Zap" size={16} className="text-white" />
             </div>
             <AnimatePresence>
               {!sidebarCollapsed && (
@@ -142,12 +142,12 @@ return [
               animate={{ x: 0 }}
               exit={{ x: -320 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 bottom-0 w-80 bg-white z-50 flex flex-col shadow-xl"
+              className="fixed left-0 top-0 bottom-0 w-80 bg-white dark:bg-gray-800 z-50 flex flex-col shadow-xl"
             >
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-lg flex items-center justify-center">
-                    <ApperIcon name="GraduationCap" size={20} className="text-white" />
+                    <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-lg flex items-center justify-center">
+                    <AppIcon name="GraduationCap" size={20} className="text-white" />
                   </div>
                   <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                     EduAI
@@ -155,9 +155,9 @@ return [
                 </div>
                 <button
                   onClick={() => dispatch(toggleSidebar())}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <ApperIcon name="X" size={20} />
+                  <AppIcon name="X" size={20} />
                 </button>
               </div>
 
@@ -177,8 +177,8 @@ return [
 
               <div className="p-4 border-t border-gray-200">
                 <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary-50 to-secondary-50">
-                  <div className="w-8 h-8 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center">
-                    <ApperIcon name="Zap" size={16} className="text-white" />
+                    <div className="w-8 h-8 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center">
+                    <AppIcon name="Zap" size={16} className="text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900">AI Powered</p>

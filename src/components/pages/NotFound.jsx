@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom"
+﻿import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 import Button from "@/components/atoms/Button"
 
 const NotFound = () => {
@@ -23,7 +23,7 @@ const NotFound = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="absolute top-0 right-0 transform translate-x-4 -translate-y-4"
           >
-            <ApperIcon name="BookX" size={48} className="text-red-400" />
+            <AppIcon name="BookX" size={48} className="text-red-400" />
           </motion.div>
         </motion.div>
 
@@ -77,21 +77,21 @@ const NotFound = () => {
               onClick={() => navigate("/")} 
               className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
             >
-              <ApperIcon name="Home" size={16} />
+              <AppIcon name="Home" size={16} />
               <span>Dashboard</span>
             </button>
             <button 
               onClick={() => navigate("/courses")} 
               className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
             >
-              <ApperIcon name="BookOpen" size={16} />
+              <AppIcon name="BookOpen" size={16} />
               <span>Courses</span>
             </button>
             <button 
               onClick={() => navigate("/progress")} 
               className="flex items-center justify-center space-x-2 p-3 rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200 cursor-pointer"
             >
-              <ApperIcon name="TrendingUp" size={16} />
+              <AppIcon name="TrendingUp" size={16} />
               <span>Progress</span>
             </button>
           </div>

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import ProgressBar from "@/components/atoms/ProgressBar";
@@ -187,7 +187,7 @@ const CourseDetail = () => {
                                             <div className="flex items-center space-x-2">
                                                 <div
                                                     className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                                    <ApperIcon name="Clock" size={18} />
+                                                    <AppIcon name="Clock" size={18} />
                                                 </div>
                                                 <div>
                                                     <div className="text-white font-semibold">{estimatedHours}h</div>
@@ -197,7 +197,7 @@ const CourseDetail = () => {
                                             <div className="flex items-center space-x-2">
                                                 <div
                                                     className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                                    <ApperIcon name="BookOpen" size={18} />
+                                                    <AppIcon name="BookOpen" size={18} />
                                                 </div>
                                                 <div>
                                                     <div className="text-white font-semibold">{modules.length}</div>
@@ -207,7 +207,7 @@ const CourseDetail = () => {
                                             <div className="flex items-center space-x-2">
                                                 <div
                                                     className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                                    <ApperIcon name="Users" size={18} />
+                                                    <AppIcon name="Users" size={18} />
                                                 </div>
                                                 <div>
                                                     <div className="text-white font-semibold">2.5k+</div>
@@ -219,7 +219,7 @@ const CourseDetail = () => {
                                     <div className="flex flex-col items-center space-y-3 ml-8">
                                         <div
                                             className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                            <ApperIcon name="GraduationCap" size={32} />
+                                            <AppIcon name="GraduationCap" size={32} />
                                         </div>
                                         {isEnrolled && <div className="text-center">
                                             <div className="text-2xl font-bold">{progress}%</div>
@@ -265,7 +265,7 @@ const CourseDetail = () => {
                     }}>
                     <Card className="p-6">
                         <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                            <ApperIcon name="List" size={20} className="mr-2" />Course Modules
+                            <AppIcon name="List" size={20} className="mr-2" />Course Modules
                                             </h2>
                         <div className="space-y-4">
                             {modules.map((module, index) => {
@@ -301,7 +301,7 @@ const CourseDetail = () => {
                                             <div className="flex items-center space-x-4">
                                                 <div
                                                     className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? "bg-green-600 text-white" : isAccessible ? "bg-blue-600 text-white" : "bg-gray-400 text-white"}`}>
-                                                    {isCompleted ? <ApperIcon name="Check" size={16} /> : <span className="text-sm font-medium">{index + 1}</span>}
+                                                    {isCompleted ? <AppIcon name="Check" size={16} /> : <span className="text-sm font-medium">{index + 1}</span>}
                                                 </div>
                                                 <div>
                                                     <h3 className="font-semibold text-gray-900">
@@ -315,8 +315,8 @@ const CourseDetail = () => {
                                             <div className="flex items-center space-x-2">
                                                 {isCompleted && <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed
                                                                                   </span>}
-                                                {isAccessible && !isCompleted && <ApperIcon name="ChevronRight" size={16} className="text-gray-400" />}
-                                                {!isAccessible && !isCompleted && <ApperIcon name="Lock" size={16} className="text-gray-400" />}
+                                                {isAccessible && !isCompleted && <AppIcon name="ChevronRight" size={16} className="text-gray-400" />}
+                                                {!isAccessible && !isCompleted && <AppIcon name="Lock" size={16} className="text-gray-400" />}
                                             </div>
                                         </div>
                                     </motion.div>
@@ -344,15 +344,15 @@ const CourseDetail = () => {
                     <Card
                         className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200">
                         <h3 className="font-bold text-gray-900 mb-6 flex items-center">
-                            <ApperIcon name="BarChart3" size={20} className="mr-2 text-primary-600" />Course Overview
+                            <AppIcon name="BarChart3" size={20} className="mr-2 text-primary-600" />Course Overview
                                             </h3>
                         <div className="space-y-5">
                             <div
                                 className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border">
                                 <div className="flex items-center space-x-3">
-                                    <div
+                                        <div
                                         className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                        <ApperIcon name="BookOpen" size={16} className="text-primary-600" />
+                                        <AppIcon name="BookOpen" size={16} className="text-primary-600" />
                                     </div>
                                     <span className="text-gray-700 font-medium">Modules</span>
                                 </div>
@@ -361,9 +361,9 @@ const CourseDetail = () => {
                             <div
                                 className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border">
                                 <div className="flex items-center space-x-3">
-                                    <div
+                                        <div
                                         className="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
-                                        <ApperIcon name="Clock" size={16} className="text-accent-600" />
+                                        <AppIcon name="Clock" size={16} className="text-accent-600" />
                                     </div>
                                     <span className="text-gray-700 font-medium">Duration</span>
                                 </div>
@@ -372,9 +372,9 @@ const CourseDetail = () => {
                             <div
                                 className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border">
                                 <div className="flex items-center space-x-3">
-                                    <div
+                                        <div
                                         className="w-10 h-10 bg-secondary-100 rounded-full flex items-center justify-center">
-                                        <ApperIcon name="TrendingUp" size={16} className="text-secondary-600" />
+                                        <AppIcon name="TrendingUp" size={16} className="text-secondary-600" />
                                     </div>
                                     <span className="text-gray-700 font-medium">Level</span>
                                 </div>
@@ -383,7 +383,7 @@ const CourseDetail = () => {
                             {isEnrolled && <>
                                 <div className="border-t pt-4 mt-6">
                                     <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-                                        <ApperIcon name="Target" size={16} className="mr-2 text-green-600" />Your Progress
+                                        <AppIcon name="Target" size={16} className="mr-2 text-green-600" />Your Progress
                                                                 </h4>
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center">
@@ -417,7 +417,7 @@ const CourseDetail = () => {
                         }}>
                         <Card className="p-6 ai-card">
                             <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                                <ApperIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />AI Learning Tips
+                                <AppIcon name="Lightbulb" size={16} className="mr-2 text-purple-600" />AI Learning Tips
                                                 </h3>
                             <div className="space-y-3 text-sm text-gray-600">
                                 <p className="flex items-start space-x-2">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,7 +8,7 @@ import SearchBar from "@/components/molecules/SearchBar";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Loading from "@/components/ui/Loading";
 import ErrorView from "@/components/ui/ErrorView";
 import Empty from "@/components/ui/Empty";
@@ -254,7 +254,7 @@ return (
                     />
                     <div className="absolute top-4 left-4 z-10">
                       <Badge variant="success" size="sm" className="bg-green-600 text-white shadow-lg">
-                        <ApperIcon name="CheckCircle" size={12} className="mr-1" />
+                        <AppIcon name="CheckCircle" size={12} className="mr-1" />
                         Completed
                       </Badge>
                     </div>
@@ -364,7 +364,7 @@ filters={filters}
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-1">
-                        <ApperIcon name="Users" size={14} />
+                        <AppIcon name="Users" size={14} />
                         <span>{course.metadata?.enrollmentCount || 0}</span>
                       </div>
                       <Badge variant={course.difficulty === "beginner" ? "success" : course.difficulty === "intermediate" ? "warning" : "danger"} size="sm">
@@ -380,7 +380,7 @@ filters={filters}
                       className="flex-1"
                       onClick={() => handleEditCourse(course.Id)}
                     >
-                      <ApperIcon name="Edit" size={14} className="mr-1" />
+                      <AppIcon name="Edit" size={14} className="mr-1" />
                       Edit
                     </Button>
                     <Button 
@@ -388,7 +388,7 @@ filters={filters}
                       size="sm"
                       onClick={() => handleCourseMenu(course.Id)}
                     >
-                      <ApperIcon name="MoreVertical" size={16} />
+                      <AppIcon name="MoreVertical" size={16} />
                     </Button>
                   </div>
                 </div>

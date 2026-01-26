@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react"
+﻿import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { motion } from "framer-motion"
 import Card from "@/components/atoms/Card"
 import Badge from "@/components/atoms/Badge"
 import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 import Loading from "@/components/ui/Loading"
 import ErrorView from "@/components/ui/ErrorView"
 import Empty from "@/components/ui/Empty"
@@ -120,7 +120,7 @@ const Achievements = () => {
             >
               <Card hoverable className="p-6 text-center">
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-${achievement.metadata?.color || 'primary'}-100`}>
-                  <ApperIcon 
+                  <AppIcon 
                     name={achievement.metadata?.icon || "Award"} 
                     size={32} 
                     className={`text-${achievement.metadata?.color || 'primary'}-600`}
@@ -162,7 +162,7 @@ const Achievements = () => {
               return (
                 <div key={category.value} className="text-center">
                   <div className="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-3 flex items-center justify-center">
-                    <ApperIcon name={category.icon} size={24} className="text-gray-600" />
+                    <AppIcon name={category.icon} size={24} className="text-gray-600" />
                   </div>
                   <h4 className="font-medium text-gray-900 mb-1">{category.label}</h4>
                   <p className="text-sm text-gray-600 mb-2">

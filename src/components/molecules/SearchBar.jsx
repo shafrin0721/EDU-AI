@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { cn } from "@/utils/cn";
-import ApperIcon from "@/components/ApperIcon";
+import AppIcon from "@/components/AppIcon";
 import Input from "@/components/atoms/Input";
 
 const SearchBar = ({ 
@@ -39,7 +39,7 @@ return (
       {showFilter && filters.length > 0 && (
         <div className="flex items-center space-x-3 min-w-fit">
           <div className="hidden sm:flex items-center justify-center w-10 h-10 bg-gray-50 rounded-lg">
-            <ApperIcon name="Filter" size={16} className="text-gray-500" />
+            <AppIcon name="Filter" size={16} className="text-gray-500" />
           </div>
 <select
             value={selectedFilter}

@@ -1,7 +1,7 @@
 import { forwardRef } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
+import AppIcon from "@/components/AppIcon"
 
 const Button = forwardRef(({ 
   children, 
@@ -51,18 +51,18 @@ const Button = forwardRef(({
       {...props}
     >
       {loading && (
-        <ApperIcon 
+        <AppIcon 
           name="Loader2" 
           size={16} 
           className="animate-spin mr-2" 
         />
       )}
       {icon && iconPosition === "left" && !loading && (
-        <ApperIcon name={icon} size={16} className="mr-2" />
+        <AppIcon name={icon} size={16} className="mr-2" />
       )}
       {children}
       {icon && iconPosition === "right" && !loading && (
-        <ApperIcon name={icon} size={16} className="ml-2" />
+        <AppIcon name={icon} size={16} className="ml-2" />
       )}
     </motion.button>
   )
