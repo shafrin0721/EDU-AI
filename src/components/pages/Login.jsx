@@ -1,32 +1,31 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { toast } from "react-toastify"
-import { login, clearError } from "@/store/slices/authSlice"
+import { loginUser, clearError } from "@/store/slices/authSlice"
 import Card from "@/components/atoms/Card"
 import Input from "@/components/atoms/Input"
 import Button from "@/components/atoms/Button"
 import AppIcon from "@/components/AppIcon"
-import userService from "@/services/api/userService"
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { error, isAuthenticated } = useSelector(state => state.auth)
+  const { error, isAuthenticated, loading } = useSelector(state => state.auth)
   
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   })
-  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate("/")
-    return null
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/")
+    }
+  }, [isAuthenticated, navigate])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -49,21 +48,20 @@ const Login = () => {
       return
     }
 
-    setLoading(true)
-    
     try {
-      const user = await userService.authenticate(formData.email, formData.password)
-      if (user) {
-        dispatch(login(user))
-        toast.success(`Welcome back, ${user.profile.firstName}!`)
+      const result = await dispatch(loginUser({ 
+        email: formData.email, 
+        password: formData.password 
+      }))
+      
+      if (result.payload) {
+        toast.success(`Welcome back!`)
         navigate("/")
-      } else {
+      } else if (result.payload === undefined) {
         toast.error("Invalid email or password")
       }
     } catch (err) {
       toast.error(err.message || "Login failed")
-    } finally {
-      setLoading(false)
     }
   }
 

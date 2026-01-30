@@ -1,19 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { toast } from "react-toastify"
-import { login, clearError } from "@/store/slices/authSlice"
+import { registerUser, clearError } from "@/store/slices/authSlice"
 import Card from "@/components/atoms/Card"
 import Input from "@/components/atoms/Input"
 import Button from "@/components/atoms/Button"
 import AppIcon from "@/components/AppIcon"
-import userService from "@/services/api/userService"
+import firestoreService from "@/services/firestore/firestoreService"
 
 const Register = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { error, isAuthenticated } = useSelector(state => state.auth)
+  const { error, isAuthenticated, loading } = useSelector(state => state.auth)
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,15 +22,15 @@ const Register = () => {
     password: "",
     confirmPassword: ""
   })
-  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate("/")
-    return null
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/")
+    }
+  }, [isAuthenticated, navigate])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -90,57 +90,49 @@ const Register = () => {
     
     if (!validateForm()) return
 
-    setLoading(true)
-    
     try {
-      // Check if email already exists
-      const emailExists = await userService.emailExists(formData.email)
-      if (emailExists) {
-        toast.error("An account with this email already exists")
-        setLoading(false)
-        return
-      }
-
-      // Create new user
-      const newUser = await userService.create({
+      // Register user with Firebase
+      const result = await dispatch(registerUser({
         email: formData.email,
-        role: "student", // Default role for new registrations
-        organizationId: "org_001", // Default organization
-        profile: {
+        password: formData.password,
+        displayName: `${formData.firstName} ${formData.lastName}`
+      }))
+
+      if (result.payload) {
+        // Create user profile in Firestore
+        await firestoreService.createUser(result.payload.uid, {
+          email: result.payload.email,
+          displayName: result.payload.displayName,
           firstName: formData.firstName,
           lastName: formData.lastName,
-          avatar: "/api/placeholder/40/40",
-          learningStreak: 0,
-          totalPoints: 0,
-          level: 1,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          preferences: {
-            learning: {
-              preferredDifficulty: "beginner"
-            },
-            notifications: {
-              email: true,
-              push: true,
-              achievements: true
+          role: "student",
+          organizationId: "org_001",
+          profile: {
+            avatar: result.payload.photoURL || "/api/placeholder/40/40",
+            learningStreak: 0,
+            totalPoints: 0,
+            level: 1,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            preferences: {
+              learning: {
+                preferredDifficulty: "beginner"
+              },
+              notifications: {
+                email: true,
+                push: true,
+                achievements: true,
+                reminders: true
+              }
             }
           }
-        },
-        permissions: {
-          canCreateCourse: false,
-          canManageUsers: false,
-          canViewAnalytics: false,
-          canEditProfile: true
-        },
-        password: formData.password // In real app, this would be hashed
-      })
+        })
 
-      dispatch(login(newUser))
-      toast.success(`Welcome to EduAI, ${newUser.profile.firstName}!`)
-      navigate("/")
+        toast.success("Account created successfully!")
+        navigate("/")
+      }
     } catch (err) {
-      toast.error(err.message || "Registration failed")
-    } finally {
-      setLoading(false)
+      console.error('Registration error:', err)
+      toast.error(err.message || "Registration failed. Please try again.")
     }
   }
 

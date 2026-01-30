@@ -7,8 +7,9 @@ import { cn } from "@/utils/cn";
 import AppIcon from "@/components/AppIcon";
 import { toggleSidebar } from "@/store/slices/dashboardSlice";
 import { toggleTheme } from "@/store/slices/themeSlice";
-import { logout } from "@/store/slices/authSlice";
-import Profile from "@/components/pages/Profile";
+import { logoutUser } from "@/store/slices/authSlice";
+import useClickOutside from "@/hooks/useClickOutside";
+
 const Header = ({ title, className }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -18,11 +19,25 @@ const Header = ({ title, className }) => {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
 
+  // Close popups when clicking outside
+  const notificationsRef = useClickOutside(() => setShowNotifications(false))
+  const profileRef = useClickOutside(() => setShowProfile(false))
+
   const unreadCount = notifications.filter(n => !n.read).length
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
     toast.success(`Switched to ${theme === 'light' ? 'dark' : 'light'} mode`);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser())
+      navigate('/login')
+    } catch (err) {
+      console.error('Logout error:', err)
+      navigate('/login')
+    }
   };
 
   return (
@@ -58,10 +73,10 @@ const Header = ({ title, className }) => {
           </button>
           
           {/* Notifications */}
-          <div className="relative">
+          <div className="relative" ref={notificationsRef}>
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative"
               >
                 <AppIcon name="Bell" size={20} className="text-gray-600 dark:text-gray-300" />
                 {unreadCount > 0 && (
@@ -132,20 +147,20 @@ const Header = ({ title, className }) => {
           </div>
 
 {/* Profile */}
-              <div className="relative">
+              <div className="relative" ref={profileRef}>
             <button
               onClick={() => setShowProfile(!showProfile)}
-              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                {user?.profile?.firstName?.[0]}{user?.profile?.lastName?.[0]}
+                {user?.displayName?.[0] || user?.email?.[0] || 'U'}
               </div>
               <div className="hidden md:block text-left">
-                <p className="text-sm font-medium text-gray-900">
-                  {user?.profile?.firstName} {user?.profile?.lastName}
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  {user?.displayName || 'User'}
                 </p>
-                <p className="text-xs text-gray-500 capitalize">
-                  {user?.role}
+                <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
+                  {user?.role || 'student'}
                 </p>
               </div>
               <AppIcon name="ChevronDown" size={16} className="text-gray-400 dark:text-gray-500" />
@@ -164,22 +179,22 @@ const Header = ({ title, className }) => {
                       <AppIcon name="User" size={16} />
                       <span className="text-sm">Profile</span>
                     </a>
-<button onClick={() => navigate('/settings')} className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors w-full text-left text-gray-900 dark:text-gray-100">
-                     <AppIcon name="Settings" size={16} />
-                     <span>Settings</span>
-                   </button>
+                    <button onClick={() => {
+                      navigate('/settings')
+                      setShowProfile(false)
+                    }} className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors w-full text-left text-gray-900 dark:text-gray-100">
+                      <AppIcon name="Settings" size={16} />
+                      <span className="text-sm">Settings</span>
+                    </button>
                     <hr className="my-2 border-gray-200 dark:border-gray-700" />
                     <button 
-                      onClick={() => {
-                        dispatch(logout())
-                        window.location.href = '/login'
-                      }}
+                      onClick={handleLogout}
                       className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full text-left text-red-600 dark:text-red-400"
                     >
                       <AppIcon name="LogOut" size={16} />
                       <span className="text-sm">Sign out</span>
                     </button>
-</div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

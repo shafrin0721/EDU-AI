@@ -1,4 +1,61 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { 
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  onAuthStateChanged
+} from 'firebase/auth'
+import { auth } from '../../config/firebase'
+
+// Firebase Authentication Thunks
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  async ({ email, password, displayName }, { rejectWithValue }) => {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password)
+      await updateProfile(result.user, { displayName })
+      
+      return {
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL
+      }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password)
+      return {
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL
+      }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      await signOut(auth)
+      return null
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const initialState = {
   user: null,
@@ -6,7 +63,8 @@ const initialState = {
   isAuthenticated: false,
   availableRoles: [],
   sessionData: null,
-  error: null
+  error: null,
+  loading: false
 }
 
 const authSlice = createSlice({
@@ -32,13 +90,7 @@ const authSlice = createSlice({
         lastActivity: new Date().toISOString()
       }
       state.error = null
-      
-      // Store in localStorage for persistence
-      localStorage.setItem('eduai_auth', JSON.stringify({
-        user: user,
-        isAuthenticated: true,
-        sessionData: state.sessionData
-      }))
+      state.loading = false
     },
     
     setUser: (state, action) => {
@@ -72,7 +124,6 @@ const authSlice = createSlice({
     },
     
     logout: (state) => {
-      localStorage.removeItem('eduai_auth')
       return {
         ...initialState,
         error: null
@@ -169,6 +220,66 @@ const authSlice = createSlice({
       state.sessionData = sessionData
     }
   },
+  extraReducers: (builder) => {
+    // Handle registerUser
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload
+        state.isAuthenticated = true
+        state.sessionData = {
+          loginTime: new Date().toISOString(),
+          lastActivity: new Date().toISOString()
+        }
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+        state.isAuthenticated = false
+      })
+    
+    // Handle loginUser
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload
+        state.isAuthenticated = true
+        state.sessionData = {
+          loginTime: new Date().toISOString(),
+          lastActivity: new Date().toISOString()
+        }
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+        state.isAuthenticated = false
+      })
+    
+    // Handle logoutUser
+    builder
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false
+        state.user = null
+        state.isAuthenticated = false
+        state.sessionData = null
+        state.error = null
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+  }
 })
 
 export const { 

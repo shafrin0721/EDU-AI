@@ -1,213 +1,230 @@
-import usersData from "../mockData/users.json"
+import { db } from '../../config/firebase'
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp
+} from 'firebase/firestore'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
 
 class UserService {
   constructor() {
-    this.data = [...usersData]
+    this.collectionName = 'users'
+    this.useFallback = import.meta.env.VITE_ENABLE_MOCK_DATA === 'true'
   }
 
-  async delay(ms = 300) {
-    return new Promise(resolve => setTimeout(resolve, ms))
+  async makeRequest(endpoint, options = {}) {
+    const timeout = parseInt(import.meta.env.VITE_API_TIMEOUT || 30000)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), timeout)
+
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        signal: controller.signal
+      })
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      return await response.json()
+    } catch (error) {
+      clearTimeout(timeoutId)
+      throw error
+    }
   }
 
   async getAll() {
-    await this.delay()
-    return [...this.data]
+    try {
+      return await this.makeRequest('/users')
+    } catch (error) {
+      console.error('Error fetching all users:', error)
+      throw error
+    }
   }
 
   async getById(id) {
-    await this.delay()
-    const numId = parseInt(id)
-    const user = this.data.find(item => item.Id === numId)
-    return user ? { ...user } : null
+    try {
+      return await this.makeRequest(`/users/${id}`)
+    } catch (error) {
+      console.error(`Error fetching user ${id}:`, error)
+      throw error
+    }
   }
 
   async getByOrganization(organizationId) {
-    await this.delay()
-    return this.data.filter(user => user.organizationId === organizationId).map(user => ({ ...user }))
+    try {
+      return await this.makeRequest(`/users?organizationId=${organizationId}`)
+    } catch (error) {
+      console.error('Error fetching users by organization:', error)
+      throw error
+    }
   }
 
   async getByRole(role) {
-    await this.delay()
-    return this.data.filter(user => user.role === role).map(user => ({ ...user }))
+    try {
+      return await this.makeRequest(`/users?role=${role}`)
+    } catch (error) {
+      console.error('Error fetching users by role:', error)
+      throw error
+    }
   }
 
-  async create(user) {
-    await this.delay()
-    const maxId = Math.max(...this.data.map(item => item.Id), 0)
-    const newUser = {
-      ...user,
-      Id: maxId + 1,
-      createdAt: new Date().toISOString(),
-      lastActive: new Date().toISOString()
+  async create(userData) {
+    try {
+      return await this.makeRequest('/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      })
+    } catch (error) {
+      console.error('Error creating user:', error)
+      throw error
     }
-    this.data.push(newUser)
-    return { ...newUser }
   }
 
   async update(id, updates) {
-    await this.delay()
-    const numId = parseInt(id)
-    const index = this.data.findIndex(item => item.Id === numId)
-    if (index === -1) return null
-    
-    this.data[index] = {
-      ...this.data[index],
-      ...updates,
-      Id: numId,
-      lastActive: new Date().toISOString()
+    try {
+      return await this.makeRequest(`/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updates)
+      })
+    } catch (error) {
+      console.error('Error updating user:', error)
+      throw error
     }
-    return { ...this.data[index] }
   }
 
   async delete(id) {
-    await this.delay()
-    const numId = parseInt(id)
-    const index = this.data.findIndex(item => item.Id === numId)
-    if (index === -1) return false
-    
-    this.data.splice(index, 1)
-    return true
+    try {
+      return await this.makeRequest(`/users/${id}`, {
+        method: 'DELETE'
+      })
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      throw error
+    }
   }
 
-async updateProfile(userId, profileData) {
-    await this.delay()
-    const numId = parseInt(userId)
-    const index = this.data.findIndex(item => item.Id === numId)
-    if (index === -1) return null
-    
-    this.data[index].profile = {
-      ...this.data[index].profile,
-      ...profileData
+  async updateProfile(userId, profileData) {
+    try {
+      return await this.makeRequest(`/users/${userId}/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profileData)
+      })
+    } catch (error) {
+      console.error('Error updating user profile:', error)
+      throw error
     }
-    this.data[index].lastActive = new Date().toISOString()
-    return { ...this.data[index] }
   }
 
   async getUserAnalytics(userId) {
-    await this.delay()
-    const numId = parseInt(userId)
-    const user = this.data.find(item => item.Id === numId)
-    if (!user) return null
-
-    return {
-      learningStats: {
-        totalCoursesEnrolled: Math.floor(Math.random() * 10) + 1,
-        coursesCompleted: Math.floor(Math.random() * 5),
-        totalStudyHours: user.studyHours || Math.floor(Math.random() * 200) + 50,
-        averageSessionLength: Math.floor(Math.random() * 60) + 30,
-        learningStreak: user.profile?.learningStreak || Math.floor(Math.random() * 30)
-      },
-      performanceMetrics: {
-        averageScore: Math.floor(Math.random() * 30) + 70,
-        improvementRate: Math.random() * 0.3 + 0.1,
-        consistencyScore: Math.random() * 0.4 + 0.6,
-        engagementLevel: Math.random() * 0.3 + 0.7
-      },
-      adaptiveProfile: {
-        preferredLearningStyle: ["visual", "auditory", "kinesthetic"][Math.floor(Math.random() * 3)],
-        optimalDifficulty: user.preferences?.learning?.preferredDifficulty || "intermediate",
-        bestStudyTimes: ["morning", "afternoon", "evening"][Math.floor(Math.random() * 3)],
-        recommendedBreakFrequency: Math.floor(Math.random() * 30) + 15
-      }
+    try {
+      return await this.makeRequest(`/users/${userId}/analytics`)
+    } catch (error) {
+      console.error('Error fetching user analytics:', error)
+      throw error
     }
   }
 
   async getTeacherStudents(teacherId) {
-    await this.delay()
-    // Get students enrolled in courses taught by this teacher
-    return this.data
-      .filter(user => user.role === "student")
-      .map(student => ({
-        ...student,
-        enrolledCourses: Math.floor(Math.random() * 5) + 1,
-        averageProgress: Math.floor(Math.random() * 100),
-        lastActivity: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString()
-      }))
+    try {
+      return await this.makeRequest(`/users/${teacherId}/students`)
+    } catch (error) {
+      console.error('Error fetching teacher students:', error)
+      throw error
+    }
   }
 
   async getOrganizationUsers(organizationId, role = null) {
-    await this.delay()
-    let users = this.data.filter(user => user.organizationId === organizationId)
-    
-    if (role) {
-      users = users.filter(user => user.role === role)
+    try {
+      const query = role ? `?role=${role}` : ''
+      return await this.makeRequest(`/organizations/${organizationId}/users${query}`)
+    } catch (error) {
+      console.error('Error fetching organization users:', error)
+      throw error
     }
-    
-    return users.map(user => ({ ...user }))
   }
 
   async updateUserRole(userId, newRole) {
-    await this.delay()
-    const numId = parseInt(userId)
-    const index = this.data.findIndex(item => item.Id === numId)
-    if (index === -1) return null
-    
-    this.data[index].role = newRole
-    this.data[index].lastActive = new Date().toISOString()
-    return { ...this.data[index] }
+    try {
+      return await this.makeRequest(`/users/${userId}/role`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ role: newRole })
+      })
+    } catch (error) {
+      console.error('Error updating user role:', error)
+      throw error
+    }
   }
 
   async getUserNotificationPreferences(userId) {
-    await this.delay()
-    const numId = parseInt(userId)
-    const user = this.data.find(item => item.Id === numId)
-    if (!user) return null
-    
-    return user.preferences?.notifications || {
-      email: true,
-      push: true,
-      achievements: true,
-      reminders: true,
-      contentUpdates: false,
-      systemAlerts: true
+    try {
+      return await this.makeRequest(`/users/${userId}/notification-preferences`)
+    } catch (error) {
+      console.error('Error fetching notification preferences:', error)
+      throw error
     }
   }
 
   async updateNotificationPreferences(userId, preferences) {
-    await this.delay()
-    const numId = parseInt(userId)
-    const index = this.data.findIndex(item => item.Id === numId)
-    if (index === -1) return null
-    
-    if (!this.data[index].preferences) {
-      this.data[index].preferences = {}
+    try {
+      return await this.makeRequest(`/users/${userId}/notification-preferences`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(preferences)
+      })
+    } catch (error) {
+      console.error('Error updating notification preferences:', error)
+      throw error
     }
-    
-    this.data[index].preferences.notifications = {
-      ...this.data[index].preferences.notifications,
-      ...preferences
-}
-    
-    return { ...this.data[index] }
   }
 
   async authenticate(email, password) {
-    await this.delay()
-    const user = this.data.find(u => u.email === email)
-    
-    if (!user) {
-      return null
+    try {
+      return await this.makeRequest('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+    } catch (error) {
+      console.error('Error during authentication:', error)
+      throw error
     }
-    
-    // In a real app, you would hash and compare passwords
-    // For demo purposes, we'll use a simple password check
-    const validPassword = password === "password123"
-    
-    if (!validPassword) {
-      return null
-    }
-    
-    // Update last active
-    const index = this.data.findIndex(item => item.Id === user.Id)
-    this.data[index].lastActive = new Date().toISOString()
-    
-    return { ...this.data[index] }
   }
 
   async emailExists(email) {
-    await this.delay()
-    return this.data.some(u => u.email.toLowerCase() === email.toLowerCase())
-}
+    try {
+      const response = await this.makeRequest(`/users/check-email?email=${encodeURIComponent(email)}`)
+      return response.exists
+    } catch (error) {
+      console.error('Error checking email existence:', error)
+      throw error
+    }
+  }
 }
 
 const userService = new UserService();
