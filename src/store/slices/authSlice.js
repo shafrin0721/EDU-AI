@@ -53,8 +53,66 @@ const mockUsers = {
       title: 'Learning Platform Administrator'
     }
   },
-  // Map Firebase test user emails to student user 1 for demo purposes
-  'ruquiii557@gmail.com': {
+  // Teacher accounts
+  'teacher@eduai.com': {
+    Id: 2,
+    role: 'teacher',
+    FirstName: 'John',
+    LastName: 'Smith',
+    profile: {
+      firstName: 'John',
+      lastName: 'Smith',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      department: 'Mathematics',
+      title: 'Senior Lecturer'
+    }
+  },
+  'instructor@eduai.com': {
+    Id: 2,
+    role: 'teacher',
+    FirstName: 'Emily',
+    LastName: 'Davis',
+    profile: {
+      firstName: 'Emily',
+      lastName: 'Davis',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-5',
+      department: 'Physics',
+      title: 'Professor'
+    }
+  },
+  // Admin accounts
+  'admin@eduai.com': {
+    Id: 3,
+    role: 'admin',
+    FirstName: 'Admin',
+    LastName: 'User',
+    profile: {
+      firstName: 'Admin',
+      lastName: 'User',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      department: 'Administration',
+      title: 'System Administrator'
+    }
+  },
+  'superadmin@eduai.com': {
+    Id: 3,
+    role: 'admin',
+    FirstName: 'Super',
+    LastName: 'Admin',
+    profile: {
+      firstName: 'Super',
+      lastName: 'Admin',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-0',
+      department: 'IT',
+      title: 'Super Administrator'
+    }
+  },
+  // Student account
+  'student@eduai.com': {
     Id: 1,
     role: 'student',
     FirstName: 'Alex',
@@ -69,7 +127,7 @@ const mockUsers = {
       level: 8
     }
   },
-  // Map any other email to student user 1 for demo purposes
+  // Default - will be student if no match
   'default': {
     Id: 1,
     role: 'student',
