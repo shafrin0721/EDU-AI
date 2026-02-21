@@ -31,8 +31,10 @@ const Achievements = () => {
     try {
       setLoading(true)
       setError("")
-      const achievementsData = await achievementService.getByStudent(user.Id.toString())
-      setAchievements(achievementsData)
+      // Get all achievements and filter by user ID
+      const allAchievements = await achievementService.getAll()
+      const userAchievements = allAchievements.filter(a => a.studentId === user.Id)
+      setAchievements(userAchievements)
     } catch (err) {
       setError(err.message || "Failed to load achievements")
       toast.error("Failed to load achievements")

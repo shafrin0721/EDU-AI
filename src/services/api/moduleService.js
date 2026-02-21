@@ -56,14 +56,35 @@ this.data = [...modulesData].map(module => ({
     return [...this.data]
   }
 
-async getById(id) {
+  // Helper to transform module data to component format
+  transformModuleData(module) {
+    return {
+      Id: module.Id,
+      Title: module.title,
+      Description: module.description,
+      CourseId: module.courseId,
+      Difficulty: module.difficulty,
+      EstimatedDuration: module.estimatedTime || module.estimatedDuration,
+      OrderIndex: module.sequence || module.sections?.length,
+      contentType: module.contentType,
+      // New lesson format with text sections and quizzes
+      sections: module.sections || [],
+      detailedLessons: module.detailedLessons || [],
+      quiz: module.quiz || null,
+      learningObjectives: module.learningObjectives || [],
+      // Legacy support
+      theoreticalContent: module.theoreticalContent || { learningTheories: [], foundations: [] }
+    }
+  }
+
+  async getById(id) {
     await this.delay()
     const numId = parseInt(id)
     const module = this.data.find(item => item.Id === numId)
-    return module ? { 
-      ...module,
-      theoreticalContent: module.theoreticalContent || { learningTheories: [], foundations: [] }
-    } : null
+    if (!module) return null
+    
+    // Transform lowercase fields to uppercase for component compatibility
+    return this.transformModuleData(module)
   }
 
   async getByCourse(courseId) {

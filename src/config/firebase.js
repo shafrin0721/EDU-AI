@@ -6,14 +6,13 @@ import { getDatabase } from 'firebase/database'
 import { getAnalytics } from 'firebase/analytics'
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyCe1UvSuyux3W4yQ2QGHekMshSNOhwcvOg",
+  authDomain: "eduai-bfb25.firebaseapp.com",
+  projectId: "eduai-bfb25",
+  storageBucket: "eduai-bfb25.firebasestorage.app",
+  messagingSenderId: "105051733644",
+  appId: "1:105051733644:web:e6abc3806dfe4873ad45a9",
+  measurementId: "G-0BP6LV39FR"
 }
 
 // Initialize Firebase

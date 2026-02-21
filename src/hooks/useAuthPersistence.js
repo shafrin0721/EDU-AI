@@ -3,55 +3,44 @@ import { useDispatch } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/config/firebase'
 import { login, logout } from '@/store/slices/authSlice'
-import firestoreService from '@/services/firestore/firestoreService'
+
+// Mock user mapping - maps any logged-in user to demo student data
+const getMockUserData = (firebaseUser) => {
+  // Always return student data for demo purposes
+  return {
+    uid: firebaseUser.uid,
+    email: firebaseUser.email,
+    displayName: firebaseUser.displayName || 'Alex Chen',
+    photoURL: firebaseUser.photoURL || null,
+    Id: 1,
+    role: 'student',
+    FirstName: 'Alex',
+    LastName: 'Chen',
+    profile: {
+      firstName: 'Alex',
+      lastName: 'Chen',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      learningStreak: 15,
+      totalPoints: 2450,
+      level: 8
+    },
+    organizationId: 'org_001'
+  }
+}
 
 export const useAuthPersistence = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
     // Set up auth state listener
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        try {
-          // Fetch user data from Firestore
-          const userData = await firestoreService.getUser(user.uid)
-          
-          if (userData) {
-            // User exists in Firestore
-            dispatch(login({
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName,
-              photoURL: user.photoURL,
-              ...userData
-            }))
-          } else {
-            // First time user - create basic profile
-            const basicProfile = {
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName || 'User',
-              photoURL: user.photoURL || null,
-              role: 'student',
-              organizationId: 'org_001',
-              createdAt: new Date().toISOString()
-            }
-
-            // Store in Firestore
-            await firestoreService.createUser(user.uid, basicProfile)
-            
-            dispatch(login(basicProfile))
-          }
-        } catch (error) {
-          console.error('Error loading user data:', error)
-          // Still log them in even if Firestore fails
-          dispatch(login({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL
-          }))
-        }
+        // Use mock user data for demo - maps any Firebase user to demo student
+        const mockUserData = getMockUserData(user)
+        
+        dispatch(login(mockUserData))
+        console.log('User logged in:', mockUserData.email, 'as', mockUserData.role)
       } else {
         // User logged out
         dispatch(logout())

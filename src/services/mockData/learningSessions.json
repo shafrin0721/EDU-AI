@@ -2,16 +2,21 @@
   {
     "Id": 1,
     "studentId": "1",
+    "courseId": "1",
     "moduleId": "1",
+    "moduleTitle": "What is Machine Learning?",
     "startTime": "2024-01-15T09:00:00Z",
     "endTime": "2024-01-15T09:42:00Z",
+    "duration": 2520,
     "engagementMetrics": {
       "clickCount": 23,
       "pauseCount": 3,
       "rewindCount": 1,
       "speedChanges": 0,
       "notesTaken": 2,
-      "attentionScore": 0.85
+      "attentionScore": 0.85,
+      "videoProgress": 100,
+      "interactionLevel": "high"
     },
     "performanceData": {
       "comprehensionQuizScore": 0.9,
@@ -25,21 +30,27 @@
         "reason": "high_performance",
         "confidence": 0.85
       }
-    ]
+    ],
+    "completionStatus": "completed"
   },
   {
     "Id": 2,
     "studentId": "1", 
+    "courseId": "1",
     "moduleId": "2",
+    "moduleTitle": "Types of Machine Learning",
     "startTime": "2024-01-15T10:30:00Z",
     "endTime": "2024-01-15T11:15:00Z",
+    "duration": 2700,
     "engagementMetrics": {
       "clickCount": 34,
       "pauseCount": 7,
       "rewindCount": 4,
       "speedChanges": 1,
       "notesTaken": 5,
-      "attentionScore": 0.72
+      "attentionScore": 0.72,
+      "videoProgress": 100,
+      "interactionLevel": "medium"
     },
     "performanceData": {
       "comprehensionQuizScore": 0.65,
@@ -53,6 +64,279 @@
         "reason": "struggling_concept",
         "confidence": 0.78
       }
-    ]
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 3,
+    "studentId": "1",
+    "courseId": "1",
+    "moduleId": "3",
+    "moduleTitle": "Linear Regression Basics",
+    "startTime": "2024-01-15T14:00:00Z",
+    "endTime": "2024-01-15T15:10:00Z",
+    "duration": 4200,
+    "engagementMetrics": {
+      "clickCount": 45,
+      "pauseCount": 12,
+      "rewindCount": 8,
+      "speedChanges": 2,
+      "notesTaken": 8,
+      "attentionScore": 0.68,
+      "videoProgress": 100,
+      "interactionLevel": "high"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.75,
+      "timeOnTask": 4200,
+      "strugglingConcepts": ["gradient-descent"],
+      "masteredConcepts": ["linear-equation", "least-squares"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "maintain",
+        "reason": "good_progress",
+        "confidence": 0.72
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 4,
+    "studentId": "2",
+    "courseId": "1",
+    "moduleId": "1",
+    "moduleTitle": "What is Machine Learning?",
+    "startTime": "2024-01-14T08:00:00Z",
+    "endTime": "2024-01-14T08:35:00Z",
+    "duration": 2100,
+    "engagementMetrics": {
+      "clickCount": 15,
+      "pauseCount": 2,
+      "rewindCount": 0,
+      "speedChanges": 0,
+      "notesTaken": 1,
+      "attentionScore": 0.78,
+      "videoProgress": 85,
+      "interactionLevel": "low"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.55,
+      "timeOnTask": 2100,
+      "strugglingConcepts": ["ml-applications"],
+      "masteredConcepts": ["ml-definition"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "remedial_content",
+        "reason": "low_engagement",
+        "confidence": 0.65
+      }
+    ],
+    "completionStatus": "incomplete"
+  },
+  {
+    "Id": 5,
+    "studentId": "2",
+    "courseId": "1",
+    "moduleId": "2",
+    "moduleTitle": "Types of Machine Learning",
+    "startTime": "2024-01-14T10:00:00Z",
+    "endTime": "2024-01-14T10:45:00Z",
+    "duration": 2700,
+    "engagementMetrics": {
+      "clickCount": 28,
+      "pauseCount": 5,
+      "rewindCount": 3,
+      "speedChanges": 1,
+      "notesTaken": 3,
+      "attentionScore": 0.70,
+      "videoProgress": 100,
+      "interactionLevel": "medium"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.60,
+      "timeOnTask": 2700,
+      "strugglingConcepts": ["reinforcement-learning"],
+      "masteredConcepts": ["supervised-learning", "unsupervised-learning"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "maintain",
+        "reason": "average_performance",
+        "confidence": 0.68
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 6,
+    "studentId": "3",
+    "courseId": "1",
+    "moduleId": "1",
+    "moduleTitle": "What is Machine Learning?",
+    "startTime": "2024-01-13T11:00:00Z",
+    "endTime": "2024-01-13T11:40:00Z",
+    "duration": 2400,
+    "engagementMetrics": {
+      "clickCount": 20,
+      "pauseCount": 4,
+      "rewindCount": 2,
+      "speedChanges": 0,
+      "notesTaken": 4,
+      "attentionScore": 0.82,
+      "videoProgress": 100,
+      "interactionLevel": "high"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.88,
+      "timeOnTask": 2400,
+      "strugglingConcepts": [],
+      "masteredConcepts": ["ml-definition", "ml-applications", "ml-types"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "difficulty_increase",
+        "reason": "excellent_performance",
+        "confidence": 0.90
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 7,
+    "studentId": "1",
+    "courseId": "2",
+    "moduleId": "6",
+    "moduleTitle": "Advanced React Hooks",
+    "startTime": "2024-01-14T16:00:00Z",
+    "endTime": "2024-01-14T17:20:00Z",
+    "duration": 4800,
+    "engagementMetrics": {
+      "clickCount": 52,
+      "pauseCount": 8,
+      "rewindCount": 5,
+      "speedChanges": 2,
+      "notesTaken": 10,
+      "attentionScore": 0.88,
+      "videoProgress": 100,
+      "interactionLevel": "very-high"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.95,
+      "timeOnTask": 4800,
+      "strugglingConcepts": [],
+      "masteredConcepts": ["useEffect", "useContext", "useReducer", "custom-hooks"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "difficulty_increase",
+        "reason": "excellent_mastery",
+        "confidence": 0.92
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 8,
+    "studentId": "1",
+    "courseId": "3",
+    "moduleId": "10",
+    "moduleTitle": "Introduction to Data Structures",
+    "startTime": "2024-01-13T09:00:00Z",
+    "endTime": "2024-01-13T10:00:00Z",
+    "duration": 3600,
+    "engagementMetrics": {
+      "clickCount": 38,
+      "pauseCount": 6,
+      "rewindCount": 3,
+      "speedChanges": 1,
+      "notesTaken": 7,
+      "attentionScore": 0.80,
+      "videoProgress": 100,
+      "interactionLevel": "high"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.85,
+      "timeOnTask": 3600,
+      "strugglingConcepts": [],
+      "masteredConcepts": ["arrays", "linked-lists", "stacks", "queues"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "difficulty_increase",
+        "reason": "strong_foundation",
+        "confidence": 0.88
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 9,
+    "studentId": "2",
+    "courseId": "3",
+    "moduleId": "10",
+    "moduleTitle": "Introduction to Data Structures",
+    "startTime": "2024-01-12T14:00:00Z",
+    "endTime": "2024-01-12T14:50:00Z",
+    "duration": 3000,
+    "engagementMetrics": {
+      "clickCount": 22,
+      "pauseCount": 4,
+      "rewindCount": 2,
+      "speedChanges": 0,
+      "notesTaken": 2,
+      "attentionScore": 0.65,
+      "videoProgress": 90,
+      "interactionLevel": "medium"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.58,
+      "timeOnTask": 3000,
+      "strugglingConcepts": ["linked-lists"],
+      "masteredConcepts": ["arrays"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "remedial_content",
+        "reason": "knowledge_gap",
+        "confidence": 0.72
+      }
+    ],
+    "completionStatus": "completed"
+  },
+  {
+    "Id": 10,
+    "studentId": "3",
+    "courseId": "2",
+    "moduleId": "6",
+    "moduleTitle": "Advanced React Hooks",
+    "startTime": "2024-01-15T08:00:00Z",
+    "endTime": "2024-01-15T09:15:00Z",
+    "duration": 4500,
+    "engagementMetrics": {
+      "clickCount": 48,
+      "pauseCount": 7,
+      "rewindCount": 4,
+      "speedChanges": 1,
+      "notesTaken": 9,
+      "attentionScore": 0.85,
+      "videoProgress": 100,
+      "interactionLevel": "high"
+    },
+    "performanceData": {
+      "comprehensionQuizScore": 0.92,
+      "timeOnTask": 4500,
+      "strugglingConcepts": [],
+      "masteredConcepts": ["useEffect-deep", "useCallback", "useMemo"]
+    },
+    "adaptationTriggers": [
+      {
+        "type": "difficulty_increase",
+        "reason": "high_mastery",
+        "confidence": 0.90
+      }
+    ],
+    "completionStatus": "completed"
   }
 ]

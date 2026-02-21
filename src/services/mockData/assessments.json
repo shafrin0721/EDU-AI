@@ -1,43 +1,26 @@
 [
   {
     "Id": 1,
-    "moduleId": "4",
-    "studentId": "1", 
-    "questions": [
-      {
-        "id": 1,
-        "question": "What type of learning uses labeled data?",
-        "options": ["Supervised", "Unsupervised", "Reinforcement", "Deep"],
-        "studentAnswer": 0,
-        "correct": 0,
-        "timeSpent": 15
-      },
-      {
-        "id": 2,
-        "question": "Linear regression is used for:",
-        "options": ["Classification", "Clustering", "Regression", "Dimensionality Reduction"],
-        "studentAnswer": 2,
-        "correct": 2,
-        "timeSpent": 12
-      }
-    ],
-    "answers": {
-      "1": 0,
-      "2": 2
-    },
+    "moduleId": 4,
+    "courseId": 1,
+    "studentId": "1",
     "score": 100,
-    "timeSpent": 27,
-    "attemptNumber": 1,
+    "totalQuestions": 5,
+    "correctAnswers": 5,
+    "timeSpent": 90,
+    "Status": "completed",
+    "passed": true,
     "aiAnalysis": {
-      "strengthAreas": ["supervised-learning", "regression-concepts"],
+      "strengthAreas": ["supervised-learning", "regression-concepts", "classification", "bias-variance"],
       "improvementAreas": [],
-      "recommendedNextSteps": ["advanced-regression", "classification-intro"],
+      "recommendedNextSteps": ["advanced-regression", "neural-networks-intro"],
       "confidenceLevel": 0.92,
+      "predictedScore": 0.95,
       "adaptationSuggestions": [
         {
           "type": "difficulty_increase",
-          "module": "5",
-          "reason": "perfect_score"
+          "module": 5,
+          "reason": "Student scored 100% - ready for advanced content"
         }
       ]
     },
@@ -45,46 +28,190 @@
   },
   {
     "Id": 2,
-    "moduleId": "4",
-    "studentId": "1",
-    "questions": [
-      {
-        "id": 3,
-        "question": "Which algorithm is best for clustering?",
-        "options": ["Linear Regression", "K-Means", "Decision Tree", "SVM"],
-        "studentAnswer": 1,
-        "correct": 1,
-        "timeSpent": 18
-      },
-      {
-        "id": 4, 
-        "question": "What is overfitting?",
-        "options": ["Perfect accuracy", "Model too complex", "Insufficient data", "All correct"],
-        "studentAnswer": 3,
-        "correct": 1,
-        "timeSpent": 25
-      }
-    ],
-    "answers": {
-      "3": 1,
-      "4": 3
-    },
-    "score": 50,
-    "timeSpent": 43,
-    "attemptNumber": 1,
+    "moduleId": 4,
+    "courseId": 1,
+    "studentId": "2",
+    "score": 40,
+    "totalQuestions": 5,
+    "correctAnswers": 2,
+    "timeSpent": 105,
+    "Status": "completed",
+    "passed": false,
     "aiAnalysis": {
-      "strengthAreas": ["clustering-concepts"],
-      "improvementAreas": ["overfitting-concept", "model-complexity"],
-      "recommendedNextSteps": ["model-validation", "bias-variance-tradeoff"],
-      "confidenceLevel": 0.65,
+      "strengthAreas": ["supervised-learning", "overfitting-concept"],
+      "improvementAreas": ["regression-concepts", "classification-algorithms", "bias-variance-tradeoff"],
+      "recommendedNextSteps": ["review-linear-regression", "review-classification", "bias-variance-intro"],
+      "confidenceLevel": 0.55,
+      "predictedScore": 0.45,
       "adaptationSuggestions": [
         {
           "type": "remedial_content",
-          "topic": "overfitting",
-          "reason": "knowledge_gap"
+          "topic": "regression-basics",
+          "reason": "Student confused regression with classification"
+        },
+        {
+          "type": "difficulty_decrease",
+          "reason": "Student needs foundational content review"
         }
       ]
     },
     "submittedAt": "2024-01-13T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "moduleId": 4,
+    "courseId": 1,
+    "studentId": "3",
+    "score": 80,
+    "totalQuestions": 5,
+    "correctAnswers": 4,
+    "timeSpent": 69,
+    "Status": "completed",
+    "passed": true,
+    "aiAnalysis": {
+      "strengthAreas": ["supervised-learning", "regression", "classification"],
+      "improvementAreas": ["overfitting-deep-understanding"],
+      "recommendedNextSteps": ["advanced-ml-topics", "model-evaluation"],
+      "confidenceLevel": 0.78,
+      "predictedScore": 0.82,
+      "adaptationSuggestions": [
+        {
+          "type": "maintain",
+          "reason": "Good performance - continue with current difficulty"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-12T10:30:00Z"
+  },
+  {
+    "Id": 4,
+    "moduleId": 9,
+    "courseId": 2,
+    "studentId": "1",
+    "score": 100,
+    "totalQuestions": 5,
+    "correctAnswers": 5,
+    "timeSpent": 59,
+    "Status": "completed",
+    "passed": true,
+    "aiAnalysis": {
+      "strengthAreas": ["useEffect", "useMemo", "useState-updates", "React.memo"],
+      "improvementAreas": [],
+      "recommendedNextSteps": ["custom-hooks", "advanced-patterns"],
+      "confidenceLevel": 0.95,
+      "predictedScore": 0.98,
+      "adaptationSuggestions": [
+        {
+          "type": "difficulty_increase",
+          "module": "next-react-course",
+          "reason": "Excellent understanding of React hooks"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-14T16:00:00Z"
+  },
+  {
+    "Id": 5,
+    "moduleId": 14,
+    "courseId": 3,
+    "studentId": "1",
+    "score": 100,
+    "totalQuestions": 5,
+    "correctAnswers": 5,
+    "timeSpent": 55,
+    "Status": "completed",
+    "passed": true,
+    "aiAnalysis": {
+      "strengthAreas": ["arrays", "stacks", "sorting", "tree-traversal", "graph-traversal"],
+      "improvementAreas": [],
+      "recommendedNextSteps": ["dynamic-programming", "graph-algorithms"],
+      "confidenceLevel": 0.94,
+      "predictedScore": 0.92,
+      "adaptationSuggestions": [
+        {
+          "type": "difficulty_increase",
+          "reason": "Excellent DSA fundamentals - ready for advanced topics"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-14T14:30:00Z"
+  },
+  {
+    "Id": 6,
+    "moduleId": 14,
+    "courseId": 3,
+    "studentId": "2",
+    "score": 40,
+    "totalQuestions": 5,
+    "correctAnswers": 2,
+    "timeSpent": 75,
+    "Status": "completed",
+    "passed": false,
+    "aiAnalysis": {
+      "strengthAreas": ["arrays-time-complexity"],
+      "improvementAreas": ["stacks", "sorting-algorithms", "tree-traversal"],
+      "recommendedNextSteps": ["review-stacks-queues", "practice-sorting", "tree-traversal-practice"],
+      "confidenceLevel": 0.52,
+      "predictedScore": 0.48,
+      "adaptationSuggestions": [
+        {
+          "type": "remedial_content",
+          "reason": "Student needs to review fundamental DSA concepts"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-13T11:15:00Z"
+  },
+  {
+    "Id": 7,
+    "moduleId": 1,
+    "courseId": 1,
+    "studentId": "1",
+    "score": 85,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "timeSpent": 45,
+    "Status": "completed",
+    "passed": true,
+    "aiAnalysis": {
+      "strengthAreas": ["ml-definition", "ml-applications"],
+      "improvementAreas": [],
+      "recommendedNextSteps": ["types-of-ml", "supervised-learning"],
+      "confidenceLevel": 0.88,
+      "predictedScore": 0.90,
+      "adaptationSuggestions": [
+        {
+          "type": "maintain",
+          "reason": "Good understanding of ML basics"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": 8,
+    "moduleId": 2,
+    "courseId": 1,
+    "studentId": "1",
+    "score": 70,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "timeSpent": 60,
+    "Status": "completed",
+    "passed": true,
+    "aiAnalysis": {
+      "strengthAreas": ["supervised-learning"],
+      "improvementAreas": ["unsupervised-learning", "reinforcement-learning"],
+      "recommendedNextSteps": ["review-ml-types", "practice-clustering"],
+      "confidenceLevel": 0.72,
+      "predictedScore": 0.75,
+      "adaptationSuggestions": [
+        {
+          "type": "maintain",
+          "reason": "Solid foundation, needs more practice with unsupervised"
+        }
+      ]
+    },
+    "submittedAt": "2024-01-15T11:30:00Z"
   }
 ]

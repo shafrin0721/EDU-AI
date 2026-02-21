@@ -1,284 +1,1180 @@
 [
-{
+  {
     "Id": 1,
     "courseId": "1",
-    "title": "What is Machine Learning?",
-    "content": {
-      "type": "video",
-      "videoUrl": "/api/placeholder/video",
-      "transcript": "Introduction to machine learning concepts...",
-      "slides": [
-        {
-          "title": "Definition",
-          "content": "Machine Learning is a subset of artificial intelligence..."
-        }
-      ]
-    },
-    "theoreticalContent": {
-      "learningTheories": [
-        {
-          "name": "Constructivism",
-          "description": "Learning is an active process where learners construct their own understanding through experience and reflection.",
-          "application": "In ML education, students build understanding by experimenting with algorithms and observing outcomes.",
-          "keyPrinciples": ["Active learning", "Prior knowledge integration", "Social interaction", "Authentic contexts"]
-        },
-        {
-          "name": "Cognitive Load Theory",
-          "description": "Learning is optimized when cognitive load is managed effectively, focusing on intrinsic, extraneous, and germane load.",
-          "application": "ML concepts are presented progressively, starting with simple algorithms before moving to complex neural networks.",
-          "keyPrinciples": ["Progressive complexity", "Worked examples", "Problem-solving schemas", "Chunking information"]
-        }
-      ],
-      "foundations": [
-        {
-          "category": "Mathematical Foundations",
-          "concepts": [
-            {
-              "name": "Linear Algebra",
-              "description": "Vector spaces, matrices, and linear transformations form the mathematical backbone of machine learning.",
-              "importance": "Essential for understanding neural networks, PCA, and most optimization algorithms."
-            },
-            {
-              "name": "Statistics & Probability",
-              "description": "Statistical inference and probability distributions are fundamental to understanding ML model behavior.",
-              "importance": "Critical for model evaluation, uncertainty quantification, and Bayesian methods."
-            }
-          ]
-        },
-        {
-          "category": "Educational Psychology",
-          "concepts": [
-            {
-              "name": "Bloom's Taxonomy",
-              "description": "A framework for categorizing learning objectives from basic recall to creative application.",
-              "importance": "Helps structure ML curriculum from memorizing algorithms to creating novel solutions."
-            },
-            {
-              "name": "Zone of Proximal Development",
-              "description": "The difference between what a learner can do independently and with guidance.",
-              "importance": "Guides the design of scaffolded learning experiences in complex ML topics."
-            }
-          ]
-        }
-      ]
-    },
-    "contentType": "video",
-    "difficulty": 3,
-    "estimatedTime": 45,
+    "title": "Introduction to Machine Learning",
+    "description": "Learn the fundamentals of Machine Learning - what it is, why it matters, and how it works.",
+    "contentType": "lesson",
+    "difficulty": 1,
+    "estimatedTime": 30,
     "prerequisites": [],
     "learningObjectives": [
-      "Define machine learning",
-      "Identify ML applications",
-      "Understand learning theories in ML context"
+      "Understand what machine learning is",
+      "Distinguish between ML and traditional programming",
+      "Identify the three main types of ML",
+      "Recognize real-world ML applications"
     ],
-    "sequence": 1
+    "sections": [
+      {
+        "title": "What is Machine Learning?",
+        "content": "Machine Learning (ML) is a way for computers to learn from data and make decisions without being explicitly programmed for every single task.\n\nThink about how you learned to ride a bike. You did not read a manual - you tried, fell, learned from your mistakes, and eventually got better. Machine learning works similarly. The computer learns from examples and experience (data) rather than following rigid rules.\n\nKey Difference from Traditional Programming:\n- Traditional: You write rules (program) + input data = output\n- Machine Learning: You provide input data + output answers = the computer learns the rules\n\nWhy is this Important?\nImagine trying to write rules for recognizing a cat in a photo. You would have to describe every possible combination of fur, ears, whiskers, tails... it is impossible. But with ML, you show the computer thousands of cat photos, and it learns to recognize cats on its own."
+      },
+      {
+        "title": "Types of Machine Learning",
+        "content": "There are three main types of machine learning:\n\n1. Supervised Learning\nLearn from labeled data (input-output pairs). Like a teacher supervising the learning.\n- Classification: Categorizing things (spam/not spam, cat/dog)\n- Regression: Predicting numbers (house prices, temperature)\n\n2. Unsupervised Learning\nFind patterns in unlabeled data. No teacher - computer figures things out itself.\n- Clustering: Grouping similar items (customer segments)\n- Dimensionality Reduction: Simplifying data while keeping important info\n\n3. Reinforcement Learning\nLearn through trial and error with rewards and penalties.\n- Like training a dog with treats\n- Used in games, robotics, autonomous vehicles"
+      },
+      {
+        "title": "Real-World Applications",
+        "content": "Machine Learning is everywhere. Here are some examples:\n\nEveryday Examples:\n- Netflix recommends shows based on what you watched\n- Spam filters learn to identify junk email\n- Voice assistants (Siri, Alexa) understand your speech\n- Face unlock on your phone\n- Google Maps predicts traffic and best routes\n\nBusiness Applications:\n- Fraud detection in banking\n- Medical diagnosis assistance\n- Stock market predictions\n- Customer behavior analysis\n- Product recommendations (Amazon, YouTube)"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the main difference between traditional programming and machine learning?",
+          "options": [
+            "Machine learning is faster",
+            "In ML, the computer learns rules from data instead of being explicitly programmed",
+            "Traditional programming is outdated",
+            "They are essentially the same"
+          ],
+          "correct": 1,
+          "explanation": "In traditional programming, humans write explicit rules. In machine learning, the computer discovers rules by analyzing data."
+        },
+        {
+          "id": 2,
+          "question": "Which type of machine learning uses labeled data?",
+          "options": [
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Supervised Learning",
+            "All of the above"
+          ],
+          "correct": 2,
+          "explanation": "Supervised learning uses labeled data (input-output pairs) to learn. The labels are the correct answers that guide the learning."
+        },
+        {
+          "id": 3,
+          "question": "What type of ML would you use to group customers into segments based on purchasing behavior?",
+          "options": [
+            "Supervised Learning",
+            "Reinforcement Learning",
+            "Unsupervised Learning",
+            "None of the above"
+          ],
+          "correct": 2,
+          "explanation": "Unsupervised learning is used when we do not have predefined labels. Clustering is perfect for finding natural groups in data."
+        },
+        {
+          "id": 4,
+          "question": "Netflix recommendations are an example of what type of ML?",
+          "options": [
+            "Supervised Learning (Classification)",
+            "Unsupervised Learning (Clustering)",
+            "Reinforcement Learning",
+            "Could be multiple types"
+          ],
+          "correct": 3,
+          "explanation": "Netflix uses multiple ML techniques: collaborative filtering (unsupervised), content-based filtering, and potentially reinforcement learning."
+        }
+      ],
+      "passingScore": 75
+    }
   },
-{
+  {
     "Id": 2,
     "courseId": "1",
-    "title": "Types of Machine Learning",
-    "content": {
-      "type": "interactive",
-      "sections": [
-        {
-          "title": "Supervised Learning",
-          "content": "Learning with labeled examples...",
-          "examples": ["Classification", "Regression"]
-        },
-        {
-          "title": "Unsupervised Learning", 
-          "content": "Finding patterns in unlabeled data...",
-          "examples": ["Clustering", "Dimensionality Reduction"]
-        }
-      ]
-    },
-    "theoreticalContent": {
-      "learningTheories": [
-        {
-          "name": "Behaviorism",
-          "description": "Learning occurs through conditioning, reinforcement, and observable behavior changes.",
-          "application": "Supervised learning mirrors behaviorist principles with feedback-driven learning from labeled examples.",
-          "keyPrinciples": ["Reinforcement learning", "Stimulus-response", "Measurable outcomes", "Repetition and practice"]
-        },
-        {
-          "name": "Social Learning Theory",
-          "description": "Learning occurs through observation, imitation, and modeling of others' behaviors.",
-          "application": "Transfer learning in ML mimics how humans learn new tasks by building on previous knowledge.",
-          "keyPrinciples": ["Observational learning", "Modeling", "Self-efficacy", "Attention and retention"]
-        }
-      ],
-      "foundations": [
-        {
-          "category": "Pattern Recognition Theory",
-          "concepts": [
-            {
-              "name": "Feature Learning",
-              "description": "The process of automatically discovering representations needed for classification or detection.",
-              "importance": "Core to understanding how neural networks learn hierarchical features."
-            },
-            {
-              "name": "Bias-Variance Tradeoff",
-              "description": "The fundamental tension between model complexity and generalization ability.",
-              "importance": "Essential for understanding overfitting and model selection."
-            }
-          ]
-        }
-      ]
-    },
-    "contentType": "exercise",
-    "difficulty": 4,
-    "estimatedTime": 60,
+    "title": "Supervised Learning Deep Dive",
+    "description": "Master supervised learning - the most common type of ML where we learn from labeled data.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 35,
     "prerequisites": [1],
     "learningObjectives": [
-      "Distinguish ML types",
-      "Choose appropriate ML approach",
-      "Apply learning theories to ML paradigms"
+      "Understand supervised learning fundamentals",
+      "Distinguish between classification and regression",
+      "Know common supervised learning algorithms",
+      "Apply linear regression concepts"
     ],
-    "sequence": 2
-  },
-{
-    "Id": 3,
-    "courseId": "1",
-    "title": "Linear Regression Basics",
-    "content": {
-      "type": "text",
-      "sections": [
+    "sections": [
+      {
+        "title": "Introduction to Supervised Learning",
+        "content": "Supervised Learning is like having a teacher with all the answers. You provide the computer with examples that include both the question (input) and the answer (label), and it learns the relationship between them.\n\nHow It Works:\n1. Training Data: Collection of input-output pairs\n2. Learning Algorithm: Finds patterns mapping inputs to outputs\n3. Model: The learned function that can predict new outputs\n\nExample: Predicting House Prices\n- Input features: Size, location, bedrooms, age, etc.\n- Output (label): Price\n- The model learns how these features affect price\n- Then predicts prices for new houses it has not seen"
+      },
+      {
+        "title": "Classification vs Regression",
+        "content": "Two main categories of supervised learning:\n\nClassification\nPredicting categories or classes.\n- Binary Classification: Yes/No, Spam/Not Spam, Cat/Dog\n- Multi-class Classification: Predicting one of many categories\n\nExamples:\n- Is this email spam? (Yes/No)\n- What digit is this? (0-9)\n- Is this tumor malignant or benign?\n\nRegression\nPredicting continuous numerical values.\n\nExamples:\n- House price prediction\n- Temperature forecasting\n- Stock price prediction\n- Age prediction\n\nKey Difference:\n- Classification: Discrete outputs (categories)\n- Regression: Continuous outputs (numbers)"
+      },
+      {
+        "title": "Common Supervised Learning Algorithms",
+        "content": "1. Linear Regression\nPredicts continuous values. Finds the best straight line through data points. Example: y = mx + b\n\n2. Logistic Regression\nDespite the name, it is for classification. Outputs probabilities between 0 and 1. Great for binary classification.\n\n3. Decision Trees\nMakes decisions by asking a series of questions. Easy to understand and interpret. Can handle both classification and regression.\n\n4. Random Forest\nEnsemble of many decision trees. More accurate than single trees. Reduces overfitting.\n\n5. Neural Networks\nInspired by human brain. Can learn complex patterns. Powers deep learning and AI."
+      }
+    ],
+    "quiz": {
+      "questions": [
         {
-          "title": "Introduction",
-          "content": "Linear regression is one of the simplest ML algorithms..."
+          "id": 1,
+          "question": "You want to predict whether a customer will buy a product (Yes/No). What type of problem is this?",
+          "options": [
+            "Regression",
+            "Classification",
+            "Clustering",
+            "Dimensionality Reduction"
+          ],
+          "correct": 1,
+          "explanation": "This is a binary classification problem - we are predicting a categorical output (Yes or No)."
         },
         {
-          "title": "Mathematical Foundation",
-          "content": "The linear regression equation: y = mx + b..."
-        }
-      ]
-    },
-    "theoreticalContent": {
-      "learningTheories": [
-        {
-          "name": "Cognitive Apprenticeship",
-          "description": "Learning through expert modeling, scaffolding, and gradual release of responsibility.",
-          "application": "Teaching linear regression through worked examples, guided practice, then independent implementation.",
-          "keyPrinciples": ["Modeling", "Coaching", "Scaffolding", "Fading support"]
+          "id": 2,
+          "question": "What does the m represent in the linear regression equation y = mx + b?",
+          "options": [
+            "The intercept",
+            "The slope",
+            "The error term",
+            "The prediction"
+          ],
+          "correct": 1,
+          "explanation": "In y = mx + b, m is the slope - it tells us how much y changes for each unit change in x."
         },
         {
-          "name": "Experiential Learning",
-          "description": "Learning through direct experience, reflection, abstract conceptualization, and active experimentation.",
-          "application": "Students implement linear regression, observe results, reflect on performance, then modify approaches.",
-          "keyPrinciples": ["Concrete experience", "Reflective observation", "Abstract conceptualization", "Active experimentation"]
+          "id": 3,
+          "question": "Which algorithm is specifically designed for binary classification problems?",
+          "options": [
+            "Linear Regression",
+            "K-Means Clustering",
+            "Logistic Regression",
+            "Principal Component Analysis"
+          ],
+          "correct": 2,
+          "explanation": "Despite its name, Logistic Regression is specifically designed for classification (especially binary classification). It outputs probabilities between 0 and 1."
+        },
+        {
+          "id": 4,
+          "question": "Random Forest is an ensemble method that combines multiple:",
+          "options": [
+            "Linear models",
+            "Neural networks",
+            "Decision trees",
+            "Clustering algorithms"
+          ],
+          "correct": 2,
+          "explanation": "Random Forest is an ensemble of many decision trees. By combining multiple trees, it typically achieves better accuracy and reduces overfitting."
         }
       ],
-      "foundations": [
-        {
-          "category": "Optimization Theory",
-          "concepts": [
-            {
-              "name": "Gradient Descent",
-              "description": "An iterative optimization algorithm for finding minimum of a function.",
-              "importance": "Fundamental algorithm behind training most machine learning models."
-            },
-            {
-              "name": "Loss Functions",
-              "description": "Mathematical functions that quantify the difference between predicted and actual values.",
-              "importance": "Essential for understanding how models learn and improve performance."
-            }
-          ]
-        },
-        {
-          "category": "Statistical Learning",
-          "concepts": [
-            {
-              "name": "Ordinary Least Squares",
-              "description": "Method for estimating unknown parameters in linear regression by minimizing sum of squared residuals.",
-              "importance": "Provides analytical solution for linear regression and foundation for understanding optimization."
-            }
-          ]
-        }
-      ]
-    },
-    "contentType": "text",
-    "difficulty": 5,
-    "estimatedTime": 75,
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 3,
+    "courseId": "1",
+    "title": "Unsupervised Learning and Model Evaluation",
+    "description": "Learn how to find patterns in data without labels and evaluate your ML models properly.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 40,
     "prerequisites": [1, 2],
     "learningObjectives": [
-      "Understand linear regression",
-      "Implement basic regression",
-      "Apply cognitive apprenticeship in learning"
+      "Understand unsupervised learning concepts",
+      "Apply clustering algorithms",
+      "Evaluate ML models properly",
+      "Identify and address overfitting and underfitting"
     ],
-    "sequence": 3
+    "sections": [
+      {
+        "title": "Introduction to Unsupervised Learning",
+        "content": "Unsupervised Learning is when we have data without any labels or answers. The computer must find patterns and structures on its own - like exploring a new city without a map.\n\nWhen to Use Unsupervised Learning:\n- You do not have labeled data\n- You want to discover hidden patterns\n- You need to segment or group data\n- You want to reduce data complexity\n\nMain Types:\n1. Clustering: Group similar data points\n2. Dimensionality Reduction: Simplify data while keeping important information\n3. Association: Find rules that describe data"
+      },
+      {
+        "title": "Clustering Algorithms",
+        "content": "K-Means Clustering:\n1. Choose K (number of clusters)\n2. Place K centroids randomly\n3. Assign each point to nearest centroid\n4. Recalculate centroids\n5. Repeat until stable\n\nReal Example: Customer Segmentation\nA store might discover 3 groups:\n- Budget shoppers (buy on sale, look for discounts)\n- Quality seekers (prefer premium brands)\n- Impulse buyers (make quick purchasing decisions)\n\nHierarchical Clustering\nCreates a tree of clusters - useful when you want to see relationships at different levels.\n\nDBSCAN\nDensity-based - finds clusters of arbitrary shapes, identifies outliers automatically."
+      },
+      {
+        "title": "Evaluating Machine Learning Models",
+        "content": "Training vs Testing Data:\nWe always split data:\n- Training data: Used to build the model (70-80%)\n- Testing data: Used to evaluate (20-30%)\n\nClassification Metrics:\n- Accuracy: Percentage of correct predictions\n- Precision: Of predicted positives, how many actually positive\n- Recall: Of actual positives, how many did we find?\n- F1 Score: Harmonic mean of precision and recall\n\nRegression Metrics:\n- MAE (Mean Absolute Error): Average absolute difference\n- MSE (Mean Squared Error): Penalizes large errors more\n- RMSE: Square root of MSE\n\nThe Golden Rule:\nNever evaluate on training data. This leads to overfitting - the model memorizes rather than learns."
+      },
+      {
+        "title": "Understanding Overfitting and Underfitting",
+        "content": "The Balance Problem:\nMachine learning is about finding the right balance between fitting the training data well and generalizing to new data.\n\nUnderfitting:\nModel is too simple to capture patterns in data.\n- Poor performance on training data\n- Poor performance on test data\n- Model misses important patterns\n\nOverfitting:\nModel learns training data too well, including noise.\n- Great on training data\n- Poor on test data\n- Model memorizes rather than learns\n\nThe Sweet Spot:\nThe best model captures the true patterns in data and generalizes well to new data.\n\nThink of it like studying for an exam:\n- Underfitting: Not studying enough - you fail\n- Overfitting: Memorizing every practice question - you struggle with new questions\n- Just right: Understanding concepts - you ace the exam"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "When you do not have labeled data, which type of learning should you use?",
+          "options": [
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "None of the above"
+          ],
+          "correct": 1,
+          "explanation": "Unsupervised learning is used when you do not have labeled data. The algorithm finds patterns and structures in the data without guidance."
+        },
+        {
+          "id": 2,
+          "question": "K-Means clustering requires you to specify:",
+          "options": [
+            "The initial centroids",
+            "The number of clusters (K)",
+            "The distance metric",
+            "All of the above"
+          ],
+          "correct": 1,
+          "explanation": "In K-Means, you must specify K (the number of clusters) before running the algorithm."
+        },
+        {
+          "id": 3,
+          "question": "A model has 95% accuracy on training data but only 55% on test data. What is happening?",
+          "options": [
+            "Underfitting",
+            "Overfitting",
+            "Perfect fitting",
+            "Cannot be determined"
+          ],
+          "correct": 1,
+          "explanation": "This is classic overfitting - the model has memorized the training data but does not generalize well to new data."
+        },
+        {
+          "id": 4,
+          "question": "Which metric is best for imbalanced classification problems?",
+          "options": [
+            "Accuracy",
+            "Precision only",
+            "Recall only",
+            "F1 Score or Precision/Recall"
+          ],
+          "correct": 3,
+          "explanation": "When classes are imbalanced (e.g., 95% vs 5%), accuracy can be misleading. F1 Score provides a better measure as it considers both precision and recall."
+        }
+      ],
+      "passingScore": 75
+    }
   },
   {
     "Id": 4,
     "courseId": "1",
-    "title": "ML Quiz: Fundamentals",
-    "content": {
-      "type": "quiz",
+    "title": "Machine Learning Fundamentals Assessment",
+    "description": "Test your knowledge of ML fundamentals with this comprehensive quiz.",
+    "contentType": "quiz",
+    "difficulty": 2,
+    "estimatedTime": 20,
+    "prerequisites": [1, 2, 3],
+    "learningObjectives": [
+      "Test understanding of ML fundamentals",
+      "Evaluate knowledge of supervised vs unsupervised learning",
+      "Verify understanding of model evaluation",
+      "Confirm ability to identify overfitting"
+    ],
+    "quiz": {
       "questions": [
         {
           "id": 1,
-          "question": "What type of learning uses labeled data?",
-          "options": ["Supervised", "Unsupervised", "Reinforcement", "Deep"],
+          "question": "Machine Learning is a subset of Artificial Intelligence that enables computers to learn from data without being explicitly programmed.",
+          "options": ["True", "False"],
           "correct": 0,
-          "explanation": "Supervised learning requires labeled training data."
+          "explanation": "Correct. ML is indeed a subset of AI where computers learn patterns from data rather than following explicit instructions."
         },
         {
           "id": 2,
-          "question": "Linear regression is used for:",
-          "options": ["Classification", "Clustering", "Regression", "Dimensionality Reduction"],
+          "question": "Which type of machine learning would you use to group similar customers together without predefined categories?",
+          "options": [
+            "Supervised Learning",
+            "Unsupervised Learning (Clustering)",
+            "Reinforcement Learning",
+            "Supervised Regression"
+          ],
+          "correct": 1,
+          "explanation": "Clustering is an unsupervised learning technique used to group similar data points without predefined labels."
+        },
+        {
+          "id": 3,
+          "question": "In linear regression, what does the slope (m) represent?",
+          "options": [
+            "Where the line crosses the y-axis",
+            "How much y changes when x changes by 1 unit",
+            "The error in prediction",
+            "The total number of data points"
+          ],
+          "correct": 1,
+          "explanation": "The slope m in y = mx + b represents the rate of change - for each 1 unit increase in x, y changes by m units."
+        },
+        {
+          "id": 4,
+          "question": "A model performs well on training data but poorly on test data. This is called:",
+          "options": [
+            "Underfitting",
+            "Overfitting",
+            "Normal fitting",
+            "Cross-validation"
+          ],
+          "correct": 1,
+          "explanation": "Overfitting occurs when a model learns the training data too well (including noise) but fails to generalize to new data."
+        },
+        {
+          "id": 5,
+          "question": "Which algorithm is specifically designed for binary classification (Yes/No predictions)?",
+          "options": [
+            "Linear Regression",
+            "K-Means",
+            "Logistic Regression",
+            "PCA"
+          ],
           "correct": 2,
-          "explanation": "Linear regression predicts continuous values."
+          "explanation": "Despite its name, Logistic Regression is a classification algorithm designed for binary (two-class) problems."
+        },
+        {
+          "id": 6,
+          "question": "What is the purpose of splitting data into training and testing sets?",
+          "options": [
+            "To make the model run faster",
+            "To evaluate how well the model generalizes to new data",
+            "To reduce the amount of data needed",
+            "To simplify the algorithm"
+          ],
+          "correct": 1,
+          "explanation": "Testing data helps us evaluate how well the model will perform on real-world, unseen data - this is called generalization."
+        },
+        {
+          "id": 7,
+          "question": "Which metric is recommended for imbalanced classification problems?",
+          "options": [
+            "Accuracy alone",
+            "F1 Score (combines Precision and Recall)",
+            "Only Precision",
+            "Only Recall"
+          ],
+          "correct": 1,
+          "explanation": "F1 Score is the harmonic mean of Precision and Recall, making it more reliable than accuracy for imbalanced datasets."
+        },
+        {
+          "id": 8,
+          "question": "Supervised learning requires labeled data (input-output pairs) for training.",
+          "options": ["True", "False"],
+          "correct": 0,
+          "explanation": "Correct. Supervised learning uses labeled data where each training example has both input features and the correct output."
         }
-      ]
-    },
-    "contentType": "quiz",
-    "difficulty": 4,
-    "estimatedTime": 30,
-    "prerequisites": [1, 2, 3],
-    "learningObjectives": [
-      "Test ML fundamentals knowledge"
-    ],
-    "sequence": 4
+      ],
+      "passingScore": 75
+    }
   },
   {
     "Id": 5,
     "courseId": "1",
-    "title": "Hands-on: Build Your First Model",
-    "content": {
-      "type": "exercise",
-      "instructions": "Follow these steps to build a simple linear regression model...",
-      "codeTemplate": "import pandas as pd\nimport numpy as np\n# Your code here",
-      "expectedOutput": "Model accuracy: 85.3%"
-    },
-    "contentType": "exercise", 
-    "difficulty": 6,
-    "estimatedTime": 90,
+    "title": "Build Your First ML Model",
+    "description": "Put your knowledge into practice by building a real machine learning model.",
+    "contentType": "lesson",
+    "difficulty": 3,
+    "estimatedTime": 45,
     "prerequisites": [1, 2, 3],
     "learningObjectives": [
-      "Build ML model from scratch",
-      "Evaluate model performance"
+      "Set up ML development environment",
+      "Build a complete linear regression model",
+      "Evaluate model performance with metrics",
+      "Make predictions with trained model"
     ],
-    "sequence": 5
+    "sections": [
+      {
+        "title": "Setting Up Your ML Environment",
+        "content": "Before building ML models, we need the right tools. Here is what you will use:\n\nPython Libraries:\n- NumPy: Numerical computing\n- Pandas: Data manipulation\n- Scikit-learn: ML algorithms\n- Matplotlib: Data visualization\n\nInstallation:\nRun: pip install numpy pandas scikit-learn matplotlib\n\nYour First ML Code:\nDo not worry - we will build a real model step by step."
+      },
+      {
+        "title": "Step-by-Step: Building a House Price Predictor",
+        "content": "Let us build a linear regression model to predict house prices.\n\nStep 1: Import Libraries\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error\n\nStep 2: Prepare Data\nX = [[1500, 3, 10], [2000, 4, 5], [1200, 2, 20], [1800, 3, 8]]\ny = [280, 350, 200, 320]\n\nStep 3: Split Data\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nStep 4: Train Model\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\nStep 5: Predict and Evaluate\npredictions = model.predict(X_test)\nerror = mean_squared_error(y_test, predictions)\nprint(f Mean Squared Error: {error})"
+      },
+      {
+        "title": "Understanding Your Models Output",
+        "content": "After training, your model gives you:\n\nCoefficients:\nEach feature gets a weight showing its importance.\n- Size: +0.15 (bigger houses = higher price)\n- Bedrooms: +20 (each bedroom adds about $20k)\n- Age: -3 (each year old = minus $3k)\n\nMaking Predictions:\nnew_house = [[2500, 4, 3]]\npredicted_price = model.predict(new_house)\nprint(f Predicted price: ${predicted_price[0] * 1000})\n\nInterpreting Results:\n- Positive coefficient: Feature increases price\n- Negative coefficient: Feature decreases price\n- Larger coefficient: More important feature"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the purpose of splitting data into training and testing sets?",
+          "options": [
+            "To make the model run faster",
+            "To evaluate how well the model generalizes to new, unseen data",
+            "To reduce memory usage",
+            "To simplify the code"
+          ],
+          "correct": 1,
+          "explanation": "Testing data helps evaluate model performance on data it has not seen during training - this measures generalization."
+        },
+        {
+          "id": 2,
+          "question": "In the linear regression equation y = mx + b, what does b (intercept) represent?",
+          "options": [
+            "The slope of the line",
+            "The value of y when x is zero",
+            "The error term",
+            "The number of data points"
+          ],
+          "correct": 1,
+          "explanation": "The intercept b is where the line crosses the y-axis - the predicted value when x equals zero."
+        },
+        {
+          "id": 3,
+          "question": "What does a positive coefficient in linear regression indicate about a feature?",
+          "options": [
+            "The feature decreases the prediction",
+            "The feature increases the prediction",
+            "The feature has no effect",
+            "The model is overfitting"
+          ],
+          "correct": 1,
+          "explanation": "A positive coefficient means that as that feature increases, the predicted output also increases."
+        },
+        {
+          "id": 4,
+          "question": "What does MAE (Mean Absolute Error) measure?",
+          "options": [
+            "The average squared difference between predictions and actuals",
+            "The average absolute difference between predictions and actuals",
+            "The number of correct predictions",
+            "The correlation between features"
+          ],
+          "correct": 1,
+          "explanation": "MAE measures the average magnitude of errors in predictions, without considering direction (positive or negative)."
+        }
+      ],
+      "passingScore": 75
+    }
   },
   {
     "Id": 6,
     "courseId": "2",
-    "title": "Advanced React Hooks",
-    "content": {
-      "type": "video",
-      "videoUrl": "/api/placeholder/video",
-      "transcript": "Deep dive into useEffect, useContext, useReducer...",
-      "codeExamples": [
-        "const [state, dispatch] = useReducer(reducer, initialState);"
-      ]
-    },
-    "contentType": "video",
-    "difficulty": 7,
-    "estimatedTime": 85,
+    "title": "React Fundamentals",
+    "description": "Learn React from scratch - the most popular JavaScript library for building user interfaces.",
+    "contentType": "lesson",
+    "difficulty": 1,
+    "estimatedTime": 40,
     "prerequisites": [],
     "learningObjectives": [
-      "Master complex hooks",
-      "Manage advanced state patterns"
+      "Understand what React is",
+      "Create your first React component",
+      "Master JSX syntax",
+      "Build reusable components"
     ],
-    "sequence": 1
+    "sections": [
+      {
+        "title": "What is React and Why Should You Care?",
+        "content": "React is a JavaScript library for building user interfaces. It is like having a magic toolbox that makes building websites faster and easier.\n\nWhy React is Popular:\n- Component-Based: Build encapsulated components that manage their own state\n- Declarative: You describe what you want, React figures out how\n- Learn Once, Write Anywhere: Web, mobile (React Native), desktop\n- Big Community: Lots of resources, jobs, and support\n\nBut What Does This Actually Mean?\nThink of React like building with LEGO bricks:\n- Each piece (component) is self-contained\n- You can combine pieces in different ways\n- Reusable and maintainable\n\nTraditional vs React:\n- Old way: Write instructions step by step\n- React way: Describe the final result, React handles the rest"
+      },
+      {
+        "title": "Your First React Component",
+        "content": "A component is just a JavaScript function that returns HTML.\n\nBasic Component:\nfunction Welcome() {\n  return Hello, World;\n}\n\nUsing a Component:\nfunction App() {\n  return (\n    div\n      Welcome\n      Welcome\n      Welcome\n    div\n  );\n}\n\nKey Rules:\n1. Component names must start with uppercase\n2. Components must return a single root element\n3. Components are reusable - use them as many times as needed\n\nYour First Interactive Component:\nfunction Greeting() {\n  const name = Student;\n  return h1Hello, {name};/h1;\n}\n\nNotice the curly braces - they are for embedding JavaScript in JSX."
+      },
+      {
+        "title": "Understanding JSX",
+        "content": "JSX is a syntax extension for JavaScript that lets you write HTML-like code in your JavaScript files.\n\nWhy JSX?\n- More readable than createElement\n- Combines UI logic with component logic\n- Familiar syntax for web developers\n\nJSX Rules:\n1. Return a single element (or use fragments)\n2. Close all tags (including self-closing like img /)\n3. Use camelCase for attributes (onClick, className)\n4. Use curly braces for JavaScript expressions\n\nExamples:\n// JavaScript expressions in JSX\nconst name = Alice;\nconst element = h1Hello, {name.toUpperCase()}!/h1;\n\n// Conditional rendering\nconst isLoggedIn = true;\nreturn (\n  div\n    {isLoggedIn ? h1Welcome back!/h1 : h1Please log in/h1}\n  /div\n);"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is a React component?",
+          "options": [
+            "A database table",
+            "A reusable piece of UI code",
+            "A CSS stylesheet",
+            "A JavaScript framework"
+          ],
+          "correct": 1,
+          "explanation": "A React component is a reusable, self-contained piece of UI that can be used to build the interface."
+        },
+        {
+          "id": 2,
+          "question": "In JSX, how do you embed a JavaScript variable?",
+          "options": [
+            "{{variable}}",
+            "${variable}",
+            "{variable}",
+            "[[variable]]"
+          ],
+          "correct": 2,
+          "explanation": "In JSX, you use curly braces { } to embed JavaScript expressions within your HTML-like code."
+        },
+        {
+          "id": 3,
+          "question": "What rule must React component names follow?",
+          "options": [
+            "They must be lowercase",
+            "They must start with a number",
+            "They must start with an uppercase letter",
+            "They must be one word"
+          ],
+          "correct": 2,
+          "explanation": "React component names must start with an uppercase letter so React can distinguish them from HTML elements."
+        },
+        {
+          "id": 4,
+          "question": "What is JSX?",
+          "options": [
+            "A JavaScript framework",
+            "A syntax extension that lets you write HTML in JavaScript",
+            "A CSS library",
+            "A database query language"
+          ],
+          "correct": 1,
+          "explanation": "JSX is a syntax extension for JavaScript that allows you to write HTML-like code within JavaScript files."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 7,
+    "courseId": "2",
+    "title": "React State and useState Hook",
+    "description": "Master React state management with the useState hook - the foundation of interactive React apps.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 45,
+    "prerequisites": [6],
+    "learningObjectives": [
+      "Understand React state concept",
+      "Master useState hook",
+      "Handle user input with state",
+      "Build interactive components"
+    ],
+    "sections": [
+      {
+        "title": "Understanding State in React",
+        "content": "State is data that changes over time in your application. When state changes, React automatically updates the UI to reflect the new data.\n\nWhat is State?\n- Data that can change\n- Triggers UI updates when modified\n- Local to each component\n\nWhy State Matters:\nWithout state, your app would be static - nothing would ever change or respond to user actions.\n\nSimple State Example:\nimport { useState } from react;\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    button onClick={() => setCount(count + 1)}Clicked {count} times/button\n  );\n}\n\nThe key parts:\n1. useState(0) - Initializes state with value 0\n2. count - The current value\n3. setCount - Function to update the value (only way to change state)"
+      },
+      {
+        "title": "The useState Hook Explained",
+        "content": "The Hook Pattern:\nconst [state, setState] = useState(initialValue);\n\n- state - The current value (like a variable)\n- setState - Function to update the value (only way to change state)\n- useState - The hook that creates state\n- initialValue - Starting value for the state\n\nMultiple State Values:\nfunction Form() {\n  const [name, setName] = useState();\n  const [email, setEmail] = useState();\n  const [age, setAge] = useState(0);\n  \n  return (\n    form\n      input value={name} onChange={e => setName(e.target.value)} /\n      input value={email} onChange={e => setEmail(e.target.value)} /\n    /form\n  );\n}\n\nCommon Mistake:\nWRONG: count = count + 1;\nCORRECT: setCount(count + 1);\nBEST: setCount(prevCount => prevCount + 1);"
+      },
+      {
+        "title": "State Best Practices",
+        "content": "When to Use State:\n- User input (form fields, selections)\n- Toggle states (on/off, open/closed)\n- Counts and numbers\n- Loading states\n- Error messages\n\nWhen NOT to Use State:\n- Derived data (calculate from other state)\n- Static data that never changes\n- Data that does not affect UI\n\nObject State:\nconst [user, setUser] = useState({\n  name: ,\n  email: ,\n  age: 0\n});\n\n// Updating object state - spread operator\nsetUser(prev => ({...prev, name: John}));\n\nArray State:\nconst [items, setItems] = useState([]);\n\n// Add item\nsetItems(prev => [...prev, newItem]);\n\n// Remove item\nsetItems(prev => prev.filter(item => item.id !== id));"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What does useState return?",
+          "options": [
+            "Just the current value",
+            "An array with the current value and a setter function",
+            "An object with state and props",
+            "Nothing - it modifies state directly"
+          ],
+          "correct": 1,
+          "explanation": "useState returns an array with two elements: the current state value and a function to update it."
+        },
+        {
+          "id": 2,
+          "question": "How do you correctly update state in React?",
+          "options": [
+            "state = newValue",
+            "setState(newValue)",
+            "state.update(newValue)",
+            "Both A and B"
+          ],
+          "correct": 1,
+          "explanation": "In React, you must use the setter function (setState) to update state. Direct modification does not trigger re-renders."
+        },
+        {
+          "id": 3,
+          "question": "What is the correct way to update an object in state?",
+          "options": [
+            "setObj({newProp: value})",
+            "setObj(newProp: value)",
+            "setObj.prop = value",
+            "obj.newProp = value"
+          ],
+          "correct": 0,
+          "explanation": "When updating object state, always use the spread operator to create a new object with the updated properties."
+        },
+        {
+          "id": 4,
+          "question": "Why is setCount(prev => prev + 1) better than setCount(count + 1)?",
+          "options": [
+            "It is not better",
+            "It works with async updates correctly",
+            "It is shorter to write",
+            "It requires less memory"
+          ],
+          "correct": 1,
+          "explanation": "Using the function form ensures correct updates even when multiple state changes happen quickly, as it uses the previous value."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 8,
+    "courseId": "2",
+    "title": "React useEffect and Side Effects",
+    "description": "Learn how to handle side effects in React with the useEffect hook.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 45,
+    "prerequisites": [6, 7],
+    "learningObjectives": [
+      "Understand side effects in React",
+      "Master useEffect hook",
+      "Handle data fetching",
+      "Implement cleanup functions"
+    ],
+    "sections": [
+      {
+        "title": "What are Side Effects?",
+        "content": "Side effects are anything that happens outside of rendering - things that do not directly produce UI output.\n\nExamples of Side Effects:\n- Fetching data from an API\n- Setting up subscriptions\n- Updating the document title\n- Starting timers\n- Logging to console\n\nWhy Special Handling?\nReact components should be pure - same inputs always produce same output. But we need side effects for real apps.\n\nThe useEffect Hook:\nuseEffect lets you run side effects in function components.\n\nimport { useEffect } from react;\n\nfunction MyComponent() {\n  useEffect(() => {\n    console.log(Component rendered!);\n  });\n}"
+      },
+      {
+        "title": "useEffect Dependencies",
+        "content": "The dependency array controls when useEffect runs:\n\nNo Dependencies [] - Run Once:\nuseEffect(() => {\n  console.log(Runs only on mount);\n}, []);\n\nWith Dependencies [data] - Run When Changed:\nuseEffect(() => {\n  console.log(Runs when count changes);\n}, [count]);\n\nNo Array - Run Every Render:\nuseEffect(() => {\n  console.log(Runs after every render);\n});\n\nCommon Patterns:\n\n// Fetch data on mount\nuseEffect(() => {\n  fetch(/api/data).then(res => res.json());\n}, []);\n\n// Run when userId changes\nuseEffect(() => {\n  fetchUser(userId).then(setUser);\n}, [userId]);\n\n// Cleanup on unmount\nuseEffect(() => {\n  const subscription = subscribe(id);\n  return () => subscription.unsubscribe();\n}, [id]);"
+      },
+      {
+        "title": "Data Fetching with useEffect",
+        "content": "Here is how to fetch data in React:\n\nfunction UserProfile(userId) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    async function fetchUser() {\n      try {\n        setLoading(true);\n        const response = await fetch(`/api/users/${userId}`);\n        const data = await response.json();\n        setUser(data);\n      } catch (err) {\n        setError(err.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    \n    fetchUser();\n  }, [userId]);\n\n  if (loading) return pLoading.../p;\n  if (error) return pError: {error}/p;\n  if (!user) return null;\n  \n  return (\n    div\n      h1{user.name}/h1\n      p{user.email}/p\n    /div\n  );\n}\n\nImportant: Always handle loading and error states."
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "When does useEffect with an empty dependency array [] run?",
+          "options": [
+            "On every render",
+            "Only on mount (first render)",
+            "Never",
+            "When props change"
+          ],
+          "correct": 1,
+          "explanation": "An empty dependency array means the effect runs only once when the component mounts."
+        },
+        {
+          "id": 2,
+          "question": "What is the purpose of the cleanup function in useEffect?",
+          "options": [
+            "To set initial state",
+            "To clean up side effects when component unmounts or before next effect runs",
+            "To render the component",
+            "To import dependencies"
+          ],
+          "correct": 1,
+          "explanation": "The cleanup function runs before the component unmounts or before each re-run of the effect to clean up subscriptions, timers, or event listeners."
+        },
+        {
+          "id": 3,
+          "question": "Which is a common side effect that requires useEffect?",
+          "options": [
+            "Calculating 2+2",
+            "Fetching data from an API",
+            "Rendering JSX",
+            "Returning a value"
+          ],
+          "correct": 1,
+          "explanation": "Fetching data from an API is a classic side effect - it interacts with the outside world and should be handled in useEffect."
+        },
+        {
+          "id": 4,
+          "question": "What happens if you do not include a dependency that the effect uses?",
+          "options": [
+            "Nothing - it still works",
+            "React will warn about missing dependencies",
+            "The effect never runs",
+            "The component will not render"
+          ],
+          "correct": 1,
+          "explanation": "React will warn you when your effect uses variables that are not in the dependency array, as this can cause stale data bugs."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 9,
+    "courseId": "2",
+    "title": "React Fundamentals Assessment",
+    "description": "Test your React knowledge with this comprehensive quiz.",
+    "contentType": "quiz",
+    "difficulty": 2,
+    "estimatedTime": 25,
+    "prerequisites": [6, 7, 8],
+    "learningObjectives": [
+      "Test React fundamentals knowledge",
+      "Verify understanding of hooks",
+      "Confirm ability to build components"
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the correct way to create state in a functional component?",
+          "options": [
+            "this.state = { value: 0 }",
+            "const [value, setValue] = useState(0)",
+            "useState(0)",
+            "state = useState(0)"
+          ],
+          "correct": 1,
+          "explanation": "In functional components, we use the useState hook to create state."
+        },
+        {
+          "id": 2,
+          "question": "In JSX, how do you display a JavaScript variable called name?",
+          "options": [
+            "{{name}}",
+            "$(name)",
+            "{name}",
+            "[name]"
+          ],
+          "correct": 2,
+          "explanation": "In JSX, you use curly braces { } to embed JavaScript expressions, including variables."
+        },
+        {
+          "id": 3,
+          "question": "What does useEffect with no dependency array do?",
+          "options": [
+            "Never runs",
+            "Runs only once on mount",
+            "Runs on every render",
+            "Runs only on unmount"
+          ],
+          "correct": 2,
+          "explanation": "When there is no dependency array, the effect runs after every single render."
+        },
+        {
+          "id": 4,
+          "question": "Which hook is used for side effects like data fetching?",
+          "options": [
+            "useState",
+            "useEffect",
+            "useContext",
+            "useReducer"
+          ],
+          "correct": 1,
+          "explanation": "useEffect is specifically designed for handling side effects like data fetching, subscriptions, and DOM manipulation."
+        },
+        {
+          "id": 5,
+          "question": "What is the correct way to update object state in React?",
+          "options": [
+            "setState(newProp: value)",
+            "setState({...state, newProp: value})",
+            "state.newProp = value",
+            "Both A and B are correct"
+          ],
+          "correct": 1,
+          "explanation": "When updating object state, you must create a new object using the spread operator to preserve other properties."
+        },
+        {
+          "id": 6,
+          "question": "React component names must start with:",
+          "options": [
+            "A lowercase letter",
+            "An uppercase letter",
+            "A number",
+            "An underscore"
+          ],
+          "correct": 1,
+          "explanation": "React component names must start with an uppercase letter so React can distinguish them from HTML elements."
+        },
+        {
+          "id": 7,
+          "question": "What is the purpose of the cleanup function in useEffect?",
+          "options": [
+            "To clean up code before pushing to production",
+            "To clean up side effects when component unmounts or before re-running",
+            "To remove all state from the component",
+            "To delete the component"
+          ],
+          "correct": 1,
+          "explanation": "The cleanup function runs before the component unmounts or before the effect re-runs to clean up subscriptions, timers, and event listeners."
+        },
+        {
+          "id": 8,
+          "question": "What does JSX stand for?",
+          "options": [
+            "JavaScript XML",
+            "Java Syntax Extension",
+            "JavaScript Extra",
+            "JSON XML"
+          ],
+          "correct": 0,
+          "explanation": "JSX stands for JavaScript XML - it is a syntax extension that lets you write HTML-like code in JavaScript."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 10,
+    "courseId": "3",
+    "title": "Introduction to Data Structures",
+    "description": "Learn the fundamental data structures that every programmer needs to know.",
+    "contentType": "lesson",
+    "difficulty": 1,
+    "estimatedTime": 40,
+    "prerequisites": [],
+    "learningObjectives": [
+      "Understand what data structures are",
+      "Master arrays and their operations",
+      "Learn linked list concepts",
+      "Understand time complexity basics"
+    ],
+    "sections": [
+      {
+        "title": "What Are Data Structures?",
+        "content": "Data structures are ways of organizing and storing data so it can be accessed and modified efficiently. Think of them as different types of containers - each designed for different purposes.\n\nWhy Do Data Structures Matter?\n- They determine how quickly you can find, add, or remove data\n- The right data structure can make your code 100x faster\n- They are the foundation of efficient algorithms\n\nCommon Data Structures:\n1. Arrays - Ordered collections\n2. Linked Lists - Chain of elements\n3. Stacks - Last in, first out (LIFO)\n4. Queues - First in, first out (FIFO)\n5. Trees - Hierarchical structure\n6. Hash Tables - Key-value storage\n\nTime Complexity Basics:\n- O(1) - Constant (fastest)\n- O(log n) - Logarithmic\n- O(n) - Linear\n- O(n squared) - Quadratic (slowest)"
+      },
+      {
+        "title": "Arrays - The Foundation",
+        "content": "Arrays are the most basic data structure - a collection of elements stored in contiguous memory.\n\nKey Characteristics:\n- Fixed size (in most languages)\n- Elements accessed by index (starting at 0)\n- Fast random access\n- Slow insertions/deletions\n\nOperations:\n- Access by index: O(1)\n- Search: O(n)\n- Insert at end: O(1) amortized\n- Insert at beginning: O(n)\n- Delete at beginning: O(n)\n\nReal-World Analogy:\nThink of a movie theater seating - each seat has a number, you can find any seat instantly if you know its number, but adding a new seat requires renumbering everything.\n\nJavaScript Arrays:\nconst arr = [1, 2, 3, 4, 5];\narr[0];  // 1 - access\narr.push(6);  // add to end - O(1)\narr.pop();    // remove from end - O(1)\narr.shift();  // remove from start - O(n)"
+      },
+      {
+        "title": "Linked Lists Explained",
+        "content": "A linked list is a linear data structure where elements are stored in nodes, and each node points to the next node.\n\nTypes:\n1. Singly Linked List - Each node points to next\n2. Doubly Linked List - Each node points to next and previous\n3. Circular Linked List - Last node points back to first\n\nStructure:\nNode: [Data | Next] -> Node: [Data | Next] -> null\n\nAdvantages over Arrays:\n- Dynamic size (no fixed capacity)\n- Fast insertions/deletions at any position\n- No memory waste\n\nDisadvantages:\n- No random access (must traverse)\n- Extra memory for pointers\n\nOperations:\n- Access by index: O(n)\n- Search: O(n)\n- Insert at beginning: O(1)\n- Insert at end: O(n) singly, O(1) doubly\n- Delete at beginning: O(1)"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the time complexity of accessing an element in an array by index?",
+          "options": [
+            "O(1)",
+            "O(n)",
+            "O(log n)",
+            "O(n squared)"
+          ],
+          "correct": 0,
+          "explanation": "Array access by index is O(1) - constant time. You can go directly to any position without iterating."
+        },
+        {
+          "id": 2,
+          "question": "What data structure uses the LIFO (Last In First Out) principle?",
+          "options": [
+            "Queue",
+            "Stack",
+            "Array",
+            "Linked List"
+          ],
+          "correct": 1,
+          "explanation": "Stack follows LIFO - the last element added is the first one to be removed. Like a stack of plates."
+        },
+        {
+          "id": 3,
+          "question": "What is a key advantage of linked lists over arrays?",
+          "options": [
+            "Faster access by index",
+            "Dynamic size without resizing overhead",
+            "Less memory usage",
+            "Simpler to implement"
+          ],
+          "correct": 1,
+          "explanation": "Linked lists can grow and shrink dynamically without needing to allocate contiguous memory or resize."
+        },
+        {
+          "id": 4,
+          "question": "What does O(n) time complexity mean?",
+          "options": [
+            "The operation takes constant time",
+            "The operation time grows linearly with input size",
+            "The operation time is logarithmic",
+            "The operation time is quadratic"
+          ],
+          "correct": 1,
+          "explanation": "O(n) means the operation time grows proportionally with the input size - if you double the input, the time roughly doubles."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 11,
+    "courseId": "3",
+    "title": "Stacks and Queues",
+    "description": "Master two essential linear data structures - Stacks and Queues.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 40,
+    "prerequisites": [10],
+    "learningObjectives": [
+      "Master stack operations",
+      "Understand queue implementation",
+      "Apply stacks and queues in problems",
+      "Solve algorithmic challenges"
+    ],
+    "sections": [
+      {
+        "title": "Understanding Stacks",
+        "content": "A stack is a linear data structure that follows the Last In First Out (LIFO) principle. Think of a stack of plates - you can only add or remove from the top.\n\nReal-World Examples:\n- Undo/Redo in editors\n- Browser history (back button)\n- Function call stack in programming\n- Stack of cards\n\nOperations:\n- push(item) - Add to top: O(1)\n- pop() - Remove from top: O(1)\n- peek() - View top without removing: O(1)\n- isEmpty() - Check if empty: O(1)\n\nImplementation:\nclass Stack {\n  constructor() {\n    this.items = [];\n  }\n  \n  push(item) {\n    this.items.push(item);\n  }\n  \n  pop() {\n    return this.items.pop();\n  }\n  \n  peek() {\n    return this.items[this.items.length - 1];\n  }\n}"
+      },
+      {
+        "title": "Understanding Queues",
+        "content": "A queue is a linear data structure that follows the First In First Out (FIFO) principle. Think of a line at a store - first person in line gets served first.\n\nReal-World Examples:\n- Print job queue\n- Customer service calls\n- Task scheduling\n- Breadth-first search\n\nOperations:\n- enqueue(item) - Add to back: O(1)\n- dequeue() - Remove from front: O(1)\n- front() - View front item: O(1)\n- isEmpty() - Check if empty: O(1)\n\nTypes of Queues:\n- Simple Queue (FIFO)\n- Priority Queue (higher priority first)\n- Circular Queue (connects end to start)\n- Deque (double-ended)"
+      },
+      {
+        "title": "Stack and Queue Applications",
+        "content": "Stack Applications:\n\n1. Expression Evaluation\n- Converting infix to postfix\n- Evaluating postfix expressions\n\n2. Function Call Stack\n- Managing function calls\n- Recursion\n\n3. Parentheses Matching\nfunction isBalanced(str) {\n  const stack = new Stack();\n  const pairs = { ): (, }: {, ]: [ };\n  \n  for (const char of str) {\n    if (({[.includes(char)) {\n      stack.push(char);\n    } else if ()}].includes(char)) {\n      if (stack.isEmpty() || stack.pop() !== pairs[char]) {\n        return false;\n      }\n    }\n  }\n  return stack.isEmpty();\n}\n\nQueue Applications:\n\n1. BFS (Breadth-First Search)\n- Level-order tree traversal\n- Finding shortest path in unweighted graphs\n\n2. Task Scheduling\n- Print queue\n- CPU task scheduling"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What principle does a stack follow?",
+          "options": [
+            "First In First Out",
+            "Last In First Out",
+            "Random Access",
+            "Priority Based"
+          ],
+          "correct": 1,
+          "explanation": "A stack follows LIFO (Last In First Out) - the last item added is the first one removed."
+        },
+        {
+          "id": 2,
+          "question": "Which data structure is used for BFS (Breadth-First Search)?",
+          "options": [
+            "Stack",
+            "Queue",
+            "Array",
+            "Linked List"
+          ],
+          "correct": 1,
+          "explanation": "BFS uses a queue to explore nodes level by level, ensuring nodes are processed in the order they were discovered."
+        },
+        {
+          "id": 3,
+          "question": "What is the time complexity of push operation in a stack?",
+          "options": [
+            "O(n)",
+            "O(1)",
+            "O(log n)",
+            "O(n squared)"
+          ],
+          "correct": 1,
+          "explanation": "Push operation in a stack is O(1) - constant time. You simply add to the top."
+        },
+        {
+          "id": 4,
+          "question": "Which is a real-world example of a queue?",
+          "options": [
+            "Stack of books",
+            "Undo button in editor",
+            "Print job queue",
+            "Function call stack"
+          ],
+          "correct": 2,
+          "explanation": "Print job queues process jobs in the order they were submitted (FIFO), making it a real-world queue example."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 12,
+    "courseId": "3",
+    "title": "Trees and Graphs Fundamentals",
+    "description": "Explore hierarchical data structures - Trees and Graphs.",
+    "contentType": "lesson",
+    "difficulty": 2,
+    "estimatedTime": 45,
+    "prerequisites": [10, 11],
+    "learningObjectives": [
+      "Understand tree data structures",
+      "Master BST operations",
+      "Learn graph fundamentals",
+      "Implement traversals"
+    ],
+    "sections": [
+      {
+        "title": "Introduction to Trees",
+        "content": "A tree is a hierarchical data structure with a root node and child nodes, forming a parent-child relationship. No cycles allowed.\n\nTree Terminology:\n- Root - Top node (no parent)\n- Parent - Node with children\n- Child - Node with a parent\n- Leaf - Node with no children\n- Height - Longest path from root to leaf\n- Depth - Distance from root to node\n\nTypes of Trees:\n1. Binary Tree - Each node has at most 2 children\n2. Binary Search Tree (BST) - Left < parent < right\n3. AVL Tree - Self-balancing BST\n4. B-Tree - Used in databases\n5. Trie - For string operations\n\nWhy Trees?\n- Hierarchical data (file systems, org charts)\n- Fast search/insert/delete (with BST)\n- Decision making (decision trees)\n- DOM in browsers"
+      },
+      {
+        "title": "Binary Search Trees (BST)",
+        "content": "A Binary Search Tree (BST) is a binary tree where:\n- Left subtree contains only nodes with values less than parent\n- Right subtree contains only nodes with values greater than parent\n- Both subtrees are also BSTs\n\nOperations (Average Case):\n- Search: O(log n)\n- Insert: O(log n)\n- Delete: O(log n)\n\nImplementation:\nclass BSTNode {\n  constructor(value) {\n    this.value = value;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nclass BST {\n  constructor() {\n    this.root = null;\n  }\n  \n  insert(value) {\n    const newNode = new BSTNode(value);\n    \n    if (!this.root) {\n      this.root = newNode;\n      return this;\n    }\n    \n    let current = this.root;\n    while (true) {\n      if (value < current.value) {\n        if (!current.left) {\n          current.left = newNode;\n          return this;\n        }\n        current = current.left;\n      } else {\n        if (!current.right) {\n          current.right = newNode;\n          return this;\n        }\n        current = current.right;\n      }\n    }\n  }\n}"
+      },
+      {
+        "title": "Introduction to Graphs",
+        "content": "A graph is a collection of nodes (vertices) connected by edges. Unlike trees, graphs can have cycles.\n\nGraph Terminology:\n- Vertex (V) - A node\n- Edge (E) - Connection between vertices\n- Degree - Number of edges connected to a vertex\n- Path - Sequence of vertices\n- Cycle - Path that returns to start\n\nGraph Types:\n1. Directed vs Undirected\n- Directed: edges have direction\n- Undirected: edges bidirectional\n\n2. Weighted vs Unweighted\n- Weighted: edges have values (distances, costs)\n- Unweighted: all edges equal\n\n3. Connected vs Disconnected\n- Connected: path between any two vertices\n- Disconnected: isolated groups\n\nGraph Representations:\n\n// Adjacency List\nconst graph = {\n  A: [B, C],\n  B: [A, D],\n  C: [A, D],\n  D: [B, C]\n};"
+      },
+      {
+        "title": "Tree Traversal Methods",
+        "content": "There are several ways to traverse (visit all nodes) in a tree:\n\n1. Depth-First Search (DFS)\n\nInorder (Left, Root, Right):\nfunction inorder(node) {\n  if (!node) return;\n  inorder(node.left);\n  console.log(node.value);\n  inorder(node.right);\n}\n// BST inorder gives sorted order\n\nPreorder (Root, Left, Right):\nfunction preorder(node) {\n  if (!node) return;\n  console.log(node.value);\n  preorder(node.left);\n  preorder(node.right);\n}\n\n2. Breadth-First Search (BFS)\n\nfunction bfs(root) {\n  if (!root) return;\n  const queue = [root];\n  \n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node.value);\n    if (node.left) queue.push(node.left);\n    if (node.right) queue.push(node.right);\n  }\n}\n\nWhen to Use Which?\n- Inorder: BST sorted order\n- Preorder: Copy/serialize tree\n- Postorder: Delete tree (children first)\n- BFS: Level-order, shortest path"
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the main difference between a tree and a graph?",
+          "options": [
+            "Trees have more nodes",
+            "Trees cannot have cycles",
+            "Graphs are faster",
+            "Trees use less memory"
+          ],
+          "correct": 1,
+          "explanation": "Trees are hierarchical structures without cycles, while graphs can have cycles and any node can connect to any other node."
+        },
+        {
+          "id": 2,
+          "question": "In a Binary Search Tree, all nodes in the left subtree must be:",
+          "options": [
+            "Greater than the root",
+            "Less than the root",
+            "Equal to the root",
+            "Unrelated to the root"
+          ],
+          "correct": 1,
+          "explanation": "In a BST, all nodes in the left subtree must have values less than the parent node, and all nodes in the right subtree must be greater."
+        },
+        {
+          "id": 3,
+          "question": "What traversal of a BST gives nodes in sorted order?",
+          "options": [
+            "Preorder",
+            "Postorder",
+            "Inorder",
+            "Level-order (BFS)"
+          ],
+          "correct": 2,
+          "explanation": "Inorder traversal (Left, Root, Right) of a BST visits nodes in ascending sorted order."
+        },
+        {
+          "id": 4,
+          "question": "Which traversal uses a queue data structure?",
+          "options": [
+            "DFS",
+            "Inorder",
+            "Preorder",
+            "BFS (Level-order)"
+          ],
+          "correct": 3,
+          "explanation": "Breadth-First Search (BFS) uses a queue to explore nodes level by level."
+        }
+      ],
+      "passingScore": 75
+    }
+  },
+  {
+    "Id": 13,
+    "courseId": "3",
+    "title": "Data Structures and Algorithms Assessment",
+    "description": "Test your knowledge of data structures and algorithms.",
+    "contentType": "quiz",
+    "difficulty": 2,
+    "estimatedTime": 25,
+    "prerequisites": [10, 11, 12],
+    "learningObjectives": [
+      "Test data structures knowledge",
+      "Verify understanding of trees and graphs",
+      "Confirm algorithmic thinking",
+      "Assess problem-solving skills"
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the time complexity of accessing an element in an array by index?",
+          "options": [
+            "O(1)",
+            "O(n)",
+            "O(log n)",
+            "O(n squared)"
+          ],
+          "correct": 0,
+          "explanation": "Array access by index is O(1) - constant time. You can directly access any position."
+        },
+        {
+          "id": 2,
+          "question": "Which data structure follows the LIFO (Last In First Out) principle?",
+          "options": [
+            "Queue",
+            "Stack",
+            "Array",
+            "Linked List"
+          ],
+          "correct": 1,
+          "explanation": "A Stack follows LIFO - the last element added is the first one removed, like a stack of plates."
+        },
+        {
+          "id": 3,
+          "question": "What is the average time complexity of search in a Binary Search Tree?",
+          "options": [
+            "O(1)",
+            "O(n)",
+            "O(log n)",
+            "O(n log n)"
+          ],
+          "correct": 2,
+          "explanation": "Search in a BST is O(log n) on average because each comparison eliminates half of the remaining tree."
+        },
+        {
+          "id": 4,
+          "question": "Which traversal visits root, then left subtree, then right subtree?",
+          "options": [
+            "Inorder",
+            "Preorder",
+            "Postorder",
+            "Level-order"
+          ],
+          "correct": 1,
+          "explanation": "Preorder traversal visits nodes in order: Root, Left Subtree, Right Subtree."
+        },
+        {
+          "id": 5,
+          "question": "What is a key advantage of linked lists over arrays?",
+          "options": [
+            "Faster access by index",
+            "Dynamic size without copying",
+            "Less memory overall",
+            "Simpler syntax"
+          ],
+          "correct": 1,
+          "explanation": "Linked lists can dynamically grow and shrink without needing to copy or resize the entire structure."
+        },
+        {
+          "id": 6,
+          "question": "In a graph, what is a vertex?",
+          "options": [
+            "A connection between nodes",
+            "A node or point",
+            "A type of tree",
+            "A traversal method"
+          ],
+          "correct": 1,
+          "explanation": "A vertex (or node) is a fundamental unit in a graph - the points that are connected by edges."
+        },
+        {
+          "id": 7,
+          "question": "Which data structure is best for BFS (Breadth-First Search)?",
+          "options": [
+            "Stack",
+            "Queue",
+            "Array",
+            "Heap"
+          ],
+          "correct": 1,
+          "explanation": "BFS uses a queue to explore nodes level by level, ensuring nodes are processed in the order they were discovered."
+        },
+        {
+          "id": 8,
+          "question": "What does O(n) time complexity mean?",
+          "options": [
+            "Constant time",
+            "Logarithmic time",
+            "Linear time - grows with input",
+            "Quadratic time"
+          ],
+          "correct": 2,
+          "explanation": "O(n) means the operation time grows linearly with the input size - if input doubles, time doubles."
+        }
+      ],
+      "passingScore": 75
+    }
   }
 ]

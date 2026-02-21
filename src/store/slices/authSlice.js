@@ -8,6 +8,85 @@ import {
 } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 
+// Mock user data for demo - maps email to user profile
+const mockUsers = {
+  'alex.chen@university.edu': {
+    Id: 1,
+    role: 'student',
+    FirstName: 'Alex',
+    LastName: 'Chen',
+    profile: {
+      firstName: 'Alex',
+      lastName: 'Chen',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      learningStreak: 15,
+      totalPoints: 2450,
+      level: 8
+    }
+  },
+  'sarah.johnson@university.edu': {
+    Id: 2,
+    role: 'teacher',
+    FirstName: 'Sarah',
+    LastName: 'Johnson',
+    profile: {
+      firstName: 'Sarah',
+      lastName: 'Johnson',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      department: 'Computer Science',
+      title: 'Assistant Professor'
+    }
+  },
+  'michael.admin@university.edu': {
+    Id: 3,
+    role: 'admin',
+    FirstName: 'Michael',
+    LastName: 'Roberts',
+    profile: {
+      firstName: 'Michael',
+      lastName: 'Roberts',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      department: 'IT Administration',
+      title: 'Learning Platform Administrator'
+    }
+  },
+  // Map Firebase test user emails to student user 1 for demo purposes
+  'ruquiii557@gmail.com': {
+    Id: 1,
+    role: 'student',
+    FirstName: 'Alex',
+    LastName: 'Chen',
+    profile: {
+      firstName: 'Alex',
+      lastName: 'Chen',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      learningStreak: 15,
+      totalPoints: 2450,
+      level: 8
+    }
+  },
+  // Map any other email to student user 1 for demo purposes
+  'default': {
+    Id: 1,
+    role: 'student',
+    FirstName: 'Alex',
+    LastName: 'Chen',
+    profile: {
+      firstName: 'Alex',
+      lastName: 'Chen',
+      avatar: '/api/placeholder/40/40',
+      timezone: 'UTC-8',
+      learningStreak: 15,
+      totalPoints: 2450,
+      level: 8
+    }
+  }
+}
+
 // Firebase Authentication Thunks
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
@@ -33,11 +112,26 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
+      
+      // Get mock user data based on email
+      const mockUser = mockUsers[email] || {
+        Id: 999,
+        role: 'student',
+        FirstName: 'Demo',
+        LastName: 'User',
+        profile: { firstName: 'Demo', lastName: 'User' }
+      }
+      
       return {
         uid: result.user.uid,
         email: result.user.email,
-        displayName: result.user.displayName,
-        photoURL: result.user.photoURL
+        displayName: result.user.displayName || `${mockUser.FirstName} ${mockUser.LastName}`,
+        photoURL: result.user.photoURL,
+        Id: mockUser.Id,
+        role: mockUser.role,
+        FirstName: mockUser.FirstName,
+        LastName: mockUser.LastName,
+        profile: mockUser.profile
       }
     } catch (error) {
       return rejectWithValue(error.message)

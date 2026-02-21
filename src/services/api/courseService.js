@@ -21,9 +21,12 @@ class CourseService {
     return course ? { ...course } : null
   }
 
-async getByTeacher(teacherId) {
+  async getByTeacher(teacherId) {
     await this.delay()
-    return this.data.filter(course => course.InstructorId === teacherId).map(course => ({ ...course }))
+    // Support both teacherId and InstructorId for compatibility
+    return this.data.filter(course => 
+      course.teacherId === teacherId || course.InstructorId === teacherId
+    ).map(course => ({ ...course }))
   }
 
   async getByOrganization(organizationId) {

@@ -20,20 +20,25 @@ class EnrollmentService {
     const enrollment = this.data.find(item => item.Id === numId)
     return enrollment ? { ...enrollment } : null
   }
-async getByStudent(studentId) {
+
+  async getByStudent(studentId) {
     await this.delay()
-    return this.data.filter(enrollment => enrollment.studentId === studentId).map(enrollment => ({ ...enrollment }))
+    const studentIdStr = String(studentId)
+    return this.data.filter(enrollment => String(enrollment.studentId) === studentIdStr).map(enrollment => ({ ...enrollment }))
   }
 
   async getCurrentProgress(studentId, courseId) {
     await this.delay()
-    const enrollment = this.data.find(e => e.studentId === studentId && e.courseId === courseId)
+    const studentIdStr = String(studentId)
+    const courseIdStr = String(courseId)
+    const enrollment = this.data.find(e => String(e.studentId) === studentIdStr && String(e.courseId) === courseIdStr)
     return enrollment ? enrollment.progress : 0
   }
 
   async getByCourse(courseId) {
     await this.delay()
-    return this.data.filter(enrollment => enrollment.courseId === courseId).map(enrollment => ({ ...enrollment }))
+    const courseIdStr = String(courseId)
+    return this.data.filter(enrollment => String(enrollment.courseId) === courseIdStr).map(enrollment => ({ ...enrollment }))
   }
 
   async create(enrollment) {
@@ -66,7 +71,9 @@ async getByStudent(studentId) {
 
   async updateProgress(studentId, courseId, progress) {
     await this.delay()
-    const enrollment = this.data.find(e => e.studentId === studentId && e.courseId === courseId)
+    const studentIdStr = String(studentId)
+    const courseIdStr = String(courseId)
+    const enrollment = this.data.find(e => String(e.studentId) === studentIdStr && String(e.courseId) === courseIdStr)
     if (!enrollment) return null
     
     enrollment.progress = progress

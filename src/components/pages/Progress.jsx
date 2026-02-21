@@ -29,16 +29,18 @@ const Progress = () => {
       setLoading(true)
       setError("")
 
-      const [enrollmentsData, analyticsData] = await Promise.all([
-        enrollmentService.getByStudent(user.Id.toString()),
-        learningSessionService.getStudentAnalytics(user.Id.toString())
-      ])
+      // Get all enrollments and filter by user ID
+      const allEnrollments = await enrollmentService.getAll()
+      const userEnrollments = allEnrollments.filter(e => String(e.studentId) === String(user.Id))
+      
+      // Get analytics data
+      const analyticsData = await learningSessionService.getStudentAnalytics(user.Id.toString())
 
-      setEnrollments(enrollmentsData)
+      setEnrollments(userEnrollments)
       setAnalytics(analyticsData)
 
       // Get course details
-      const coursePromises = enrollmentsData.map(enrollment => 
+      const coursePromises = userEnrollments.map(enrollment => 
         courseService.getById(enrollment.courseId)
       )
       const coursesData = await Promise.all(coursePromises)

@@ -1,38 +1,33 @@
-import { useEffect } from "react"
+import { useEffect, useState, useLayoutEffect } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
-import { ToastContainer } from "react-toastify"
 import { useSelector, useDispatch } from "react-redux"
 import { restoreAuth } from "@/store/slices/authSlice"
 import Header from "./Header"
 import Sidebar from "./Sidebar"
+import Loading from "@/components/ui/Loading"
 
 const Layout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user, isAuthenticated } = useSelector(state => state.auth)
   const { mode: theme } = useSelector(state => state.theme)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Restore authentication from localStorage on app load
-  useEffect(() => {
+  useLayoutEffect(() => {
     const savedAuth = localStorage.getItem('eduai_auth')
     if (savedAuth) {
       try {
         const authData = JSON.parse(savedAuth)
         if (authData.isAuthenticated && authData.user) {
           dispatch(restoreAuth(authData))
-          return
         }
       } catch (error) {
-        // Invalid saved auth data
         localStorage.removeItem('eduai_auth')
       }
     }
-    
-    // If no valid auth, redirect to login
-    if (!isAuthenticated) {
-      navigate('/login')
-    }
-  }, [isAuthenticated, navigate, dispatch])
+    setIsLoading(false)
+  }, [dispatch])
 
   // Apply theme to HTML element
   useEffect(() => {
@@ -43,12 +38,24 @@ const Layout = () => {
     }
   }, [theme])
 
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated - use useEffect with proper dependency
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      navigate('/login', { replace: true })
+    }
+  }, [isLoading, isAuthenticated, navigate])
+
+  // Show loading while checking auth
+  if (isLoading) {
+    return <Loading />
+  }
+
+  // Don't render anything if not authenticated
   if (!isAuthenticated || !user) {
-    return null
+    return <Loading />
   }
   
-const getPageTitle = () => {
+  const getPageTitle = () => {
     switch (user?.role) {
       case "student":
         return "Learning Dashboard"
@@ -60,6 +67,7 @@ const getPageTitle = () => {
         return "EduAI Platform"
     }
   }
+  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <div className="flex h-screen">
@@ -75,19 +83,6 @@ const getPageTitle = () => {
           </main>
         </div>
       </div>
-      
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        className="z-[9999]"
-      />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+ import { createBrowserRouter } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
 import Layout from "@/components/organisms/Layout";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -27,6 +27,7 @@ const Billing = lazy(() => import("@/components/pages/Billing"));
 const Profile = lazy(() => import("@/components/pages/Profile"));
 const Classes = lazy(() => import("@/components/pages/Classes"));
 const CreateCourse = lazy(() => import("@/components/pages/CreateCourse"));
+const TeacherAnalytics = lazy(() => import("@/components/pages/TeacherAnalytics"));
 // Loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -90,6 +91,14 @@ const mainRoutes = [
   },
   {
     path: "modules/:moduleId",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <ModuleDetail />
+      </Suspense>
+    )
+  },
+  {
+    path: "module-detail/:moduleId",
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <ModuleDetail />
@@ -191,14 +200,15 @@ element: (
     path: "analytics",
     element: (
       <Suspense fallback={<LoadingFallback />}>
-        <div className="p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6">System Analytics</h1>
-          <div className="bg-white p-8 rounded-lg shadow-sm border text-center">
-            <div className="text-6xl mb-4">📊</div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Advanced Analytics Dashboard</h2>
-            <p className="text-gray-600">Comprehensive system analytics and reporting tools.</p>
-          </div>
-        </div>
+        <TeacherAnalytics />
+      </Suspense>
+    )
+  },
+  {
+    path: "teacher-analytics",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <TeacherAnalytics />
       </Suspense>
     )
   },

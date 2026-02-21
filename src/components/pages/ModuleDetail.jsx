@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, BookOpen, CheckCircle, Clock, Play, Star, Users } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle, Clock, Play, Star, Users, FileText, Award, Brain } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import ProgressBar from "@/components/atoms/ProgressBar";
@@ -13,36 +13,81 @@ import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlic
 import learningSessionService from "@/services/api/learningSessionService";
 import enrollmentService from "@/services/api/enrollmentService";
 import moduleService from "@/services/api/moduleService";
+
 const ModuleDetail = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
+  
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentLesson, setCurrentLesson] = useState(0);
+  const [currentSection, setCurrentSection] = useState(0);
   const [activeSession, setActiveSession] = useState(null);
   const [learningStarted, setLearningStarted] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchModule = async () => {
       try {
         setLoading(true);
         setError(null);
         
-// Validate moduleId - handle URL string parameters
         if (!moduleId || moduleId.trim() === '' || isNaN(Number(moduleId)) || Number(moduleId) <= 0) {
           throw new Error('Invalid module identifier provided');
         }
         
-        // Load module data from service
         const moduleData = await moduleService.getById(parseInt(moduleId));
         
         if (!moduleData) {
           throw new Error('Module not found');
         }
         
-        // Transform service data to component format
+        // Transform service data to component format - handle new lesson format
+        const contentType = moduleData.contentType || moduleData.content?.type || 'lesson';
+        
+        // Build sections from new content format - check both root level and content object
+        const sections = [];
+        
+        // Add lesson sections if available (check both root level and content object)
+        const lessonSections = moduleData.sections || moduleData.content?.sections || [];
+        lessonSections.forEach((section, idx) => {
+          sections.push({
+            id: `section-${idx}`,
+            type: 'lesson',
+            title: section.title,
+            content: section.content,
+            examples: section.examples
+          });
+        });
+        
+        // Add detailed lessons if available
+        const detailedLessons = moduleData.detailedLessons || moduleData.content?.detailedLessons || [];
+        detailedLessons.forEach((lesson, idx) => {
+          sections.push({
+            id: `lesson-${idx}`,
+            type: 'detailed',
+            title: lesson.title,
+            content: lesson.content,
+            examples: lesson.examples
+          });
+        });
+        
+        // Add quiz section if available (check both root level and content object)
+        const quizData = moduleData.quiz || moduleData.content?.quiz;
+        if (quizData?.questions) {
+          sections.push({
+            id: 'quiz',
+            type: 'quiz',
+            title: 'Knowledge Check',
+            questions: quizData.questions,
+            passingScore: quizData.passingScore || 75
+          });
+        }
+        
         const transformedModule = {
           id: moduleData.Id,
           title: moduleData.Title,
@@ -52,54 +97,15 @@ useEffect(() => {
           difficulty: moduleData.Difficulty || 'Intermediate',
           rating: 4.8,
           studentsEnrolled: 1234,
-          progress: 65,
-          content: {
-            type: moduleData.content?.type || 'video',
-            videoUrl: moduleData.content?.videoUrl || 'https://www.youtube.com/embed/ukzFI9rgwfU',
-            videoAttribution: moduleData.content?.videoAttribution || {
-              creator: 'Educational Content',
-              channel: 'EduAI Platform',
-              title: moduleData.Title,
-              originalUrl: '#'
-            }
-          },
-          theoreticalContent: moduleData.theoreticalContent || {
-            learningTheories: [
-              {
-                name: 'Constructivism',
-                description: 'Learning is an active process where learners construct their own understanding through experience and reflection.',
-                application: 'Students build understanding by experimenting with concepts and observing outcomes.',
-                keyPrinciples: ['Active learning', 'Prior knowledge integration', 'Social interaction', 'Authentic contexts']
-              }
-            ],
-            foundations: [
-              {
-                category: 'Core Foundations',
-                concepts: [
-                  {
-                    name: 'Fundamental Concepts',
-                    description: 'Core principles and theories underlying this subject area.',
-                    importance: 'Essential for understanding advanced topics and applications.'
-                  }
-                ]
-              }
-            ]
-          },
-          lessons: [
-            { id: 1, title: 'Introduction', duration: '15 min', completed: false, current: true },
-            { id: 2, title: 'Core Concepts', duration: '20 min', completed: false },
-            { id: 3, title: 'Practical Applications', duration: '25 min', completed: false },
-            { id: 4, title: 'Assessment', duration: '30 min', completed: false }
-          ]
+          progress: 0,
+          contentType: contentType,
+          sections: sections,
+          learningObjectives: moduleData.learningObjectives || []
         };
         
         setModule(transformedModule);
-        const currentLessonIndex = transformedModule.lessons.findIndex(lesson => lesson.current);
-        setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0);
-        
-        // Set current module in Redux
         dispatch(setCurrentModule(transformedModule));
-        dispatch(setCurrentLesson(currentLessonIndex >= 0 ? currentLessonIndex : 0));
+        
       } catch (err) {
         console.error('Module loading error:', err);
         const errorMessage = err.message || 'Unable to load module content. Please try again later.';
@@ -114,10 +120,11 @@ useEffect(() => {
 
   const startLearningSession = async () => {
     try {
+      const userId = user?.Id || 1;
       const session = await learningSessionService.create({
-        studentId: 1, // Mock student ID
+        studentId: userId,
         moduleId: parseInt(moduleId),
-        lessonId: module.lessons[currentLesson].id,
+        lessonId: currentSection + 1,
         engagementMetrics: {},
         performanceData: {}
       });
@@ -130,85 +137,102 @@ useEffect(() => {
     }
   };
 
-  const completeLesson = async () => {
-    if (!activeSession) return;
+  const completeSection = async () => {
+    const userId = user?.Id || 1;
     
     try {
-      // Mark current lesson as completed
-      const updatedLessons = [...module.lessons];
-      updatedLessons[currentLesson].completed = true;
+      // Update progress
+      const completedSections = currentSection + 1;
+      const progressPercent = Math.round((completedSections / module.sections.length) * 100);
       
-      // Calculate progress percentage
-      const completedLessons = updatedLessons.filter(lesson => lesson.completed).length;
-      const progressPercent = Math.round((completedLessons / updatedLessons.length) * 100);
-      
-      // Update module state
-      const updatedModule = { ...module, lessons: updatedLessons, progress: progressPercent };
-      setModule(updatedModule);
-      
-// End learning session with comprehensive performance data
-      const sessionDuration = Date.now() - new Date(activeSession.StartTime).getTime();
-      const engagementMetrics = {
-        attentionScore: Math.min(0.9, Math.max(0.3, Math.random() * 0.6 + 0.3)),
-        interactionCount: Math.floor(Math.random() * 20) + 8,
-        timeSpent: Math.floor(sessionDuration / 1000)
+      // End learning session if active
+      if (activeSession) {
+        const sessionDuration = Date.now() - new Date(activeSession.StartTime).getTime();
+        const engagementMetrics = {
+          attentionScore: Math.min(0.9, Math.max(0.3, Math.random() * 0.6 + 0.3)),
+          interactionCount: Math.floor(Math.random() * 20) + 8,
+          timeSpent: Math.floor(sessionDuration / 1000)
+        };
+        
+        const performanceData = {
+          comprehensionQuizScore: quizScore / 100,
+          practiceExercisesCompleted: completedSections,
+          lessonCompletionRate: progressPercent / 100,
+          conceptMasteryScore: Math.random() * 0.3 + 0.6
+        };
+        
+        await learningSessionService.endSession(activeSession.Id, engagementMetrics, performanceData);
       }
       
-      const performanceData = {
-        comprehensionQuizScore: Math.min(0.95, Math.max(0.4, Math.random() * 0.5 + 0.4)),
-        practiceExercisesCompleted: Math.floor(Math.random() * 8) + 3,
-        lessonCompletionRate: 1.0,
-        conceptMasteryScore: Math.random() * 0.3 + 0.6
-      }
-      
-      const sessionResult = await learningSessionService.endSession(
-        activeSession.Id, 
-        engagementMetrics, 
-        performanceData
-      );
-      
-// Store adaptation triggers for future recommendations
-      if (sessionResult?.adaptationTriggers) {
-        const userId = 1; // Mock user ID - in real app, get from auth context
-        localStorage.setItem(`adaptationTriggers_${userId}`, 
-          JSON.stringify(sessionResult.adaptationTriggers));
-      }
       // Update enrollment progress
-      await enrollmentService.updateProgress(1, moduleId, progressPercent);
+      const courseId = moduleId; // In real app, get from course
+      await enrollmentService.updateProgress(userId, courseId, progressPercent);
       
-      setActiveSession(null);
-      toast.success('Lesson completed successfully!');
-      
-      // Auto-advance to next lesson if available
-      if (currentLesson < module.lessons.length - 1) {
-        const nextLessonIndex = currentLesson + 1;
-        updatedLessons[nextLessonIndex].current = true;
-        updatedLessons[currentLesson].current = false;
-        setCurrentLesson(nextLessonIndex);
-        dispatch(setCurrentLesson(nextLessonIndex));
+      // Move to next section or complete
+      if (currentSection < module.sections.length - 1) {
+        setCurrentSection(currentSection + 1);
         setLearningStarted(false);
+        setActiveSession(null);
+        setQuizAnswers({});
+        setQuizSubmitted(false);
+        toast.success('Section completed! Moving to next.');
       } else {
-        toast.success('Module completed! 🎉');
+        // Module completed - navigate to next module or back to courses
         setLearningStarted(false);
+        
+        // Try to find and navigate to the next module
+        try {
+          const allModules = await moduleService.getAll();
+          const courseModules = allModules.filter(m => m.courseId === parseInt(courseId));
+          const currentModuleIndex = courseModules.findIndex(m => m.Id === parseInt(moduleId));
+          
+          if (currentModuleIndex >= 0 && currentModuleIndex < courseModules.length - 1) {
+            // There's a next module - navigate to it
+            const nextModule = courseModules[currentModuleIndex + 1];
+            toast.success('Module completed! 🎉 Moving to next module...');
+            navigate(`/module-detail/${nextModule.Id}`);
+          } else {
+            // No more modules - course completed
+            toast.success('Course completed! 🎉 Congratulations!');
+            navigate('/courses');
+          }
+        } catch (navError) {
+          toast.success('Module completed! 🎉');
+          navigate('/courses');
+        }
       }
       
     } catch (error) {
-      toast.error('Failed to complete lesson');
+      console.error('Error completing section:', error);
+      toast.error('Failed to complete section');
     }
   };
 
-  const navigateToLesson = (lessonIndex) => {
-    if (lessonIndex >= 0 && lessonIndex < module.lessons.length) {
-      // Update current lesson markers
-      const updatedLessons = [...module.lessons];
-      updatedLessons.forEach(lesson => lesson.current = false);
-      updatedLessons[lessonIndex].current = true;
-      
-      setModule({ ...module, lessons: updatedLessons });
-      setCurrentLesson(lessonIndex);
-      dispatch(setCurrentLesson(lessonIndex));
-      setLearningStarted(false);
-      setActiveSession(null);
+  const handleQuizAnswer = (questionId, answerIndex) => {
+    if (!quizSubmitted) {
+      setQuizAnswers({...quizAnswers, [questionId]: answerIndex});
+    }
+  };
+
+  const submitQuiz = () => {
+    const currentQuiz = module.sections[currentSection];
+    if (!currentQuiz || currentQuiz.type !== 'quiz') return;
+    
+    let correct = 0;
+    currentQuiz.questions.forEach(q => {
+      if (quizAnswers[q.id] === q.correct) {
+        correct++;
+      }
+    });
+    
+    const score = Math.round((correct / currentQuiz.questions.length) * 100);
+    setQuizScore(score);
+    setQuizSubmitted(true);
+    
+    if (score >= currentQuiz.passingScore) {
+      toast.success(`Congratulations! You passed with ${score}%!`);
+    } else {
+      toast.info(`You scored ${score}%. Review the material and try again!`);
     }
   };
 
@@ -216,8 +240,48 @@ useEffect(() => {
   if (error) return <ErrorView message={error} />;
   if (!module) return <ErrorView message="Module not found" />;
 
-const completedLessons = module.lessons.filter(lesson => lesson.completed).length;
-  const progressPercentage = (completedLessons / module.lessons.length) * 100;
+  const currentContent = module.sections[currentSection];
+  const progressPercentage = Math.round(((currentSection + 1) / module.sections.length) * 100);
+
+  // Render lesson content
+  const renderLessonContent = (content) => {
+    // Handle markdown-like formatting
+    const lines = content.split('\n');
+    return lines.map((line, idx) => {
+      if (line.startsWith('# ')) {
+        return <h1 key={idx} className="text-3xl font-bold text-gray-900 mb-4">{line.substring(2)}</h1>;
+      }
+      if (line.startsWith('## ')) {
+        return <h2 key={idx} className="text-2xl font-semibold text-gray-800 mb-3 mt-6">{line.substring(3)}</h2>;
+      }
+      if (line.startsWith('### ')) {
+        return <h3 key={idx} className="text-xl font-medium text-gray-800 mb-2 mt-4">{line.substring(4)}</h3>;
+      }
+      if (line.startsWith('**') && line.endsWith('**')) {
+        return <p key={idx} className="font-bold text-gray-900 my-2">{line.replace(/\*\*/g, '')}</p>;
+      }
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        return <li key={idx} className="ml-4 text-gray-700 my-1">{line.substring(2)}</li>;
+      }
+      if (line.trim() === '') {
+        return <br key={idx} />;
+      }
+      // Handle inline code
+      if (line.includes('`')) {
+        const parts = line.split('`');
+        return (
+          <p key={idx} className="text-gray-700 my-2">
+            {parts.map((part, i) => 
+              i % 2 === 1 
+                ? <code key={i} className="bg-gray-100 px-1 py-0.5 rounded text-purple-600 font-mono">{part}</code>
+                : part
+            )}
+          </p>
+        );
+      }
+      return <p key={idx} className="text-gray-700 my-2">{line}</p>;
+    });
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
@@ -256,8 +320,8 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
                   {module.duration}
                 </div>
                 <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  {module.rating}
+                  <FileText className="h-4 w-4" />
+                  {module.sections.length} sections
                 </div>
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4" />
@@ -268,225 +332,226 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">Progress</span>
-                  <span className="text-sm text-gray-500">{completedLessons}/{module.lessons.length} lessons completed</span>
+                  <span className="text-sm text-gray-500">{currentSection + 1}/{module.sections.length} sections</span>
                 </div>
                 <ProgressBar progress={progressPercentage} className="h-2" />
               </div>
+              
+              {/* Learning Objectives */}
+              {module.learningObjectives && module.learningObjectives.length > 0 && (
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <h3 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
+                    <Brain className="h-4 w-4" />
+                    Learning Objectives
+                  </h3>
+                  <ul className="space-y-1">
+                    {module.learningObjectives.map((obj, idx) => (
+                      <li key={idx} className="text-sm text-blue-800 flex items-start gap-2">
+                        <CheckCircle className="h-4 w-4 text-blue-500 mt-0.5 shrink-0" />
+                        {obj}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </Card>
 
-{/* Video Player Section */}
-          {module.content?.videoUrl && (
-            <Card className="p-6 mb-6">
+          {/* Current Section Content */}
+          {currentContent && (
+            <Card className="p-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-900">Module Video</h2>
-                  <Badge variant="primary">Educational Content</Badge>
-                </div>
-                
-                <div className="aspect-video w-full bg-gray-100 rounded-lg overflow-hidden">
-                  <iframe
-                    src={module.content.videoUrl}
-                    title={module.content.videoAttribution?.title || module.title}
-                    className="w-full h-full"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                
-                {/* Video Attribution */}
-                {module.content.videoAttribution && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <Play className="h-4 w-4 text-blue-600" />
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-blue-900 mb-1">
-                          Video Credits & Attribution
-                        </div>
-                        <div className="text-sm text-blue-700 space-y-1">
-                          <div><strong>Creator:</strong> {module.content.videoAttribution.creator}</div>
-                          <div><strong>Channel:</strong> {module.content.videoAttribution.channel}</div>
-                          <div><strong>Original Video:</strong> 
-                            <a 
-                              href={module.content.videoAttribution.originalUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="ml-1 text-blue-600 hover:underline font-medium"
-                            >
-                              Watch on YouTube
-                            </a>
-                          </div>
-                        </div>
-                        <div className="mt-2 text-xs text-blue-600">
-                          This video is used for educational purposes with full attribution to the original creator.
-                        </div>
-                      </div>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    {currentContent.type === 'quiz' ? (
+                      <Award className="h-5 w-5 text-yellow-600" />
+                    ) : (
+                      <FileText className="h-5 w-5 text-blue-600" />
+                    )}
+                    <span className="text-sm font-medium text-gray-500">
+                      Section {currentSection + 1} of {module.sections.length}
+                    </span>
                   </div>
-                )}
-              </div>
-            </Card>
-)}
-
-          {/* Theoretical Foundations */}
-          {module.theoreticalContent && (
-            <Card className="p-6">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-900">Theoretical Foundations</h2>
-                  <Badge variant="outline" className="text-purple-600 border-purple-200 bg-purple-50">
-                    Academic Context
+                  <Badge variant={currentContent.type === 'quiz' ? 'warning' : 'primary'}>
+                    {currentContent.type === 'quiz' ? 'Quiz' : 'Lesson'}
                   </Badge>
                 </div>
 
-                {/* Learning Theories */}
-                {module.theoreticalContent.learningTheories && module.theoreticalContent.learningTheories.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium text-gray-800 border-b border-gray-200 pb-2">
-                      Learning Theories
-                    </h3>
-                    <div className="grid gap-4">
-                      {module.theoreticalContent.learningTheories.map((theory, index) => (
-                        <div key={index} className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
-                          <div className="space-y-3">
-                            <div className="flex items-start justify-between">
-                              <h4 className="font-medium text-blue-900">{theory.name}</h4>
-                              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                                <BookOpen className="h-3 w-3 text-blue-600" />
+                <h2 className="text-xl font-semibold text-gray-900">{currentContent.title}</h2>
+
+                {/* Lesson Content */}
+                {currentContent.type !== 'quiz' && currentContent.content && (
+                  <div className="prose max-w-none">
+                    {renderLessonContent(currentContent.content)}
+                    
+                    {/* Examples */}
+                    {currentContent.examples && currentContent.examples.length > 0 && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                        <h4 className="font-medium text-green-900 mb-2">Real-World Examples</h4>
+                        <ul className="space-y-1">
+                          {currentContent.examples.map((ex, idx) => (
+                            <li key={idx} className="text-sm text-green-800 flex items-start gap-2">
+                              <Star className="h-3 w-3 text-green-600 mt-1 shrink-0" />
+                              {ex}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Quiz Content */}
+                {currentContent.type === 'quiz' && currentContent.questions && (
+                  <div className="space-y-6">
+                    {currentContent.questions.map((q, qIdx) => (
+                      <div key={q.id || qIdx} className="bg-gray-50 rounded-lg p-4">
+                        <p className="font-medium text-gray-900 mb-3">
+                          {qIdx + 1}. {q.question}
+                        </p>
+                        <div className="space-y-2">
+                          {q.options.map((option, oIdx) => {
+                            const isSelected = quizAnswers[q.id || qIdx] === oIdx;
+                            const isCorrect = q.correct === oIdx;
+                            let optionClass = "p-3 rounded-lg border-2 cursor-pointer transition-colors ";
+                            
+                            if (quizSubmitted) {
+                              if (isCorrect) {
+                                optionClass += "border-green-500 bg-green-100";
+                              } else if (isSelected && !isCorrect) {
+                                optionClass += "border-red-500 bg-red-100";
+                              } else {
+                                optionClass += "border-gray-200 bg-white";
+                              }
+                            } else {
+                              optionClass += isSelected 
+                                ? "border-blue-500 bg-blue-50" 
+                                : "border-gray-200 hover:border-gray-300 bg-white";
+                            }
+                            
+                            return (
+                              <div
+                                key={oIdx}
+                                onClick={() => handleQuizAnswer(q.id || qIdx, oIdx)}
+                                className={optionClass}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                                    isSelected ? 'border-blue-500 bg-blue-500' : 'border-gray-300'
+                                  }`}>
+                                    {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                                  </div>
+                                  <span className="text-gray-700">{option}</span>
+                                </div>
                               </div>
-                            </div>
-                            <p className="text-sm text-blue-800">{theory.description}</p>
-                            <div className="bg-white bg-opacity-70 rounded p-3 space-y-2">
-                              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">
-                                Application in ML Education
-                              </div>
-                              <p className="text-sm text-blue-900">{theory.application}</p>
-                            </div>
-                            {theory.keyPrinciples && (
-                              <div className="flex flex-wrap gap-1">
-                                {theory.keyPrinciples.map((principle, idx) => (
-                                  <span
-                                    key={idx}
-                                    className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800"
-                                  >
-                                    {principle}
-                                  </span>
-                                ))}
-                              </div>
+                            );
+                          })}
+                        </div>
+                        
+                        {/* Show explanation after submission */}
+                        {quizSubmitted && (
+                          <div className={`mt-3 p-3 rounded-lg ${q.correct === quizAnswers[q.id || qIdx] ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                            <p className="text-sm font-medium">
+                              {q.correct === quizAnswers[q.id || qIdx] ? '✅ Correct!' : '❌ Incorrect'}
+                            </p>
+                            {q.explanation && (
+                              <p className="text-sm text-gray-700 mt-1">{q.explanation}</p>
                             )}
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        )}
+                      </div>
+                    ))}
+                    
+                    {/* Quiz Result */}
+                    {quizSubmitted && (
+                      <div className={`p-4 rounded-lg text-center ${
+                        quizScore >= currentContent.passingScore 
+                          ? 'bg-green-100 border-2 border-green-500' 
+                          : 'bg-red-100 border-2 border-red-500'
+                      }`}>
+                        <p className="text-lg font-bold">
+                          {quizScore >= currentContent.passingScore 
+                            ? `🎉 Congratulations! You passed with ${quizScore}%!` 
+                            : `You scored ${quizScore}%. You need ${currentContent.passingScore}% to pass.`
+                          }
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
 
-                {/* Foundation Concepts */}
-                {module.theoreticalContent.foundations && module.theoreticalContent.foundations.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium text-gray-800 border-b border-gray-200 pb-2">
-                      Foundation Concepts
-                    </h3>
-                    <div className="grid gap-4">
-                      {module.theoreticalContent.foundations.map((foundation, index) => (
-                        <div key={index} className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4">
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
-                                <Star className="h-3 w-3 text-purple-600" />
-                              </div>
-                              <h4 className="font-medium text-purple-900">{foundation.category}</h4>
-                            </div>
-                            <div className="grid gap-3">
-                              {foundation.concepts.map((concept, idx) => (
-                                <div key={idx} className="bg-white bg-opacity-70 rounded p-3 space-y-2">
-                                  <h5 className="font-medium text-purple-800">{concept.name}</h5>
-                                  <p className="text-sm text-purple-700">{concept.description}</p>
-                                  <div className="bg-purple-50 rounded p-2">
-                                    <div className="text-xs font-medium text-purple-600 uppercase tracking-wide mb-1">
-                                      Why It Matters
-                                    </div>
-                                    <p className="text-sm text-purple-800">{concept.importance}</p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Card>
-          )}
-
-          {/* Current Lesson */}
-          {currentLesson >= 0 && (
-            <Card className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-900">Current Lesson</h2>
-                  <Badge variant="primary">In Progress</Badge>
-                </div>
-                
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900 mb-2">
-                    {module.lessons[currentLesson]?.title}
-                  </h3>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
-                      <Clock className="h-4 w-4" />
-                      {module.lessons[currentLesson]?.duration}
-                    </div>
-                    <div className="flex items-center gap-2">
+                {/* Action Buttons */}
+                <div className="flex items-center gap-4 pt-4 border-t">
+                  {currentContent.type === 'quiz' ? (
+                    <>
+                      {!quizSubmitted ? (
+                        <Button 
+                          className="flex items-center gap-2"
+                          onClick={submitQuiz}
+                          disabled={Object.keys(quizAnswers).length < currentContent.questions.length}
+                        >
+                          <Award className="h-4 w-4" />
+                          Submit Quiz
+                        </Button>
+                      ) : quizScore >= currentContent.passingScore ? (
+                        <Button 
+                          className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                          onClick={completeSection}
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                          Continue
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="outline"
+                          className="flex items-center gap-2"
+                          onClick={() => {
+                            setQuizAnswers({});
+                            setQuizSubmitted(false);
+                            setQuizScore(0);
+                          }}
+                        >
+                          <Play className="h-4 w-4" />
+                          Try Again
+                        </Button>
+                      )}
+                    </>
+                  ) : (
+                    <>
                       {!learningStarted ? (
                         <Button 
-                          size="sm" 
                           className="flex items-center gap-2"
                           onClick={startLearningSession}
                         >
                           <Play className="h-4 w-4" />
-                          Continue Learning
+                          Start Reading
                         </Button>
                       ) : (
                         <Button 
-                          size="sm" 
                           className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
-                          onClick={completeLesson}
+                          onClick={completeSection}
                         >
                           <CheckCircle className="h-4 w-4" />
-                          Complete Lesson
+                          Complete & Continue
                         </Button>
                       )}
-                      
-                      {currentLesson > 0 && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => navigateToLesson(currentLesson - 1)}
-                        >
-                          Previous
-                        </Button>
-                      )}
-                      
-                      {currentLesson < module.lessons.length - 1 && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => navigateToLesson(currentLesson + 1)}
-                        >
-                          Next
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-</div>
+                    </>
+                  )}
+                  
+                  {currentSection > 0 && (
+                    <Button 
+                      variant="outline"
+                      onClick={() => {
+                        setCurrentSection(currentSection - 1);
+                        setQuizAnswers({});
+                        setQuizSubmitted(false);
+                        setQuizScore(0);
+                      }}
+                    >
+                      Previous
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
           )}
@@ -494,55 +559,81 @@ const completedLessons = module.lessons.filter(lesson => lesson.completed).lengt
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Instructor */}
+          {/* Section Navigation */}
           <Card className="p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Instructor</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-medium">
-                  {module.instructor.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">{module.instructor}</div>
-                  <div className="text-sm text-gray-500">ML Researcher</div>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Lessons */}
-          <Card className="p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Lessons</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Course Sections</h3>
             <div className="space-y-2">
-              {module.lessons.map((lesson, index) => (
+              {module.sections.map((section, index) => (
                 <div
-                  key={lesson.id}
-className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
-                    lesson.current 
+                  key={section.id}
+                  onClick={() => {
+                    setCurrentSection(index);
+                    setQuizAnswers({});
+                    setQuizSubmitted(false);
+                    setQuizScore(0);
+                  }}
+                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                    index === currentSection 
                       ? 'bg-primary-50 border border-primary-200' 
                       : 'hover:bg-gray-50'
                   }`}
-                  onClick={() => navigateToLesson(index)}
                 >
                   <div className="shrink-0">
-                    {lesson.completed ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
-                    ) : lesson.current ? (
-                      <Play className="h-5 w-5 text-primary-500" />
+                    {section.type === 'quiz' ? (
+                      <Award className={`h-5 w-5 ${index === currentSection ? 'text-yellow-600' : 'text-gray-400'}`} />
                     ) : (
-                      <div className="w-5 h-5 border-2 border-gray-300 rounded-full" />
+                      <FileText className={`h-5 w-5 ${index === currentSection ? 'text-blue-600' : 'text-gray-400'}`} />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`font-medium truncate ${
-                      lesson.current ? 'text-primary-700' : 'text-gray-900'
+                    <div className={`font-medium truncate text-sm ${
+                      index === currentSection ? 'text-primary-700' : 'text-gray-900'
                     }`}>
-                      {lesson.title}
+                      {section.title}
                     </div>
-                    <div className="text-sm text-gray-500">{lesson.duration}</div>
+                    <div className="text-xs text-gray-500 capitalize">
+                      {section.type}
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+          </Card>
+
+          {/* Progress Summary */}
+          <Card className="p-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Your Progress</h3>
+            <div className="text-center">
+              <div className="relative w-24 h-24 mx-auto mb-4">
+                <svg className="w-24 h-24 transform -rotate-90">
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="40"
+                    stroke="currentColor"
+                    strokeWidth="8"
+                    fill="none"
+                    className="text-gray-200"
+                  />
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="40"
+                    stroke="currentColor"
+                    strokeWidth="8"
+                    fill="none"
+                    strokeDasharray={251.2}
+                    strokeDashoffset={251.2 - (251.2 * progressPercentage) / 100}
+                    className="text-blue-600"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-gray-900">{progressPercentage}%</span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">
+                {currentSection + 1} of {module.sections.length} sections completed
+              </p>
             </div>
           </Card>
         </div>

@@ -46,29 +46,30 @@ const StudentDashboard = () => {
       
       // Load user enrollments
       const enrollmentData = await enrollmentService.getAll();
-      const userEnrollments = enrollmentData.filter(e => e.UserId === user.Id);
+      const userEnrollments = enrollmentData.filter(e => String(e.studentId) === String(user.Id));
       setEnrollments(userEnrollments);
 
-      // Load enrolled courses
+      // Load all courses for session lookup in Recent Activity
       const courseData = await courseService.getAll();
       const enrolledCourses = courseData.filter(course => 
-        userEnrollments.some(enrollment => enrollment.CourseId === course.Id)
+        userEnrollments.some(enrollment => String(enrollment.courseId) === String(course.Id))
       );
-      setCourses(enrolledCourses);
+      // Use all courses for Recent Activity lookup
+      setCourses(courseData);
 
       // Load learning sessions
       const sessionData = await learningSessionService.getAll();
-      const userSessions = sessionData.filter(s => s.UserId === user.Id);
+      const userSessions = sessionData.filter(s => String(s.studentId) === String(user.Id));
       setSessions(userSessions);
 
       // Load achievements
       const achievementData = await achievementService.getAll();
-      const userAchievements = achievementData.filter(a => a.UserId === user.Id);
+      const userAchievements = achievementData.filter(a => String(a.studentId) === String(user.Id));
       setAchievements(userAchievements);
 
       // Load assessments
       const assessmentData = await assessmentService.getAll();
-      const userAssessments = assessmentData.filter(a => a.UserId === user.Id);
+      const userAssessments = assessmentData.filter(a => String(a.studentId) === String(user.Id));
       setAssessments(userAssessments);
 
       // Calculate stats
@@ -87,7 +88,7 @@ const StudentDashboard = () => {
     
     // Calculate learning streak (simplified)
     const recentSessions = sessions.filter(session => {
-      const sessionDate = new Date(session.StartTime);
+      const sessionDate = new Date(session.startTime);
       const daysDiff = Math.floor((new Date() - sessionDate) / (1000 * 60 * 60 * 24));
       return daysDiff <= 7;
     });
@@ -215,7 +216,7 @@ const StudentDashboard = () => {
                 ) : (
                   <div className="space-y-4">
                     {enrollments.slice(0, 4).map((enrollment, index) => {
-                      const course = courses.find(c => c.Id === enrollment.CourseId);
+                      const course = courses.find(c => String(c.Id) === String(enrollment.courseId));
                       if (!course) return null;
 
                       return (
@@ -241,18 +242,18 @@ const StudentDashboard = () => {
                               </p>
                               <div className="flex items-center mt-2 space-x-4">
                                 <ProgressBar 
-                                  value={enrollment.Progress} 
+value={enrollment.progress}
                                   className="flex-1 max-w-32"
                                 />
                                 <span className="text-sm text-gray-500">
-                                  {enrollment.Progress}%
+{enrollment.progress}%
                                 </span>
                               </div>
                             </div>
                           </div>
                           
                           <div className="flex items-center space-x-2">
-                            {enrollment.Progress === 100 && (
+{enrollment.progress === 100 && (
                               <Badge variant="success">Completed</Badge>
                             )}
                             <AppIcon name="ChevronRight" size={16} className="text-gray-400" />
@@ -297,7 +298,7 @@ const StudentDashboard = () => {
                 ) : (
                   <div className="space-y-3">
                     {sessions.slice(0, 5).map((session, index) => {
-                      const course = courses.find(c => c.Id === session.CourseId);
+                      const course = courses.find(c => String(c.Id) === String(session.courseId));
                       
                       return (
                         <motion.div
@@ -308,23 +309,23 @@ const StudentDashboard = () => {
                           className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50"
                         >
                           <div className={`w-3 h-3 rounded-full ${
-                            session.CompletionStatus === 'completed' 
+                            session.completionStatus === 'completed' 
                               ? 'bg-green-500' 
                               : 'bg-yellow-500'
                           }`} />
                           
                           <div className="flex-1">
                             <p className="text-sm font-medium text-gray-900">
-                              {session.CompletionStatus === 'completed' ? 'Completed' : 'Started'} module in {course?.Title || 'Unknown Course'}
+                              {session.completionStatus === 'completed' ? 'Completed' : 'Started'} module in {course?.Title || 'Unknown Course'}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {new Date(session.StartTime).toLocaleDateString()}
+                              {new Date(session.startTime).toLocaleDateString()}
                             </p>
                           </div>
                           
-                          {session.CompletionStatus === 'completed' && (
+                          {session.completionStatus === 'completed' && (
                             <div className="text-xs text-green-600 font-medium">
-                              +{session.XPEarned || 10} XP
+                              +{session.xpEarned || 10} XP
                             </div>
                           )}
                         </motion.div>
