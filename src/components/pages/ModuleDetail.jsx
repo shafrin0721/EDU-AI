@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, BookOpen, CheckCircle, Clock, Play, Star, Users, FileText, Award, Brain } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle, Clock, Play, Star, Users, FileText, Award, Brain, TrendingUp, TrendingDown, Target, Zap } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import ProgressBar from "@/components/atoms/ProgressBar";
@@ -13,6 +13,7 @@ import { setCurrentLesson, setCurrentModule } from "@/store/slices/dashboardSlic
 import learningSessionService from "@/services/api/learningSessionService";
 import enrollmentService from "@/services/api/enrollmentService";
 import moduleService from "@/services/api/moduleService";
+import adaptiveLearningEngine from "@/services/api/adaptiveLearningEngine";
 
 const ModuleDetail = () => {
   const { moduleId } = useParams();
@@ -29,6 +30,13 @@ const ModuleDetail = () => {
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
+  
+  // Adaptive Learning State
+  const [mlAnalysis, setMlAnalysis] = useState(null);
+  const [performancePrediction, setPerformancePrediction] = useState(null);
+  const [adaptiveRecommendations, setAdaptiveRecommendations] = useState([]);
+  const [difficultyAdjustment, setDifficultyAdjustment] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   useEffect(() => {
     const fetchModule = async () => {
@@ -214,7 +222,7 @@ const ModuleDetail = () => {
     }
   };
 
-  const submitQuiz = () => {
+const submitQuiz = async () => {
     const currentQuiz = module.sections[currentSection];
     if (!currentQuiz || currentQuiz.type !== 'quiz') return;
     
@@ -234,6 +242,188 @@ const ModuleDetail = () => {
     } else {
       toast.info(`You scored ${score}%. Review the material and try again!`);
     }
+    
+    // Run Adaptive Learning Analysis after quiz submission
+    await runAdaptiveAnalysis(score, currentQuiz.passingScore);
+  };
+
+  // Adaptive Learning Analysis Function
+  const runAdaptiveAnalysis = async (score, passingScore) => {
+    setIsAnalyzing(true);
+    try {
+      // Initialize ML if needed
+      await adaptiveLearningEngine.initializeML();
+      
+      const userId = user?.Id || 1;
+      
+      // Prepare learner data for analysis
+      const learnerData = {
+        timeSpent: activeSession ? (Date.now() - new Date(activeSession.StartTime).getTime()) / 60000 : 15,
+        interactionCount: Math.floor(Math.random() * 20) + 10,
+        practiceExercisesCompleted: currentSection + 1,
+        assessmentScore: score / 100,
+        completionRate: (currentSection + 1) / module.sections.length,
+        engagementLevel: 0.7,
+        difficultyLevel: module.difficulty === 'Advanced' ? 0.8 : module.difficulty === 'Intermediate' ? 0.5 : 0.3,
+        consistencyScore: 0.75,
+        learningVelocity: 0.6,
+        prevPerformance: 0.7
+      };
+      
+      // Get performance prediction
+      const prediction = await adaptiveLearningEngine.predictPerformanceWithML(learnerData);
+      setPerformancePrediction(prediction);
+      
+      // Get difficulty recommendation
+      const difficultyRec = await adaptiveLearningEngine.getDifficultyRecommendationWithML(learnerData);
+      setDifficultyAdjustment(difficultyRec);
+      
+      // Get engagement analysis
+      const engagementData = {
+        timeSpent: learnerData.timeSpent * 60,
+        interactionCount: learnerData.interactionCount,
+        practiceExercisesCompleted: learnerData.practiceExercisesCompleted,
+        completionRate: learnerData.completionRate
+      };
+      const engagement = await adaptiveLearningEngine.analyzeEngagementWithML(engagementData);
+      setMlAnalysis(engagement);
+      
+      // Generate adaptive recommendations based on score
+      const recommendations = generateAdaptiveRecommendations(score, passingScore, prediction, difficultyRec);
+      setAdaptiveRecommendations(recommendations);
+      
+      // Record prediction for accuracy tracking
+      if (prediction && prediction.predictedScore) {
+        try {
+          adaptiveLearningEngine.validatePredictionWithActual(
+            prediction,
+            score,
+            userId,
+            module.id,
+            currentSection
+          );
+        } catch (err) {
+          console.log('Prediction recording skipped:', err.message);
+        }
+      }
+      
+    } catch (error) {
+      console.error('Error running adaptive analysis:', error);
+      // Generate fallback recommendations
+      setAdaptiveRecommendations(generateFallbackRecommendations(score, passingScore));
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  // Generate Adaptive Recommendations based on quiz performance
+  const generateAdaptiveRecommendations = (score, passingScore, prediction, difficultyRec) => {
+    const recommendations = [];
+    
+    // Performance-based recommendations
+    if (score >= 90) {
+      recommendations.push({
+        type: 'advance',
+        icon: '🚀',
+        title: 'Excellent Performance!',
+        description: 'You\'ve mastered this content. Ready for advanced challenges.',
+        action: 'Skip to next module'
+      });
+    } else if (score >= passingScore) {
+      recommendations.push({
+        type: 'progress',
+        icon: '📈',
+        title: 'Good Job!',
+        description: 'You\'ve passed the module. Keep up the momentum.',
+        action: 'Continue to next section'
+      });
+    } else if (score >= passingScore - 15) {
+      recommendations.push({
+        type: 'review',
+        icon: '📚',
+        title: 'Almost There!',
+        description: 'Review the key concepts and try again.',
+        action: 'Review and retry'
+      });
+    } else {
+      recommendations.push({
+        type: 'support',
+        icon: '💪',
+        title: 'Need More Practice',
+        description: 'Let\'s strengthen your foundation before moving on.',
+        action: 'Review fundamentals'
+      });
+    }
+    
+    // AI Prediction-based recommendations
+    if (prediction?.recommendation) {
+      if (prediction.recommendation.action === 'advance') {
+        recommendations.push({
+          type: 'ai_boost',
+          icon: '🤖',
+          title: 'AI Insight',
+          description: 'Your learning velocity suggests you\'re ready for accelerated pacing.',
+          action: 'Enable fast-track mode'
+        });
+      } else if (prediction.recommendation.action === 'remediate') {
+        recommendations.push({
+          type: 'ai_support',
+          icon: '🤖',
+          title: 'AI Support',
+          description: 'Extra practice resources have been recommended for you.',
+          action: 'View recommended resources'
+        });
+      }
+    }
+    
+    // Difficulty adjustment recommendations
+    if (difficultyRec?.finalRecommendation) {
+      const adjustment = difficultyRec.finalRecommendation;
+      if (adjustment.direction === 'increase') {
+        recommendations.push({
+          type: 'difficulty',
+          icon: '⬆️',
+          title: 'Difficulty Increase',
+          description: 'You\'re performing above expectations. Increasing challenge level.',
+          action: 'Accept increased difficulty'
+        });
+      } else if (adjustment.direction === 'decrease') {
+        recommendations.push({
+          type: 'difficulty',
+          icon: '⬇️',
+          title: 'Difficulty Decrease',
+          description: 'Content difficulty adjusted to match your learning pace.',
+          action: 'Use adjusted content'
+        });
+      }
+    }
+    
+    return recommendations;
+  };
+
+  // Generate fallback recommendations when ML fails
+  const generateFallbackRecommendations = (score, passingScore) => {
+    const recommendations = [];
+    
+    if (score >= passingScore) {
+      recommendations.push({
+        type: 'progress',
+        icon: '✅',
+        title: 'Module Completed',
+        description: 'Great work! You\'ve successfully completed this module.',
+        action: 'Continue learning'
+      });
+    } else {
+      recommendations.push({
+        type: 'retry',
+        icon: '🔄',
+        title: 'Keep Trying',
+        description: 'Review the material and attempt the quiz again.',
+        action: 'Review and retry'
+      });
+    }
+    
+    return recommendations;
   };
 
   if (loading) return <Loading />;
@@ -600,42 +790,142 @@ const ModuleDetail = () => {
             </div>
           </Card>
 
-          {/* Progress Summary */}
-          <Card className="p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Your Progress</h3>
-            <div className="text-center">
-              <div className="relative w-24 h-24 mx-auto mb-4">
-                <svg className="w-24 h-24 transform -rotate-90">
-                  <circle
-                    cx="48"
-                    cy="48"
-                    r="40"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    className="text-gray-200"
-                  />
-                  <circle
-                    cx="48"
-                    cy="48"
-                    r="40"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    strokeDasharray={251.2}
-                    strokeDashoffset={251.2 - (251.2 * progressPercentage) / 100}
-                    className="text-blue-600"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-gray-900">{progressPercentage}%</span>
-                </div>
+{/* Adaptive Learning Recommendations */}
+          {(quizSubmitted && adaptiveRecommendations.length > 0) && (
+            <Card className={`p-6 ${isAnalyzing ? 'animate-pulse' : ''}`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                  <Brain className="h-4 w-4 text-purple-600" />
+                  AI Recommendations
+                </h3>
+                {performancePrediction?.mlPowered && (
+                  <Badge variant="success" size="sm">
+                    ML Powered
+                  </Badge>
+                )}
               </div>
-              <p className="text-sm text-gray-600">
-                {currentSection + 1} of {module.sections.length} sections completed
-              </p>
-            </div>
-          </Card>
+              
+              <div className="space-y-3">
+                {adaptiveRecommendations.map((rec, idx) => (
+                  <div 
+                    key={"ai-rec-" + idx}
+                    className={`p-3 rounded-lg border ${
+                      rec.type === 'advance' || rec.type === 'progress'
+                        ? 'bg-green-50 border-green-200'
+                        : rec.type === 'support' || rec.type === 'retry'
+                        ? 'bg-red-50 border-red-200'
+                        : rec.type.includes('ai')
+                        ? 'bg-purple-50 border-purple-200'
+                        : rec.type === 'difficulty'
+                        ? 'bg-blue-50 border-blue-200'
+                        : 'bg-gray-50 border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <span className="text-xl">{rec.icon}</span>
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm text-gray-900">{rec.title}</h4>
+                        <p className="text-xs text-gray-600 mt-1">{rec.description}</p>
+                        <button 
+                          onClick={(e) => e.preventDefault()} 
+                          className="text-xs font-medium hover:underline mt-2 block text-purple-600"
+                        >
+                          {rec.action} →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Performance Prediction Display */}
+              {performancePrediction && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-xs font-medium text-gray-700">Predicted Performance</p>
+                    <span className="text-sm font-bold text-purple-600">
+                      {Math.round(performancePrediction.predictedScore * 100)}%
+                    </span>
+                  </div>
+                  <ProgressBar 
+                    progress={performancePrediction.predictedScore * 100} 
+                    className="h-2"
+                    variant={performancePrediction.predictedScore >= 0.7 ? 'success' : 'warning'}
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    Confidence: {Math.round(performancePrediction.confidence * 100)}%
+                  </p>
+                </div>
+              )}
+              
+              {/* ML Analysis Status */}
+              {isAnalyzing && (
+                <div className="mt-4 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                  <div className="flex items-center gap-2">
+                    <Brain className="h-4 w-4 text-purple-600 animate-pulse" />
+                    <span className="text-sm text-purple-700">Analyzing your learning patterns...</span>
+                  </div>
+                </div>
+              )}
+              
+              {/* Engagement Level Display */}
+              {mlAnalysis && !isAnalyzing && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-medium text-gray-700">Engagement Level</p>
+                    <Badge 
+                      variant={
+                        mlAnalysis.level === 'high' ? 'success' : 
+                        mlAnalysis.level === 'moderate' ? 'warning' : 'danger'
+                      }
+                      size="sm"
+                    >
+                      {mlAnalysis.level?.toUpperCase() || 'MODERATE'}
+                    </Badge>
+                  </div>
+                </div>
+              )}
+            </Card>
+          )}
+          
+          {/* Progress Summary - Always show if no recommendations */}
+          {(!quizSubmitted || adaptiveRecommendations.length === 0) && (
+            <Card className="p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Your Progress</h3>
+              <div className="text-center">
+                <div className="relative w-24 h-24 mx-auto mb-4">
+                  <svg className="w-24 h-24 transform -rotate-90">
+                    <circle
+                      cx="48"
+                      cy="48"
+                      r="40"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="none"
+                      className="text-gray-200"
+                    />
+                    <circle
+                      cx="48"
+                      cy="48"
+                      r="40"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray={251.2}
+                      strokeDashoffset={251.2 - (251.2 * progressPercentage) / 100}
+                      className="text-blue-600"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-900">{progressPercentage}%</span>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600">
+                  {currentSection + 1} of {module.sections.length} sections completed
+                </p>
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>

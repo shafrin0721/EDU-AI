@@ -7,6 +7,7 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 import { auth } from '../../config/firebase'
+import firestoreService from '../../services/firestore/firestoreService'
 
 // Mock user data for demo - maps email to user profile
 const mockUsers = {
@@ -53,7 +54,6 @@ const mockUsers = {
       title: 'Learning Platform Administrator'
     }
   },
-  // Teacher accounts
   'teacher@eduai.com': {
     Id: 2,
     role: 'teacher',
@@ -82,7 +82,6 @@ const mockUsers = {
       title: 'Professor'
     }
   },
-  // Admin accounts
   'admin@eduai.com': {
     Id: 3,
     role: 'admin',
@@ -111,7 +110,6 @@ const mockUsers = {
       title: 'Super Administrator'
     }
   },
-  // Student account
   'student@eduai.com': {
     Id: 1,
     role: 'student',
@@ -127,7 +125,6 @@ const mockUsers = {
       level: 8
     }
   },
-  // Default - will be student if no match
   'default': {
     Id: 1,
     role: 'student',
@@ -171,14 +168,31 @@ export const loginUser = createAsyncThunk(
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
       
-      // Get mock user data based on email
-      const mockUser = mockUsers[email] || {
-        Id: 999,
-        role: 'student',
-        FirstName: 'Demo',
-        LastName: 'User',
-        profile: { firstName: 'Demo', lastName: 'User' }
+      // Try to get user data from Firestore first
+      let firestoreUser = null
+      try {
+        firestoreUser = await firestoreService.getUserByEmail(email)
+      } catch (e) {
+        console.log('Firestore lookup failed, using mock data')
       }
+      
+      // If user exists in Firestore, use that data
+      if (firestoreUser && firestoreUser.role) {
+        return {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName || `${firestoreUser.firstName} ${firestoreUser.lastName}`,
+          photoURL: result.user.photoURL,
+          Id: firestoreUser.Id || 999,
+          role: firestoreUser.role,
+          FirstName: firestoreUser.firstName,
+          LastName: firestoreUser.lastName,
+          profile: firestoreUser.profile || { firstName: firestoreUser.firstName, lastName: firestoreUser.lastName }
+        }
+      }
+      
+      // Fallback to mock user data
+      const mockUser = mockUsers[email] || mockUsers['default']
       
       return {
         uid: result.user.uid,
@@ -288,7 +302,6 @@ const authSlice = createSlice({
       const newRole = action.payload
       state.user.role = newRole
       
-      // Update permissions based on role
       switch (newRole) {
         case "student":
           state.user.permissions = {
@@ -333,7 +346,6 @@ const authSlice = createSlice({
     addPoints: (state, action) => {
       if (state.user?.profile) {
         state.user.profile.totalPoints += action.payload
-        // Level up calculation
         const newLevel = Math.floor(state.user.profile.totalPoints / 1000) + 1
         if (newLevel > state.user.profile.level) {
           state.user.profile.level = newLevel
@@ -373,7 +385,6 @@ const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    // Handle registerUser
     builder
       .addCase(registerUser.pending, (state) => {
         state.loading = true
@@ -394,7 +405,6 @@ const authSlice = createSlice({
         state.isAuthenticated = false
       })
     
-    // Handle loginUser
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true
@@ -415,7 +425,6 @@ const authSlice = createSlice({
         state.isAuthenticated = false
       })
     
-    // Handle logoutUser
     builder
       .addCase(logoutUser.pending, (state) => {
         state.loading = true

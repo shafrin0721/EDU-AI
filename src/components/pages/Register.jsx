@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { toast } from "react-toastify"
-import { registerUser, clearError } from "@/store/slices/authSlice"
+import { registerUser, clearError, login } from "@/store/slices/authSlice"
 import Card from "@/components/atoms/Card"
 import Input from "@/components/atoms/Input"
 import Button from "@/components/atoms/Button"
@@ -20,7 +20,8 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: "student"
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -99,13 +100,13 @@ const Register = () => {
       }))
 
       if (result.payload) {
-        // Create user profile in Firestore
-        await firestoreService.createUser(result.payload.uid, {
+        // Create user profile in Firestore with the selected role
+        const userProfile = {
           email: result.payload.email,
           displayName: result.payload.displayName,
           firstName: formData.firstName,
           lastName: formData.lastName,
-          role: "student",
+          role: formData.role,
           organizationId: "org_001",
           profile: {
             avatar: result.payload.photoURL || "/api/placeholder/40/40",
@@ -125,8 +126,25 @@ const Register = () => {
               }
             }
           }
-        })
+        }
+        
+        await firestoreService.createUser(result.payload.uid, userProfile)
 
+        // Automatically log in the user with their selected role
+        const loginResult = {
+          uid: result.payload.uid,
+          email: result.payload.email,
+          displayName: result.payload.displayName,
+          photoURL: result.payload.photoURL,
+          Id: 999,
+          role: formData.role,
+          FirstName: formData.firstName,
+          LastName: formData.lastName,
+          profile: userProfile.profile
+        }
+        
+        dispatch(login(loginResult))
+        
         toast.success("Account created successfully!")
         navigate("/")
       }
@@ -260,6 +278,24 @@ const Register = () => {
                   <AppIcon name={showConfirmPassword ? "EyeOff" : "Eye"} size={18} />
                 </button>
               </div>
+            </div>
+
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                I am a
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                required
+              >
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+              </select>
             </div>
 
             <Button
